@@ -1,0 +1,52 @@
+// ————— F O N T S —————
+@import url("./styles/fonts.scss");
+
+[lang="fa"] {
+	font-family: IranSans;
+}
+[lang="en"] {
+	font-family: Nunito;
+}
+
+// ————— C S S —————
+.wrapper {
+	width: calc(100% - 20px);
+	margin-right: auto;
+	margin-left: auto;
+
+	@media (min-width: 640px) {
+		width: calc(100% - 50px);
+	}
+	@media (min-width: 768px) {
+		width: calc(100% - 70px);
+	}
+	@media (min-width: 1024px) {
+		width: calc(100% - 90px);
+	}
+	@media (min-width: 1280px) {
+		width: calc(100% - 90px);
+	}
+	@media (min-width: 1536px) {
+		width: calc(100% - 90px);
+	}
+}
+
+// ————— T A I L W I N D ——————
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	input {
+		outline: none;
+	}
+	svg {
+		display: block;
+	}
+}
+
+@layer components {
+	.flex-center {
+		@apply flex items-center justify-center;
+	}
+}

@@ -1,0 +1,165 @@
+.asideMobileBackdrop {
+  @media (max-width: 1279px) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 98;
+    opacity: 0.7;
+  }
+  @media (min-width: 1280px) {
+    display: none;
+  }
+}
+
+.aside {
+  @media (max-width: 1279px) {
+    position: fixed;
+    top: 0;
+    z-index: 99;
+    min-width: 260px;
+    width: 260px;
+    max-width: 260px;
+    height: 100vh;
+
+    overflow-y: auto;
+    transition-duration: 300ms;
+  }
+
+  @media (min-width: 1280px) {
+    min-width: 280px;
+    width: 280px;
+    max-width: 280px;
+    border-radius: 1rem;
+  }
+}
+.asideMobileShow {
+  @media (max-width: 1279px) {
+    min-width: 260px;
+    width: 260px;
+    max-width: 260px;
+    height: 100vh;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    overflow-y: auto;
+  }
+}
+.asideMobileLtr {
+  @media (max-width: 1279px) {
+    left: -261px;
+  }
+}
+.asideMobileRtl {
+  @media (max-width: 1279px) {
+    right: -261px;
+  }
+}
+.asideMobileShowLtr {
+  @media (max-width: 1279px) {
+    left: 0px;
+  }
+}
+.asideMobileShowRtl {
+  @media (max-width: 1279px) {
+    right: 0px;
+  }
+}
+
+.asideMobileCloseButton {
+  @media (max-width: 1279px) {
+    position: absolute;
+    top: 12px;
+  }
+  @media (min-width: 1280px) {
+    display: none;
+  }
+}
+.asideMobileCloseButtonLtr {
+  @media (max-width: 1279px) {
+    right: 12px;
+  }
+}
+.asideMobileCloseButtonRtl {
+  @media (max-width: 1279px) {
+    left: 12px;
+  }
+}
+
+.asideMobileBackdrop_sidebarTwo {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 98;
+  opacity: 0.7;
+}
+.aside_sidebarTwo {
+  position: fixed;
+  top: 0;
+  z-index: 99;
+  min-width: 260px;
+  width: 260px;
+  max-width: 260px;
+  height: 100vh;
+
+  overflow-y: auto;
+  transition-duration: 300ms;
+}
+.asideMobileShow_sidebarTwo {
+  min-width: 260px;
+  width: 260px;
+  max-width: 260px;
+  height: 100vh;
+
+  overflow-y: auto;
+}
+.asideMobileLtr_sidebarTwo {
+  left: -261px;
+}
+.asideMobileRtl_sidebarTwo {
+  right: -261px;
+}
+.asideMobileShowLtr_sidebarTwo {
+  left: 0px;
+}
+.asideMobileShowRtl_sidebarTwo {
+  right: 0px;
+}
+
+.asideMobileCloseButton_sidebarTwo {
+  position: absolute;
+  top: 12px;
+}
+.asideMobileCloseButtonLtr_sidebarTwo {
+  right: 12px;
+}
+.asideMobileCloseButtonRtl_sidebarTwo {
+  left: 12px;
+}
+
+
+
+.scrollStyle {
+	&::-webkit-scrollbar {
+		width: 6px;
+		height: 6px;
+	}
+	&::-webkit-scrollbar-track {
+		border-radius: 10px;
+		background: rgba(0, 0, 0, 0.1);
+	}
+	&::-webkit-scrollbar-thumb {
+		border-radius: 10px;
+		background: rgba(0, 0, 0, 0.2);
+	}
+	&::-webkit-scrollbar-thumb:hover {
+		background: rgba(0, 0, 0, 0.4);
+	}
+	&::-webkit-scrollbar-thumb:active {
+		background: rgba(0, 0, 0, 0.9);
+	}
+	scrollbar-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.2);
+	scrollbar-width: thin;
+}

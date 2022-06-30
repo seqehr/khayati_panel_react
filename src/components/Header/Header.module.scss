@@ -1,0 +1,53 @@
+.header {
+	min-height: 65px;
+	height: 65px;
+	max-height: 65px;
+
+	@media (min-width: 640px) {
+		min-height: 70px;
+		height: 70px;
+		max-height: 70px;
+	}
+	color: #1654f01a;
+}
+
+.headerLogoBox {
+	width: auto;
+
+	@media (min-width: 1024px) {
+		width: 280px;
+	}
+}
+
+.headerSearchBox {
+	max-width: 768px;
+}
+
+.headerLanguageFlagImage {
+	max-width: 1.5rem;
+}
+
+.headerProfileDropdown {
+	position: absolute;
+	z-index: 997;
+	border: 1px solid rgba(128, 128, 128, 0.2);
+	animation-name: headerProfileDropdownAnimation;
+	animation-fill-mode: forwards;
+	animation-duration: 0.3s;
+	animation-timing-function: ease;
+
+	@keyframes headerProfileDropdownAnimation {
+		0% {
+			top: 120%;
+		}
+		100% {
+			top: 110%;
+		}
+	}
+}
+.headerProfileDropdownLtr {
+	right: 0px;
+}
+.headerProfileDropdownRtl {
+	left: 0px;
+}
