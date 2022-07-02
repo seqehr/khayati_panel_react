@@ -5,16 +5,17 @@ import { Routes, Route } from "react-router-dom";
 // Libraries
 import Helmet from "react-helmet";
 
-// Components
-import Header from "./components/Header/Header";
-import Sidebar from "./components/Sidebar/Sidebar";
-
 // Pages
 import Dashboard from "./pages/Dashboard/Dashboard";
 
 // CSS
 import style from "./App.module.scss";
+
+// Components
+import Header from "./components/Header/Header";
+import Sidebar from "./components/Sidebar/Sidebar";
 import AddCourse from "./pages/Courses/AddCourse";
+import Uploads from "./pages/Uploads/Uploads";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/course/add" element={<AddCourse />} />
+                <Route path="/uploads" element={<Uploads />} />
               </Routes>
             </main>
           </div>

@@ -18,6 +18,8 @@ import { FiMusic } from "react-icons/fi";
 import { MdHelpOutline } from "react-icons/md";
 import { AiOutlineSetting } from "react-icons/ai";
 import { RiUserSettingsLine } from "react-icons/ri";
+import { FaChalkboardTeacher } from "react-icons/fa";
+import { GoFileMedia } from "react-icons/go";
 // CSS
 import style from "./Sidebar.module.scss";
 const Sidebar = (props) => {
@@ -73,6 +75,32 @@ const Sidebar = (props) => {
               title={`داشبورد`}
               active={location.pathname === "/"}
             />
+
+            {/* Courses */}
+            <SidebarOptionDropDown
+              icon={<FaChalkboardTeacher />}
+              title={`دوره ها`}
+              active={courses}
+              onClickF={() => setCourses(!courses)}
+            />
+            {courses && (
+              <>
+                <SidebarOption
+                  to="/courses"
+                  icon=" &nbsp; &nbsp;"
+                  title={`لیست دوره ها`}
+                  active={location.pathname === "/courses"}
+                />
+
+                <SidebarOption
+                  to="/course/add"
+                  icon=" &nbsp; &nbsp;"
+                  title={`افزودن دوره`}
+                  active={location.pathname === "/course/add"}
+                />
+              </>
+            )}
+
             {/* Music */}
             <SidebarOptionDropDown
               icon={<FiMusic />}
@@ -148,31 +176,6 @@ const Sidebar = (props) => {
               </>
             )}
 
-            {/* Courses */}
-            <SidebarOptionDropDown
-              icon={<RiUserSettingsLine />}
-              title={`دوره ها`}
-              active={courses}
-              onClickF={() => setCourses(!courses)}
-            />
-            {courses && (
-              <>
-                <SidebarOption
-                  to="/courses"
-                  icon=" &nbsp; &nbsp;"
-                  title={`لیست دوره ها`}
-                  active={location.pathname === "/newslist"}
-                />
-
-                <SidebarOption
-                  to="/course/add"
-                  icon=" &nbsp; &nbsp;"
-                  title={`افزودن دوره`}
-                  active={location.pathname === "/addnews"}
-                />
-              </>
-            )}
-
             {/* transactions */}
             <SidebarOptionDropDown
               icon={<RiUserSettingsLine />}
@@ -227,6 +230,12 @@ const Sidebar = (props) => {
               icon={<AiOutlineSetting />}
               title={`تنظیمات`}
               active={location.pathname === "/setting"}
+            />
+            <SidebarOption
+              to="/uploads"
+              icon={<GoFileMedia />}
+              title={`اپلود ویدیو`}
+              active={location.pathname === "/uploads"}
             />
           </ul>
         </div>
