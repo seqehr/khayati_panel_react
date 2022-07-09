@@ -9,19 +9,23 @@ export const UploadedFiles = () => {
     },
   });
 };
-export const AddCourseService = (data) => {
-  return httpService.post(`${config.baseUrl}/api/courses/create`, data, {
+export const AddArticleService = (data) => {
+  return httpService.post(`${config.baseUrl}/api/posts/create`, data, {
     headers: {
       Authorization: `Bearer ${config.token}`,
     },
   });
 };
-export const ListCoursesService = () => {
-  return httpService.get(`${config.baseUrl}/api/courses/archive`, {
-    headers: {
-      Authorization: `Bearer ${config.token}`,
-    },
-  });
+export const ListArticlesService = () => {
+  return httpService.post(
+    `${config.baseUrl}/api/posts`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${config.token}`,
+      },
+    }
+  );
 };
 export const DeleteCoursesService = (id) => {
   return httpService.post(

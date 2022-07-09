@@ -16,7 +16,7 @@ import SidebarOptionDropDown from "./SidebarOptionDropDown";
 import { MdDashboard } from "react-icons/md";
 import { FiMusic } from "react-icons/fi";
 import { MdHelpOutline } from "react-icons/md";
-import { AiOutlineSetting } from "react-icons/ai";
+import { AiOutlineSetting, AiOutlineBook } from "react-icons/ai";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { GoFileMedia } from "react-icons/go";
@@ -37,12 +37,14 @@ const Sidebar = (props) => {
     articles,
     setArticles,
     courses,
+    books,
+    setBooks,
     setCourses,
     transactions,
     setTransactions,
   } = useSidebar();
-  const asideMobileDirectionClass = style.asideMobileLtr;
-  const asideMobileShowClass = style.asideMobileShowLtr;
+  const asideMobileDirectionClass = style.asideMobileRtl;
+  const asideMobileShowClass = style.asideMobileShowRtl;
 
   return (
     <>
@@ -111,21 +113,45 @@ const Sidebar = (props) => {
             {music && (
               <>
                 <SidebarOption
-                  to="/musiclist"
+                  to="/musics"
                   icon=" &nbsp; &nbsp;"
                   title={`لیست موزیک ها`}
-                  active={location.pathname === "/musiclist"}
+                  active={location.pathname === "/musics"}
                 />
 
                 <SidebarOption
-                  to="/addmusic"
+                  to="/music/add"
                   icon=" &nbsp; &nbsp;"
                   title={`افزودن موزیک`}
-                  active={location.pathname === "/addmusic"}
+                  active={location.pathname === "/music/add"}
                 />
               </>
             )}
 
+            {/* Books */}
+            <SidebarOptionDropDown
+              icon={<AiOutlineBook />}
+              title={` کتاب ها`}
+              active={books}
+              onClickF={() => setBooks(!books)}
+            />
+            {books && (
+              <>
+                <SidebarOption
+                  to="/books"
+                  icon=" &nbsp; &nbsp;"
+                  title={`لیست کتاب ها`}
+                  active={location.pathname === "/books"}
+                />
+
+                <SidebarOption
+                  to="/book/add"
+                  icon=" &nbsp; &nbsp;"
+                  title={`افزودن کتاب`}
+                  active={location.pathname === "/book/add"}
+                />
+              </>
+            )}
             {/* members */}
             <SidebarOptionDropDown
               icon={<RiUserSettingsLine />}
@@ -136,42 +162,17 @@ const Sidebar = (props) => {
             {members && (
               <>
                 <SidebarOption
-                  to="/memberslist"
+                  to="/members"
                   icon=" &nbsp; &nbsp;"
                   title={`لیست کاربران`}
-                  active={location.pathname === "/memberslist"}
+                  active={location.pathname === "/members"}
                 />
 
                 <SidebarOption
-                  to="/studentslist"
+                  to="/students"
                   icon=" &nbsp; &nbsp;"
                   title={`لیست هنرجویان`}
-                  active={location.pathname === "/studentslist"}
-                />
-              </>
-            )}
-
-            {/* News */}
-            <SidebarOptionDropDown
-              icon={<RiUserSettingsLine />}
-              title={`اخبار`}
-              active={news}
-              onClickF={() => setNews(!news)}
-            />
-            {news && (
-              <>
-                <SidebarOption
-                  to="/newslist"
-                  icon=" &nbsp; &nbsp;"
-                  title={`لیست اخبار`}
-                  active={location.pathname === "/newslist"}
-                />
-
-                <SidebarOption
-                  to="/addnews"
-                  icon=" &nbsp; &nbsp;"
-                  title={`افزودن خبر`}
-                  active={location.pathname === "/addnews"}
+                  active={location.pathname === "/students"}
                 />
               </>
             )}
@@ -186,10 +187,10 @@ const Sidebar = (props) => {
             {transactions && (
               <>
                 <SidebarOption
-                  to="/newslist"
+                  to="/transactions"
                   icon=" &nbsp; &nbsp;"
                   title={`لیست تراکنش ها`}
-                  active={location.pathname === "/newslist"}
+                  active={location.pathname === "/transactions"}
                 />
               </>
             )}
@@ -204,16 +205,16 @@ const Sidebar = (props) => {
             {articles && (
               <>
                 <SidebarOption
-                  to="/newslist"
+                  to="/articles"
                   icon=" &nbsp; &nbsp;"
                   title={`لیست مقالات`}
-                  active={location.pathname === "/newslist"}
+                  active={location.pathname === "/articles"}
                 />
                 <SidebarOption
-                  to="/newslist"
+                  to="/articles/add"
                   icon=" &nbsp; &nbsp;"
-                  title={`افزودن`}
-                  active={location.pathname === "/newslist"}
+                  title={`افزودن مقاله`}
+                  active={location.pathname === "/articles/add"}
                 />
               </>
             )}
@@ -226,10 +227,10 @@ const Sidebar = (props) => {
               active={location.pathname === "/help"}
             />
             <SidebarOption
-              to="/setting"
+              to="/settings"
               icon={<AiOutlineSetting />}
               title={`تنظیمات`}
-              active={location.pathname === "/setting"}
+              active={location.pathname === "/settings"}
             />
             <SidebarOption
               to="/uploads"

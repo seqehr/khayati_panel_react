@@ -1,12 +1,11 @@
 // Context
 import { useContext } from "react";
-import UploadContext from "../context/Upload/Upload";
+import UploadContext from "../context/Upload/UploadContext";
 
 const useUpload = (props) => {
-  const { onDrop, progress, setProgress } = useContext(UploadContext);
+  const { progress, setProgress } = useContext(UploadContext);
 
   return {
-    onDrop,
     progress,
     setProgress,
   };

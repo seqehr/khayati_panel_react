@@ -1,72 +1,97 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+
+import Resumable from "resumablejs";
+import $ from "jquery";
+import useUpload from "../../hooks/useUpload";
 //icons
 import { FiUploadCloud } from "react-icons/fi";
 
 import { useDropzone } from "react-dropzone";
 import { Line } from "rc-progress";
-
+import Files from "./Files";
+// css
+import "./Upload.css";
 const Uploads = () => {
-  const [progress, setProgress] = useState(null);
-  const onDrop = useCallback((acceptedFiles) => {
-    let dt = new FormData();
-    dt.append("file", acceptedFiles[0]);
+  const { progress, setProgress } = useUpload();
+  useEffect(() => {
+    const browseFile = document.querySelector("#browseFile");
 
-    axios({
-      method: "post",
-      url: "http://192.168.1.107:500/api/upload/new",
-      data: dt,
-      headers: { "Content-Type": "multipart/form-data" },
-      onUploadProgress: (progressEvent) => {
-        const { loaded, total } = progressEvent;
-        const perecent = Math.floor((loaded * 100) / total);
-        setProgress(perecent);
+    let resumable = new Resumable({
+      target: "http://185.7.212.87:500/api/upload/new",
+      query: { _token: "{{ csrf_token() }}" }, // CSRF token
+      fileType: ["mp4", "jpg", "png", "mp3"],
+      headers: {
+        Accept: "application/json",
       },
-    }).then((res) => {
-      setInterval(console.log(res), 1000);
+      testChunks: false,
+      throttleProgressCallbacks: 1,
     });
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+    resumable.assignDrop(browseFile);
+    resumable.assignBrowse(browseFile);
+    resumable.on("fileAdded", function (file) {
+      // trigger when file picked
+
+      resumable.upload(); // to actually start uploading.
+    });
+
+    resumable.on("fileProgress", function (file) {
+      // trigger when file progress update
+      updateProgress(Math.floor(file.progress() * 100));
+    });
+
+    resumable.on("fileSuccess", function (file, response) {
+      // trigger when file upload complete
+      response = JSON.parse(response);
+    });
+
+    resumable.on("fileError", function (file, response) {
+      // trigger when there is any error
+      alert("مشکلی به وجود امده");
+    });
+
+    function updateProgress(value) {
+      setProgress(value);
+    }
+  }, []);
   return (
     <>
-      <div className="w-full flex justify-center" {...getRootProps()}>
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <p className="border-2 border-dashed p-10 cursor-pointer rounded-lg">
-            فایلتان را اینجا رها کنید ...
-          </p>
-        ) : (
-          <div className="border-2 border-dashed p-10 flex cursor-pointer rounded-lg">
-            <div className="text-2xl">
-              {" "}
+      <div className="container ">
+        <div id="upload-container" className=" w-full flex justify-center">
+          <button
+            id="browseFile"
+            className="text-gray-light text-xl flex border-2 text-center justify-center w-full dark:border-gray-light border-gray-dark dark:text-white  border-dashed p-10 cursor-pointer rounded-lg"
+          >
+            <span className="text-3xl mx-4 ">
               <FiUploadCloud />
+            </span>
+            فایلتان را در این قسمت رها کنید
+          </button>
+        </div>
+        {progress && (
+          <div className=" flex justify-center">
+            <div className="w-96 sm:w-[550px] text-center mt-10">
+              <Line
+                percent={progress}
+                strokeWidth={3}
+                strokeColor={[
+                  "#87d068",
+                  {
+                    "100%": "#87d068",
+                    "0%": "#108ee9",
+                  },
+                ]}
+              />
+              <p className="">درحال اپلود ({progress}%) </p>
             </div>
-
-            <p className="pr-5">
-              فایل خود را به این قسمت بکشید و رها کنید و یا ( کلیک ) کنید
-            </p>
           </div>
         )}
       </div>
-      {progress && (
-        <div className=" flex justify-center">
-          <div className="w-96 sm:w-[550px] text-center mt-10">
-            <Line
-              percent={progress}
-              strokeWidth={3}
-              strokeColor={[
-                "#87d068",
-                {
-                  "100%": "#87d068",
-                  "0%": "#108ee9",
-                },
-              ]}
-            />
-            <p className="">درحال اپلود ({progress}%) </p>
-          </div>
-        </div>
-      )}
+
+      <div className="mt-10">
+        <Files />
+      </div>
     </>
   );
 };

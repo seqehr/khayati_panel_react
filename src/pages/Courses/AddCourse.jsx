@@ -1,74 +1,137 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Radio } from "@material-tailwind/react";
 import CourseImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
-// Hooks
+import TableRow from "./ModalTableRow";
+import "./CKEditor.css";
+import style from "./TableRow.module.scss";
+// hooks
+import useCourse from "../../hooks/useCourses";
+import { AddCourseService } from "../../services/CourseServices";
+//icons
+import { BsPlusCircleDotted } from "react-icons/bs";
+import { BsDashCircleDotted } from "react-icons/bs";
+// components
+import Lessons from "./Lessons";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { UploadedFiles } from "../../services/CourseServices";
+import { toast } from "react-toastify";
 
 const AddCourse = (props) => {
+  const [files, setFiles] = useState([]);
+  const [uploadModal, setUploadModal] = useState(0);
+
+  // Form States
+  const { getLesson } = useCourse();
   const [courseImage, setCourseImage] = useState(CourseImageDefault);
+  const [coursePoster, setCoursePoster] = useState(CourseImageDefault);
   const [color, setColor] = useState("");
   const [isPin, setIsPin] = useState(false);
-  const [isFree, setIsFree] = useState(false);
+  const [isFree, setIsFree] = useState("price");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [except, setExcept] = useState("");
+  const [name, setName] = useState("");
 
   const colors = [
     {
       color: "linear-gradient(180deg, #F90000 39.06%, #000000 100%)",
-      name: "red",
+      name: "قرمز",
     },
     {
       color: "linear-gradient(180deg, #3D39FF 39.06%, #000000 100%)",
-      name: "blue",
+      name: "آبی",
     },
     {
       color: "linear-gradient(180deg, #A900F9 39.06%, #000000 100%)",
-      name: "magenta",
+      name: "بنفش",
     },
   ];
+  let CourseImage = "";
+  let CoursePoster = "";
+  const handleSubmit = () => {
+    CourseImage = courseImage.replace("http://94.183.118.68:500/storage/", "");
+
+    CoursePoster = coursePoster.replace(
+      "http://94.183.118.68:500/storage/",
+      ""
+    );
+
+    CoursePoster = coursePoster.replace(
+      "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif",
+      ""
+    );
+    const data = {
+      except,
+      price,
+      description,
+      type: isFree,
+      ispin: isPin,
+      gradient: color,
+      img: CourseImage,
+      poster: coursePoster,
+      videos: JSON.stringify(getLesson),
+      name,
+      teacher: "مقدم جو",
+    };
+    if (
+      CourseImage !==
+      "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif"
+    ) {
+      AddCourseService(data).then((res) => {
+        if (res.status == 200) {
+          toast.success("دوره با موفقیت ساخته شد");
+        }
+      });
+    } else {
+      toast.warn("لطفا عکس دوره را انتخاب کنید");
+    }
+  };
+  useEffect(() => {
+    UploadedFiles().then((res) => {
+      setFiles(res.data.data);
+    });
+  }, []);
   return (
-    <div className="bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl">
+    <div className="bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl ">
       <form>
         <div className="grid grid-cols-12 xl:gap-6">
-          {/* C O U R S - E I M A G E */}
+          {/* C O U R S E - I M A G E */}
           <div
             className={` ${
               isPin ? "col-span-6" : "col-span-12"
             } relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
-            <img src={courseImage} className="w-96 rounded-md" />
+            <img
+              src={courseImage}
+              className="w-96 rounded-md"
+              onClick={() => {
+                setUploadModal(1);
+              }}
+            />
             <label
               className="p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               for="user_avatar"
             >
               {`انتخاب عکس دوره`}
             </label>
-            <input
-              onChange={(event) =>
-                setCourseImage(URL.createObjectURL(event.target.files[0]))
-              }
-              className="p-1  text-black dark:text-white hidden w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-              aria-describedby="user_avatar"
-              id="user_avatar"
-              type="file"
-            />
           </div>
           {/* C O U R S E - P O S T E R */}
-          {isPin && (
+          {isPin == 1 && (
             <div className="relative col-span-6 flex justify-center flex-col items-center z-0 w-full mb-6 group">
-              <img src={courseImage} className="w-96 rounded-md" />
+              <img
+                src={coursePoster}
+                className="w-96 rounded-md"
+                onClick={() => {
+                  setUploadModal(2);
+                }}
+              />
               <label
                 className="p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                 for="user_avatar"
               >
                 {`انتخاب پوستر`}
               </label>
-              <input
-                onChange={(event) =>
-                  setCourseImage(URL.createObjectURL(event.target.files[0]))
-                }
-                className="p-1  text-black dark:text-white hidden w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                aria-describedby="user_avatar"
-                id="user_avatar"
-                type="file"
-              />
             </div>
           )}
           {/* C O U R S E - N A M E */}
@@ -79,6 +142,7 @@ const AddCourse = (props) => {
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required=""
+              onChange={(e) => setName(e.target.value)}
             />
             <label
               for="courseName"
@@ -92,6 +156,7 @@ const AddCourse = (props) => {
             <input
               type="text"
               name="excrept"
+              onChange={(e) => setExcept(e.target.value)}
               id="excrept"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
@@ -107,31 +172,29 @@ const AddCourse = (props) => {
           </div>
           {/* C O U R S E - D E S C R I B T I O N*/}
           <div className="relative col-span-12 z-0 w-full mb-6 group">
-            <textarea
-              rows="7"
-              type="text"
-              name="courseDescribtion"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required=""
+            <CKEditor
+              editor={ClassicEditor}
+              className={`text-right right-0`}
+              data="<p>ویرایشگر پیشرفته</p>"
+              // this will we change  =>  {data} has html
+
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                setDescription(data);
+              }}
             />
-            <label
-              for="courseDescribtion"
-              className={`  ${"right-0"}peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
-            >
-              {`توضیحات کامل ...`}
-            </label>
           </div>
           {/* C O U R S E  - P R I C E */}
           <div
             className={`${
-              isFree && `hidden`
-            } relative col-span-2   z-0 w-full mb-6 group`}
+              isFree == "free" && `hidden`
+            } relative col-span-3  z-0 w-full mb-6 group`}
           >
             <input
               type="number"
               name="price"
               id="price"
+              onChange={(e) => setPrice(e.target.value)}
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required=""
@@ -145,34 +208,42 @@ const AddCourse = (props) => {
             </label>
           </div>
           {/* C O U R S E  - C H E K B I X E S */}
-          <div className="relative col-span-2  z-0 w-full mb-6 group">
-            <div class="flex justify-center">
+          <div className="relative  col-span-4  z-0 w-full mb-6 group">
+            <div className="flex justify-center">
               <div>
                 <div>
                   <input
-                    class="form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white "
+                    className="form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white "
                     type="checkbox"
                     value=""
                     id="ispin"
-                    onClick={() => setIsPin(!isPin)}
+                    onClick={() => {
+                      setIsPin(!isPin);
+                    }}
                   />
                   <label
-                    class="form-check-label pr-3  inline-block text-gray-800"
+                    className="form-check-label pr-3  inline-block text-gray-800"
                     for="ispin"
                   >
                     در صفحه اصلی پین شود
                   </label>
                 </div>
-                <div class="mt-3">
+                <div className="mt-3">
                   <input
-                    class="form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white "
+                    className="form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white "
                     type="checkbox"
                     value=""
-                    id="isfree"
-                    onClick={() => setIsFree(!isFree)}
+                    id="isfre"
+                    onClick={() => {
+                      if (isFree == "price") {
+                        setIsFree("free");
+                      } else {
+                        setIsFree("price");
+                      }
+                    }}
                   />
                   <label
-                    class="form-check-label pr-3  inline-block text-gray-800"
+                    className="form-check-label pr-3  inline-block text-gray-800"
                     for="isfree"
                   >
                     انتشار به صورت رایگان
@@ -182,10 +253,10 @@ const AddCourse = (props) => {
             </div>
           </div>
           {/* C O U R S E  - C O L O R S */}
-          <div className="grid grid-cols-6 xl:gap-1 col-span-2">
-            <p className="col-span-6">رنگ خود را انتخاب کنید</p>
+          <div className="grid  col-span-5">
+            <p className="col-span-12">رنگ خود را انتخاب کنید</p>
             {colors.map((item) => (
-              <div className="relative col-span-2  z-0 w-full mb-6 group">
+              <div className="relative   z-0 w-20 mb-6 group">
                 <div
                   onClick={() => setColor(item.name)}
                   style={{ background: `${item.color}` }}
@@ -198,14 +269,64 @@ const AddCourse = (props) => {
               </div>
             ))}
           </div>
+          {/* L E S S O N S */}
+          <div className="grid  col-span-12">
+            <Lessons />
+          </div>
         </div>
         <button
+          onClick={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
           type="submit"
           className="text-white bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
         >
           {`انتشار دوره`}
         </button>
       </form>
+      {/* Upload Modal*/}
+      {uploadModal !== 0 && (
+        <div className="w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] ">
+          <div
+            onClick={() => setUploadModal(0)}
+            className="mx-auto flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2"
+          >
+            <span className="text-sm pl-3"> بستن صفحه </span>
+
+            <BsDashCircleDotted />
+          </div>
+          <table className="max-w-fit mx-auto  overflow-hidden rounded-2xl">
+            <thead
+              className={`${"text-right"} bg-white text-black dark:text-white `}
+            >
+              <th className="px-2 py-2 pr-4">{`نام فایل`}</th>
+
+              <th></th>
+            </thead>
+            <div
+              className={`bg-background2-light max-h-96  overflow-x-scroll ml-[-3px] dark:bg-background2-dark overflow-y-scroll ${style.myLink}`}
+            >
+              {files.map((item) => (
+                <tr
+                  className=""
+                  key={item.id}
+                  onClick={() => {
+                    if (uploadModal == 1) {
+                      setCourseImage(item.url);
+                    }
+                    if (uploadModal == 2) {
+                      setCoursePoster(item.url);
+                    }
+                  }}
+                >
+                  <TableRow name={item.name} link={item.url} />
+                </tr>
+              ))}
+            </div>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
