@@ -10,6 +10,7 @@ const useCourses = (props) => {
     getLinkLesson,
     getTitleLesson,
     setLinkLesson,
+    setLessons,
     setTitleLesson,
   } = useContext(CoursesContext);
 
@@ -17,6 +18,7 @@ const useCourses = (props) => {
     handleCreate,
     handleDelete,
     getLesson,
+    setLessons,
     getLinkLesson,
     getTitleLesson,
     setLinkLesson,

@@ -1,86 +1,102 @@
 import React, { useEffect, useState } from "react";
-import { AddBookService, UploadedFiles } from "../../services/BookServices";
-import ImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
-
-// css
+import { Radio } from "@material-tailwind/react";
+import ArticleImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
+import { useParams } from "react-router-dom";
+import "./CKEditor.css";
 import style from "./TableRow.module.scss";
+
+// hooks
+import useCourse from "../../hooks/useCourses";
+import {
+  AddArticleService,
+  SingleArticleService,
+  UploadedFiles,
+} from "../../services/ArticleServices";
 //icons
 import { BsPlusCircleDotted } from "react-icons/bs";
 import { BsDashCircleDotted } from "react-icons/bs";
 // components
+import config from "../../services/config.json";
 import TableRow from "./ModalTableRow";
-import { toast } from "react-toastify";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
-import config from "../../services/config.json";
+import { toast } from "react-toastify";
 
-const AddBook = (props) => {
+const UpdateArticle = (props) => {
+  const { id: courseId } = useParams();
   const [files, setFiles] = useState([]);
-  const [uploadModal, setUploadModal] = useState(0);
+  const [uploadModal, setUploadModal] = useState(false);
+
+  const [articleImage, setArticleImage] = useState(ArticleImageDefault);
+  const [catId, setCatId] = useState(1);
   const [description, setDescription] = useState("");
-  const [bookImage, setBookImage] = useState(ImageDefault);
-  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
 
-  const [url, setUrl] = useState([]);
-
-  let BookImage = "";
-  let Url = "";
+  let ArticleImage = "";
   const handleSubmit = () => {
-    BookImage = bookImage.replace(`${config.baseUrl}/storage/`, "");
-
-    Url = url.replace(`${config.baseUrl}/storage/`, "");
+    ArticleImage = articleImage.replace(`${config.baseUrl}/storage/`, "");
 
     const data = {
-      name: title,
-      img: BookImage,
-      link: Url,
-      description,
+      name,
+      cat_id: catId,
+      img: ArticleImage,
+      content: description,
     };
     if (
-      BookImage !== "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif"
+      ArticleImage !==
+      "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif"
     ) {
-      AddBookService(data).then((res) => {
+      AddArticleService(data).then((res) => {
         if (res.status == 200) {
-          toast.success("کتاب با موفقیت ثبت شد");
+          toast.success("مقاله با موفقیت ساخته شد");
         }
       });
     } else {
-      toast.warn("لطفا عکس کتاب را انتخاب کنید");
+      toast.warn("لطفا عکس مقاله را انتخاب کنید");
     }
   };
   useEffect(() => {
     UploadedFiles().then((res) => {
       setFiles(res.data.data);
     });
+
+    SingleArticleService(courseId).then((res) => {
+      const data = res.data.data;
+      setArticleImage(data.img);
+      setName(data.name);
+      setDescription(data.content);
+      console.log(data);
+    });
   }, []);
+
   return (
     <div className="bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl">
       <form>
         <div className="grid grid-cols-12 xl:gap-6">
-          {/* C O U R S E - I M A G E */}
+          {/* A R T I C L E - E I M A G E */}
           <div
             className={` ${"col-span-12"} relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
             <img
-              src={bookImage}
+              onClick={() => setUploadModal(true)}
+              src={articleImage}
               className="w-96 rounded-md"
-              onClick={() => {
-                setUploadModal(2);
-              }}
             />
             <label
               className="p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               for="user_avatar"
             >
-              {`انتخاب عکس کتاب`}
+              {`انتخاب عکس مقاله`}
             </label>
           </div>
-          {/* B O O K  - N A M E */}
-          <div className="relative col-span-3 pl-2 z-0 w-full mb-6 group">
+
+          {/* A R T I C L E  - N A M E */}
+          <div className="relative col-span-12 z-0 w-full mb-6 group">
             <input
-              onChange={(e) => setTitle(e.target.value)}
               type="text"
+              onChange={(e) => setName(e.target.value)}
               name="courseName"
+              value={name}
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required=""
@@ -92,34 +108,13 @@ const AddBook = (props) => {
               {`عنوان `}
             </label>
           </div>
-          {/* B O O K  - U R L */}
-          <div className="relative col-span-9 z-0 w-full mb-6 group">
-            <input
-              type="text"
-              onClick={() => setUploadModal(1)}
-              value={url}
-              name="excrept"
-              id="excrept"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required=""
-            />
-            <label
-              for="excrept"
-              className={`  right-0
-              peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
-            >
-              {`لینک کتاب`}
-            </label>
-          </div>
+
           {/* A R T I C L E  - D E S C R I B T I O N*/}
           <div className="relative col-span-12 z-0 w-full mb-6 group">
             <CKEditor
               editor={ClassicEditor}
               className={`text-right right-0`}
-              data="<p>ویرایشگر پیشرفته</p>"
-              // this will we change  =>  {data} has html
-
+              data={description}
               onChange={(event, editor) => {
                 const data = editor.getData();
                 setDescription(data);
@@ -135,14 +130,15 @@ const AddBook = (props) => {
           }}
           className="text-white bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
         >
-          {`انتشار `}
+          {`انتشار مقاله`}
         </button>
       </form>
+
       {/* Upload Modal*/}
-      {uploadModal !== 0 && (
+      {uploadModal && (
         <div className="w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] ">
           <div
-            onClick={() => setUploadModal(0)}
+            onClick={() => setUploadModal(false)}
             className="mx-auto flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2"
           >
             <span className="text-sm pl-3"> بستن صفحه </span>
@@ -164,14 +160,7 @@ const AddBook = (props) => {
                 <tr
                   className=""
                   key={item.id}
-                  onClick={() => {
-                    if (uploadModal == 1) {
-                      setUrl(item.url);
-                    }
-                    if (uploadModal == 2) {
-                      setBookImage(item.url);
-                    }
-                  }}
+                  onClick={() => setArticleImage(item.url)}
                 >
                   <TableRow name={item.name} link={item.url} />
                 </tr>
@@ -184,4 +173,4 @@ const AddBook = (props) => {
   );
 };
 
-export default AddBook;
+export default UpdateArticle;

@@ -1,24 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { Radio } from "@material-tailwind/react";
 import CourseImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
+import TableRow from "./ModalTableRow";
 import "./CKEditor.css";
+import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
+
+// css
 import style from "./TableRow.module.scss";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
 // hooks
 import useCourse from "../../hooks/useCourses";
-import { AddCourseService } from "../../services/CourseServices";
 //icons
 import { BsPlusCircleDotted } from "react-icons/bs";
 import { BsDashCircleDotted } from "react-icons/bs";
 // components
-import config from "../../services/config.json";
 import Lessons from "./Lessons";
-import { UploadedFiles } from "../../services/CourseServices";
-import { toast } from "react-toastify";
-import TableRow from "./ModalTableRow";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
+import config from "../../services/config.json";
+import {
+  AddCourseService,
+  UploadedFiles,
+  SingleCourseService,
+} from "../../services/CourseServices";
 
-const AddCourse = (props) => {
+const UpdateCourse = (props) => {
+  const { id: courseId } = useParams();
+
   const [files, setFiles] = useState([]);
   const [uploadModal, setUploadModal] = useState(0);
 
@@ -91,7 +99,25 @@ const AddCourse = (props) => {
   useEffect(() => {
     UploadedFiles().then((res) => {
       setFiles(res.data.data);
-      setLessons(false);
+    });
+
+    SingleCourseService(courseId).then((res) => {
+      const data = res.data.data;
+      setName(data.name);
+      setDescription(data.description);
+      setColor(data.gradient);
+      setCourseImage(data.img);
+      setCoursePoster(data.poster);
+      setPrice(data.price);
+      setLessons(data.videos);
+      if (data.ispin == 0) {
+        setIsPin(false);
+      } else {
+        setIsPin(true);
+      }
+      setIsFree(data.type);
+      setExcerpt(data.excerpt);
+      console.log(data);
     });
   }, []);
   return (
@@ -144,6 +170,7 @@ const AddCourse = (props) => {
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required=""
+              value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <label
@@ -158,6 +185,7 @@ const AddCourse = (props) => {
             <input
               type="text"
               name="excrept"
+              value={excerpt}
               onChange={(e) => setExcerpt(e.target.value)}
               id="excrept"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -177,9 +205,7 @@ const AddCourse = (props) => {
             <CKEditor
               editor={ClassicEditor}
               className={`text-right right-0`}
-              data="<p>ویرایشگر پیشرفته</p>"
-              // this will we change  =>  {data} has html
-
+              data={description}
               onChange={(event, editor) => {
                 const data = editor.getData();
                 setDescription(data);
@@ -196,6 +222,7 @@ const AddCourse = (props) => {
               type="number"
               name="price"
               id="price"
+              value={price}
               onChange={(e) => setPrice(e.target.value)}
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
@@ -217,8 +244,8 @@ const AddCourse = (props) => {
                   <input
                     className="form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white "
                     type="checkbox"
-                    value=""
                     id="ispin"
+                    checked={isPin}
                     onClick={() => {
                       setIsPin(!isPin);
                     }}
@@ -234,8 +261,9 @@ const AddCourse = (props) => {
                   <input
                     className="form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white "
                     type="checkbox"
-                    value=""
+                    value={isFree}
                     id="isfre"
+                    checked={isFree == "free" && true}
                     onClick={() => {
                       if (isFree == "price") {
                         setIsFree("free");
@@ -260,10 +288,10 @@ const AddCourse = (props) => {
             {colors.map((item) => (
               <div className="relative   z-0 w-20 mb-6 group">
                 <div
-                  onClick={() => setColor(item.name)}
+                  onClick={() => setColor(item.color)}
                   style={{ background: `${item.color}` }}
                   className={`border-2  rounded-xl py-2 text-white  cursor-pointer shadow-sm text-center mt-1 ${
-                    color == item.name && `border-gray-light shadow-lg`
+                    color == item.color && `border-gray-light shadow-lg`
                   } `}
                 >
                   {`${item.name}`}
@@ -333,4 +361,4 @@ const AddCourse = (props) => {
   );
 };
 
-export default AddCourse;
+export default UpdateCourse;

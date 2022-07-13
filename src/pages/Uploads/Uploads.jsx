@@ -12,8 +12,9 @@ import { Line } from "rc-progress";
 import Files from "./Files";
 // css
 import "./Upload.css";
+import { UploadedFiles } from "../../services/CourseServices";
 const Uploads = () => {
-  const { progress, setProgress } = useUpload();
+  const { progress, setProgress, setFiles } = useUpload();
   useEffect(() => {
     const browseFile = document.querySelector("#browseFile");
 
@@ -55,6 +56,15 @@ const Uploads = () => {
       setProgress(value);
     }
   }, []);
+  console.log(progress);
+  if (progress == "100") {
+    setTimeout(() => {
+      UploadedFiles().then((res) => {
+        setFiles(res.data.data);
+        setProgress("");
+      });
+    }, 2000);
+  }
   return (
     <>
       <div className="container ">
@@ -69,7 +79,7 @@ const Uploads = () => {
             فایلتان را در این قسمت رها کنید
           </button>
         </div>
-        {progress && (
+        {progress !== "" && (
           <div className=" flex justify-center">
             <div className="w-96 sm:w-[550px] text-center mt-10">
               <Line

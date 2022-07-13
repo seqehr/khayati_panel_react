@@ -15,7 +15,7 @@ export const CourseContextProvider = ({ children }) => {
     const filteredTodos = lessons.filter((t) => t.id !== id);
     setLesson(filteredTodos);
 
-    toast.warning(`(${lesson.name}) با موفقیت حذف شد`, {
+    toast.success(`(${lesson.name}) با موفقیت حذف شد`, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -64,6 +64,24 @@ export const CourseContextProvider = ({ children }) => {
     }
   };
 
+  const setLessons = (lessonsList) => {
+    if (lessonsList == false) {
+      setLesson([]);
+    } else {
+      const lessons = [];
+      lessonsList.map((item) => {
+        const lesson = {
+          id: item.id,
+          name: item.name,
+          url: item.url,
+        };
+
+        lessons.push(lesson);
+
+        setLesson(lessons);
+      });
+    }
+  };
   return (
     <CourseContext.Provider
       value={{
@@ -74,6 +92,7 @@ export const CourseContextProvider = ({ children }) => {
         getTitleLesson,
         setTitleLesson,
         setLinkLesson,
+        setLessons,
       }}
     >
       {children}

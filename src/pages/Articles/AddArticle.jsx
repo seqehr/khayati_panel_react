@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Radio } from "@material-tailwind/react";
 import ArticleImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
-import TableRow from "./ModalTableRow";
 import "./CKEditor.css";
 import style from "./TableRow.module.scss";
 
@@ -15,12 +14,11 @@ import {
 import { BsPlusCircleDotted } from "react-icons/bs";
 import { BsDashCircleDotted } from "react-icons/bs";
 // components
-
+import TableRow from "./ModalTableRow";
+import config from "../../services/config.json";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
 import { toast } from "react-toastify";
-import axios from "axios";
 
 const AddArticle = (props) => {
   const [files, setFiles] = useState([]);
@@ -34,7 +32,7 @@ const AddArticle = (props) => {
   let ArticleImage = "";
   const handleSubmit = () => {
     ArticleImage = articleImage.replace(
-      "http://94.183.118.68:500/storage/",
+      `${config.baseUrl}/storage/`,
       ""
     );
 

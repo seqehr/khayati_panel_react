@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { AddBookService, UploadedFiles } from "../../services/BookServices";
+import {
+  AddBookService,
+  SingleBookService,
+  UploadedFiles,
+} from "../../services/BookServices";
 import ImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
 
 // css
@@ -13,8 +17,11 @@ import { toast } from "react-toastify";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
 import config from "../../services/config.json";
+import { useParams } from "react-router-dom";
 
-const AddBook = (props) => {
+const UpdateBook = (props) => {
+  const { id: courseId } = useParams();
+
   const [files, setFiles] = useState([]);
   const [uploadModal, setUploadModal] = useState(0);
   const [description, setDescription] = useState("");
@@ -52,6 +59,14 @@ const AddBook = (props) => {
     UploadedFiles().then((res) => {
       setFiles(res.data.data);
     });
+
+    SingleBookService(courseId).then((res) => {
+      const data = res.data.data;
+      setBookImage(data.img);
+      setUrl(data.link);
+      setTitle(data.name);
+      // setDescription(data.description);
+    });
   }, []);
   return (
     <div className="bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl">
@@ -80,6 +95,7 @@ const AddBook = (props) => {
             <input
               onChange={(e) => setTitle(e.target.value)}
               type="text"
+              value={title}
               name="courseName"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
@@ -117,7 +133,7 @@ const AddBook = (props) => {
             <CKEditor
               editor={ClassicEditor}
               className={`text-right right-0`}
-              data="<p>ویرایشگر پیشرفته</p>"
+              data={description}
               // this will we change  =>  {data} has html
 
               onChange={(event, editor) => {
@@ -184,4 +200,4 @@ const AddBook = (props) => {
   );
 };
 
-export default AddBook;
+export default UpdateBook;

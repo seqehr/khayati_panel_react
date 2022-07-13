@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import { Sliders } from "../../services/SettingServices";
 import defaultImage from "../../assets/images/UF_Infinity_khayati.gif";
+import Skeleton from "react-loading-skeleton";
 // css
-
+import "react-loading-skeleton/dist/skeleton.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -14,16 +15,8 @@ import { BsDashCircleDotted } from "react-icons/bs";
 // components
 
 const Settings = () => {
-  const [imagesSlider, setImagesSlider] = useState([
-    {
-      id: 0,
-      name: "Slider #0",
-      img: defaultImage,
-      url: "/test",
-      created_at: "2022-07-04T09:37:46.000000Z",
-      updated_at: "2022-07-04T09:37:46.000000Z",
-    },
-  ]);
+  const [imagesSlider, setImagesSlider] = useState([]);
+  const [loading, setLoading] = useState(true);
   const settings = {
     dots: true,
     infinite: true,
@@ -35,6 +28,7 @@ const Settings = () => {
   useEffect(() => {
     Sliders().then((res) => {
       setImagesSlider(res.data.data);
+      setLoading(false);
     });
   }, []);
 
@@ -79,25 +73,36 @@ const Settings = () => {
           {/* Slider setting*/}
           <div className="relative col-span-7 z-0  mb-6 group">
             <Slider {...settings}>
-              {imagesSlider.map((item) => (
-                <div className=" flex flex-row">
-                  <img src={item.img} className="  rounded-md w-full" />
+              {loading ? (
+                <>
+                  <div className="h-52">
+                    <Skeleton className="h-full" />
+                  </div>
+                  <div className="h-10 mt-3">
+                    <Skeleton className="h-full" />
+                  </div>
+                </>
+              ) : (
+                imagesSlider.map((item) => (
+                  <div className=" flex flex-row">
+                    <img src={item.img} className="  rounded-md w-full" />
 
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                    className="text-white items-center mt-2 m-auto  text-sm flex justify-center   bg-red-light ring-2 ring-red-dark hover:bg-background-light hover:text-black dark:text-black dark:bg-red-dark hover:ring-2 dark:ring-red-light dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg   px-5 py-1 text-center "
-                  >
-                    <span className="flex ">
-                      <span className="text-xl ml-2">
-                        <BsDashCircleDotted />
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                      className="text-white items-center mt-2 m-auto  text-sm flex justify-center   bg-red-light ring-2 ring-red-dark hover:bg-background-light hover:text-black dark:text-black dark:bg-red-dark hover:ring-2 dark:ring-red-light dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg   px-5 py-1 text-center "
+                    >
+                      <span className="flex ">
+                        <span className="text-xl ml-2">
+                          <BsDashCircleDotted />
+                        </span>
+                        حذف عکس این از اسلایدر
                       </span>
-                      حذف عکس این از اسلایدر
-                    </span>
-                  </button>
-                </div>
-              ))}
+                    </button>
+                  </div>
+                ))
+              )}
             </Slider>
           </div>
           <div className=" grid grid-cols-12 col-span-7 h-10">

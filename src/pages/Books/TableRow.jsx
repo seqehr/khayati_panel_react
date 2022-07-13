@@ -1,10 +1,10 @@
 // Icons
 import { MdAutorenew } from "react-icons/md";
-import { DeleteCoursesService } from "../../services/CourseServices";
+import { Link } from "react-router-dom";
 
 // css
 import style from "./TableRow.module.scss";
-const WalletTableRow = ({ name, views, id }) => {
+const WalletTableRow = ({ name, views, id, handleDelete }) => {
   return (
     <tr key={id} className={`${style.walletTableRow} `}>
       <td className="py-2 pr-4">
@@ -32,7 +32,9 @@ const WalletTableRow = ({ name, views, id }) => {
         <td className="px-1 py-3 sm:py-2 sm:px-1">
           <div className="flex flex-col justify-end gap-2 sm:flex-row">
             <button
-              onClick={() => {}}
+              onClick={() => {
+                handleDelete(id);
+              }}
               className="px-2 sm:px-5 py-1 text-sm text-white sm:text-base bg-red-light dark:bg-red-dark rounded-2xl "
             >
               {`پاک کردن`}
@@ -41,9 +43,12 @@ const WalletTableRow = ({ name, views, id }) => {
         </td>
         <td className="px-1 py-3 sm:py-2 sm:px-1">
           <div className="flex flex-col justify-end gap-2 sm:flex-row">
-            <button className="px-2 sm:px-5 py-1 text-sm text-white sm:text-base bg-blue-light dark:bg-blue-dark rounded-2xl ">
+            <Link
+              to={`/book/update/${id}`}
+              className="px-2 sm:px-5 py-1 text-sm text-white sm:text-base bg-blue-light dark:bg-blue-dark rounded-2xl "
+            >
               {`ویرایش`}
-            </button>
+            </Link>
           </div>
         </td>
       </div>

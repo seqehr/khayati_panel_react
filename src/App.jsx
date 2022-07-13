@@ -28,8 +28,14 @@ import AddMusic from "./pages/Music/AddMusic";
 import Settings from "./pages/Settings/Settings";
 import ListBooks from "./pages/Books/ListBooks";
 import AddBook from "./pages/Books/AddBook";
+import Login from "./pages/Auth/Login";
+import useToken from "./hooks/useToken";
+import UpdateCourse from "./pages/Courses/UpdateCourse";
+import UpdateArticle from "./pages/Articles/UpdateArticle";
+import UpdateBook from "./pages/Books/UpdateBook";
 
 function App() {
+  const { token } = useToken();
   return (
     <>
       <Helmet>
@@ -37,37 +43,56 @@ function App() {
       </Helmet>
 
       {/*  */}
+      {!token ? (
+        <Login />
+      ) : (
+        <>
+          <Header />
+          <ToastContainer />
+          <div className="min-h-screen py-4 bg-background-light dark:bg-background-dark sm:py-8">
+            <div className="wrapper">
+              <div className="relative flex gap-8">
+                <Sidebar />
 
-      <Header />
-      <ToastContainer />
-      <div className="min-h-screen py-4 bg-background-light dark:bg-background-dark sm:py-8">
-        <div className="wrapper">
-          <div className="relative flex gap-8">
-            <Sidebar />
-
-            <main className={`flex-1`}>
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/course/add" element={<AddCourse />} />
-                <Route path="/courses" element={<ListCourses />} />
-                <Route path="/musics" element={<ListMusics />} />
-                <Route path="/music/add" element={<AddMusic />} />
-                <Route path="/members" element={<ListMembers />} />
-                <Route path="/students" element={<ListStudents />} />
-                <Route path="/articles" element={<ListArticles />} />
-                <Route path="/articles/add" element={<AddArticle />} />
-
-                <Route path="/books" element={<ListBooks />} />
-                <Route path="/book/add" element={<AddBook />} />
-
-                <Route path="/transactions" element={<ListTransactions />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="/uploads" element={<Uploads />} />
-              </Routes>
-            </main>
+                <main className={`flex-1`}>
+                  <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    // Courses
+                    <Route path="/course/add" element={<AddCourse />} />
+                    <Route path="/courses" element={<ListCourses />} />
+                    <Route
+                      path="/course/update/:id"
+                      element={<UpdateCourse />}
+                    />
+                    // Musics
+                    <Route path="/musics" element={<ListMusics />} />
+                    <Route path="/music/add" element={<AddMusic />} />
+                    <Route path="/members" element={<ListMembers />} />
+                    <Route path="/students" element={<ListStudents />} />
+                    // Articles
+                    <Route path="/articles" element={<ListArticles />} />
+                    <Route path="/articles/add" element={<AddArticle />} />
+                    <Route
+                      path="/article/update/:id"
+                      element={<UpdateArticle />}
+                    />
+                    // Books
+                    <Route path="/books" element={<ListBooks />} />
+                    <Route path="/book/add" element={<AddBook />} />
+                    <Route path="/book/update/:id" element={<UpdateBook />} />
+                    <Route
+                      path="/transactions"
+                      element={<ListTransactions />}
+                    />
+                    <Route path="/settings" element={<Settings />} />
+                    <Route path="/uploads" element={<Uploads />} />
+                  </Routes>
+                </main>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 }
