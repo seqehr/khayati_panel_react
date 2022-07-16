@@ -21,10 +21,14 @@ const useSidebar = (props) => {
     setCourses,
     transactions,
     setTransactions,
+    products,
+    setProducts,
   } = useContext(SidebarContext);
 
   return {
     sidebar,
+    products,
+    setProducts,
     setSidebar,
     toggleSidebar,
     music,

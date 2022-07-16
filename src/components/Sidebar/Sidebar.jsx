@@ -42,6 +42,8 @@ const Sidebar = (props) => {
     setCourses,
     transactions,
     setTransactions,
+    products,
+    setProducts,
   } = useSidebar();
   const asideMobileDirectionClass = style.asideMobileRtl;
   const asideMobileShowClass = style.asideMobileShowRtl;
@@ -103,6 +105,30 @@ const Sidebar = (props) => {
               </>
             )}
 
+            {/* Products */}
+            <SidebarOptionDropDown
+              icon={<AiOutlineBook />}
+              title={` محصولات`}
+              active={products}
+              onClickF={() => setProducts(!products)}
+            />
+            {products && (
+              <>
+                <SidebarOption
+                  to="/products"
+                  icon=" &nbsp; &nbsp;"
+                  title={` لیست محصولات`}
+                  active={location.pathname === "/products"}
+                />
+
+                <SidebarOption
+                  to="/product/add"
+                  icon=" &nbsp; &nbsp;"
+                  title={`افزودن محصول`}
+                  active={location.pathname === "/product/add"}
+                />
+              </>
+            )}
             {/* Music */}
             <SidebarOptionDropDown
               icon={<FiMusic />}
@@ -211,10 +237,10 @@ const Sidebar = (props) => {
                   active={location.pathname === "/articles"}
                 />
                 <SidebarOption
-                  to="/articles/add"
+                  to="/article/add"
                   icon=" &nbsp; &nbsp;"
                   title={`افزودن مقاله`}
-                  active={location.pathname === "/articles/add"}
+                  active={location.pathname === "/article/add"}
                 />
               </>
             )}

@@ -17,3 +17,10 @@ export const ListUsersService = () => {
     },
   });
 };
+export const ChekLoginUser = () => {
+  return http.get(`${config.baseUrl}/api/auth/checkauth`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

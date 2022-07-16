@@ -33,9 +33,27 @@ import useToken from "./hooks/useToken";
 import UpdateCourse from "./pages/Courses/UpdateCourse";
 import UpdateArticle from "./pages/Articles/UpdateArticle";
 import UpdateBook from "./pages/Books/UpdateBook";
-
+import { useEffect } from "react";
+import { ChekLoginUser } from "./services/UserService";
+import ListProducts from "./pages/Products/ListProducts";
+import AddProduct from "./pages/Products/AddProduct";
+import UpdateProduct from "./pages/Products/UpdateProduct";
 function App() {
   const { token } = useToken();
+
+  useEffect(() => {
+    ChekLoginUser()
+      .then((res) => {})
+      .catch((err) => {
+        if (err.response.status == 401) {
+          const myToken = window.localStorage.getItem("Khayati-token");
+          if (myToken != null) {
+            window.localStorage.removeItem("Khayati-token");
+            window.location.reload(true);
+          }
+        }
+      });
+  }, []);
   return (
     <>
       <Helmet>
@@ -71,10 +89,17 @@ function App() {
                     <Route path="/students" element={<ListStudents />} />
                     // Articles
                     <Route path="/articles" element={<ListArticles />} />
-                    <Route path="/articles/add" element={<AddArticle />} />
+                    <Route path="/article/add" element={<AddArticle />} />
                     <Route
                       path="/article/update/:id"
                       element={<UpdateArticle />}
+                    />
+                    // Products
+                    <Route path="/products" element={<ListProducts />} />
+                    <Route path="/product/add" element={<AddProduct />} />
+                    <Route
+                      path="/product/update/:id"
+                      element={<UpdateProduct />}
                     />
                     // Books
                     <Route path="/books" element={<ListBooks />} />

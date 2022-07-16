@@ -90,8 +90,9 @@ export function LoginContextProvider({ children }) {
             const { status, data } = await verifyCodeUser(user);
             if (status === 200) {
               setToken(data.data.token);
-
-              console.log(data);
+              setTimeout(() => {
+                window.location.reload(true);
+              }, 1000);
             }
           } catch (ex) {
             console.log(ex);

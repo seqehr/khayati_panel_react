@@ -10,6 +10,7 @@ export function SidebarContextProvider({ children }) {
   const [courses, setCourses] = useState(false);
   const [transactions, setTransactions] = useState(false);
   const [books, setBooks] = useState(false);
+  const [products, setProducts] = useState(false);
   const toggleSidebar = () => {
     setSidebar((currentStatus) => !currentStatus);
   };
@@ -17,6 +18,8 @@ export function SidebarContextProvider({ children }) {
   return (
     <SidebarContext.Provider
       value={{
+        products,
+        setProducts,
         books,
         setBooks,
         sidebar,

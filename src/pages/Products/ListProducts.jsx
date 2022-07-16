@@ -1,26 +1,26 @@
 // Components
 import { useEffect, useState } from "react";
 import {
-  ListArticlesService,
-  DeleteArticleService,
-} from "../../services/ArticleServices";
+  ListProductsService,
+  DeleteProductService,
+} from "../../services/ProductServices";
 import TableRow from "./TableRow";
 import Skeleton from "react-loading-skeleton";
 // css
 import "react-loading-skeleton/dist/skeleton.css";
 
-const ListArticles = (props) => {
-  const [listArticles, setListArticles] = useState([]);
+const ListProducts = (props) => {
+  const [listProducts, setListProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    ListArticlesService().then((res) => {
-      setListArticles(res.data.data);
+    ListProductsService().then((res) => {
+      setListProducts(res.data.data);
       setLoading(false);
     });
   }, []);
   const handleDelete = (id) => {
-    DeleteArticleService(id);
-    setListArticles(listArticles.filter((i) => i.id !== id));
+    DeleteProductService(id);
+    setListProducts(listProducts.filter((i) => i.id !== id));
   };
   return (
     <div>
@@ -28,7 +28,7 @@ const ListArticles = (props) => {
         <thead
           className={`${"text-right"} bg-[#80808033] text-black dark:text-white `}
         >
-          <th className="px-2 py-2 pr-4">{`عنوان مقاله `}</th>
+          <th className="px-2 py-2 pr-4">{`عنوان محصول `}</th>
           <th className="px-2 py-2 pr-4">{`تعداد بازدید `}</th>
           <th></th>
           <th></th>
@@ -71,7 +71,7 @@ const ListArticles = (props) => {
               </tr>
             </>
           ) : (
-            listArticles.map((item) => (
+            listProducts.map((item) => (
               <TableRow
                 name={item.name}
                 views={item.views}
@@ -86,4 +86,4 @@ const ListArticles = (props) => {
   );
 };
 
-export default ListArticles;
+export default ListProducts;

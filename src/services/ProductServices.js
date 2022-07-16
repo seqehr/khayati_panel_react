@@ -11,17 +11,17 @@ export const UploadedFiles = () => {
     },
   });
 };
-export const AddArticleService = (data) => {
-  return httpService.post(`${config.baseUrl}/api/posts/create`, data, {
+export const AddProductService = (data) => {
+  return httpService.post(`${config.baseUrl}/api/products/create`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 };
-export const ListArticlesService = () => {
-  return httpService.post(
-    `${config.baseUrl}/api/posts`,
-    {},
+export const ListProductsService = () => {
+  return httpService.get(
+    `${config.baseUrl}/api/products/archive`,
+
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -29,10 +29,10 @@ export const ListArticlesService = () => {
     }
   );
 };
-export const DeleteArticleService = (id) => {
-  return httpService.post(
-    `${config.baseUrl}/api/posts/delete/${id}`,
-    {},
+export const DeleteProductService = (id) => {
+  return httpService.get(
+    `${config.baseUrl}/api/products/delete/${id}`,
+
     {
       headers: {
         "Content-Type": "application/json",
@@ -41,8 +41,8 @@ export const DeleteArticleService = (id) => {
     }
   );
 };
-export const SingleArticleService = (id) => {
-  return httpService.get(`${config.baseUrl}/api/posts/single/${id}`, {
+export const SingleProductService = (id) => {
+  return httpService.get(`${config.baseUrl}/api/products/single/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

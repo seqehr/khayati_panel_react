@@ -1,33 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { Radio } from "@material-tailwind/react";
 import ArticleImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
+import { useParams } from "react-router-dom";
 import "./CKEditor.css";
 import style from "./TableRow.module.scss";
 
 // hooks
 import useCourse from "../../hooks/useCourses";
 import {
-  AddArticleService,
-  CatListService,
+  SingleProductService,
+  AddProductService,
   UploadedFiles,
-} from "../../services/ArticleServices";
+  CatListService,
+} from "../../services/ProductServices";
 //icons
+import { AiFillPlusSquare } from "react-icons/ai";
 import { BsPlusCircleDotted } from "react-icons/bs";
 import { BsDashCircleDotted } from "react-icons/bs";
-import { AiFillPlusSquare } from "react-icons/ai";
 // components
-import TableRow from "./ModalTableRow";
 import config from "../../services/config.json";
+import TableRow from "./ModalTableRow";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
 import { toast } from "react-toastify";
-import { ChekLoginUser } from "../../services/UserService";
 
-const AddArticle = (props) => {
+const UpdateProduct = (props) => {
+  const { id: courseId } = useParams();
   const [files, setFiles] = useState([]);
-  const [categorries, setCategorries] = useState([]);
   const [uploadModal, setUploadModal] = useState(false);
+  const [categorries, setCategorries] = useState([]);
 
+  const [price, setPrice] = useState("");
   const [articleImage, setArticleImage] = useState(ArticleImageDefault);
   const [catId, setCatId] = useState(1);
   const [description, setDescription] = useState("");
@@ -44,13 +47,12 @@ const AddArticle = (props) => {
       cat_id: catId,
       img: ArticleImage,
       content: description,
-      tags: JSON.stringify(hashtags),
     };
     if (
       ArticleImage !==
       "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif"
     ) {
-      AddArticleService(data).then((res) => {
+      AddProductService(data).then((res) => {
         if (res.status == 200) {
           toast.success("مقاله با موفقیت ساخته شد");
         }
@@ -62,6 +64,14 @@ const AddArticle = (props) => {
   useEffect(() => {
     UploadedFiles().then((res) => {
       setFiles(res.data.data);
+    });
+
+    SingleProductService(courseId).then((res) => {
+      const data = res.data.data;
+      setArticleImage(data.img);
+      setName(data.name);
+      setDescription(data.content);
+      setPrice(data.price);
     });
     CatListService().then((res) => {
       setCategorries(res.data.data);
@@ -106,11 +116,12 @@ const AddArticle = (props) => {
           </div>
 
           {/* A R T I C L E  - N A M E */}
-          <div className="relative col-span-9 px-1 z-0 w-full mb-6 group">
+          <div className="relative col-span-6 px-1 z-0 w-full mb-6 group">
             <input
               type="text"
               onChange={(e) => setName(e.target.value)}
               name="courseName"
+              value={name}
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required=""
@@ -124,14 +135,14 @@ const AddArticle = (props) => {
           </div>
           {/* A R T I C L E - C A T */}
           <div
-            className={` ${"col-span-3"}  relative  flex  justify-center flex-col  z-0 w-full mb-6 group`}
+            className={` ${"col-span-3"} px-1  relative  flex  justify-center flex-col  z-0 w-full mb-6 group`}
           >
             <select
               id="countries"
               name="countries"
+              value={catId}
               onChange={(e) => {
                 setCatId(e.target.value);
-                console.log(catId);
               }}
               className="block py-2.5 pr-2 w-full text-sm  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             >
@@ -143,49 +154,25 @@ const AddArticle = (props) => {
               </option>
             </select>
           </div>
-          {/* A R T I C L E  - H A S H T A G */}
-          <div className="relative flex col-span-6 z-0 px-1 w-full mb-6 group">
+          {/* C O U R S E  - P R I C E */}
+          <div className={` relative col-span-3 px-1 z-0 w-full mb-6 group`}>
             <input
-              type="text"
-              name="courseName"
+              type="number"
+              name="price"
+              id="price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required=""
-              onChange={(e) => setHashtag(e.target.value)}
-              value={hashtag}
             />
             <label
-              for="courseName"
-              className={`  ${"right-0"}peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
+              for="price"
+              className={`  right-0
+              peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
             >
-              {`برچسب ها `}
+              {`قیمت ثبت نام در دوره`}
             </label>
-            <p
-              type="text"
-              className="text-3xl absolute bottom-0 left-0  cursor-pointer text-blue-light dark:text-blue-dark"
-              onClick={() => {
-                creaeHashagHandler();
-              }}
-            >
-              <AiFillPlusSquare />
-            </p>
-          </div>
-          <div
-            className={`${style.myLink} relative items-end overflow-x-scroll flex col-span-6 z-0 px-1 w-full mb-6 group`}
-          >
-            {hashtags.map((item, index) => (
-              <p className="shadow-md mx-2 p-1 flex">
-                {" "}
-                <span
-                  onClick={() => deleteHashagHandler(index)}
-                  className="text-red-light cursor-pointer px-1"
-                >
-                  {" "}
-                  X{" "}
-                </span>{" "}
-                {item}{" "}
-              </p>
-            ))}
           </div>
 
           {/* A R T I C L E  - D E S C R I B T I O N*/}
@@ -193,9 +180,7 @@ const AddArticle = (props) => {
             <CKEditor
               editor={ClassicEditor}
               className={`text-right right-0`}
-              data="<p>ویرایشگر پیشرفته</p>"
-              // this will we change  =>  {data} has html
-
+              data={description}
               onChange={(event, editor) => {
                 const data = editor.getData();
                 setDescription(data);
@@ -254,4 +239,4 @@ const AddArticle = (props) => {
   );
 };
 
-export default AddArticle;
+export default UpdateProduct;
