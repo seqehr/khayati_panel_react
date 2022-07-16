@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-
+import config from "../../services/config.json";
 import Resumable from "resumablejs";
 import $ from "jquery";
 import useUpload from "../../hooks/useUpload";
@@ -19,7 +19,7 @@ const Uploads = () => {
     const browseFile = document.querySelector("#browseFile");
 
     let resumable = new Resumable({
-      target: "http://185.7.212.87:500/api/upload/new",
+      target: config.baseUrl,
       query: { _token: "{{ csrf_token() }}" }, // CSRF token
       fileType: ["mp4", "jpg", "png", "mp3"],
       headers: {
