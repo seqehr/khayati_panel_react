@@ -23,6 +23,7 @@ const Uploads = () => {
       query: { _token: "{{ csrf_token() }}" }, // CSRF token
       fileType: ["mp4", "jpg", "png", "mp3"],
       headers: {
+        Authorization: `Bearer ${window.localStorage.getItem("Khayati-token")}`,
         Accept: "application/json",
       },
       testChunks: false,
