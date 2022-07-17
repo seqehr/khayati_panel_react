@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BsDashCircleDotted } from "react-icons/bs";
 import { AddAMusicService, UploadedFiles } from "../../services/MusicsServices";
-
+import MusicImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
 // components
 import TableRow from "./ModalTableRow";
 import config from "../../services/config.json";
@@ -11,18 +11,22 @@ import { toast } from "react-toastify";
 
 const AddMusic = (props) => {
   const [files, setFiles] = useState([]);
-  const [uploadModal, setUploadModal] = useState(false);
+  const [uploadModal, setUploadModal] = useState(0);
 
+  const [musicImage, setMusicImage] = useState(MusicImageDefault);
   const [url, setUrl] = useState("");
   const [name, setName] = useState("");
 
   let Url = "";
+  let MusicImage = "";
   const handleSubmit = () => {
-    Url = url.replace(`${config.baseUrl}/storage/`, "");
+    MusicImage = musicImage.replace(`${config.HttpBaseUrl}/storage/`, "");
+    Url = url.replace(`${config.HttpBaseUrl}/storage/`, "");
 
     const data = {
       name: name,
       url: url,
+      img: musicImage,
     };
     AddAMusicService(data).then((res) => {
       if (res.status == 200) {
@@ -41,6 +45,25 @@ const AddMusic = (props) => {
     <div className="bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl">
       <form>
         <div className="grid grid-cols-12 xl:gap-6">
+          {/* M U S I C  - I M A G E */}
+          <div
+            className={` 
+            relative col-span-12  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
+          >
+            <img
+              src={musicImage}
+              className="w-96 rounded-md"
+              onClick={() => {
+                setUploadModal(2);
+              }}
+            />
+            <label
+              className="p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              for="user_avatar"
+            >
+              {`انتخاب عکس `}
+            </label>
+          </div>
           {/* M U S I C  - N A M E */}
           <div className="relative col-span-3 z-0 w-full mb-6 group">
             <input
@@ -69,7 +92,7 @@ const AddMusic = (props) => {
               placeholder=" "
               required=""
               value={url}
-              onClick={() => setUploadModal(true)}
+              onClick={() => setUploadModal(1)}
             />
             <label
               for="excrept"
@@ -93,10 +116,10 @@ const AddMusic = (props) => {
       </form>
 
       {/* Upload Modal*/}
-      {uploadModal && (
+      {uploadModal !== 0 && (
         <div className="w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] ">
           <div
-            onClick={() => setUploadModal(false)}
+            onClick={() => setUploadModal(0)}
             className="mx-auto flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2"
           >
             <span className="text-sm pl-3"> بستن صفحه </span>
@@ -115,8 +138,19 @@ const AddMusic = (props) => {
               className={`bg-background2-light max-h-96  overflow-x-scroll ml-[-3px] dark:bg-background2-dark overflow-y-scroll ${style.myLink}`}
             >
               {files.map((item) => (
-                <tr className="" key={item.id} onClick={() => setUrl(item.url)}>
-                  <TableRow name={item.name} link={item.url} />
+                <tr
+                  className=""
+                  key={item.id}
+                  onClick={() => {
+                    if (uploadModal == 1) {
+                      setUrl(item.url);
+                    }
+                    if (uploadModal == 2) {
+                      setMusicImage(item.url);
+                    }
+                  }}
+                >
+                  <TableRow name={item.name} />
                 </tr>
               ))}
             </div>

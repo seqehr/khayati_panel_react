@@ -40,7 +40,7 @@ const UpdateProduct = (props) => {
 
   let ArticleImage = "";
   const handleSubmit = () => {
-    ArticleImage = articleImage.replace(`${config.baseUrl}/storage/`, "");
+    ArticleImage = articleImage.replace(`${config.HttpBaseUrls}/storage/`, "");
 
     const data = {
       name,

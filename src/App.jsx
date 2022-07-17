@@ -38,6 +38,7 @@ import { ChekLoginUser } from "./services/UserService";
 import ListProducts from "./pages/Products/ListProducts";
 import AddProduct from "./pages/Products/AddProduct";
 import UpdateProduct from "./pages/Products/UpdateProduct";
+import UpdateMusic from "./pages/Music/UpdateMusic";
 function App() {
   const { token } = useToken();
 
@@ -86,7 +87,7 @@ function App() {
                     <Route path="/musics" element={<ListMusics />} />
                     <Route path="/music/add" element={<AddMusic />} />
                     <Route path="/members" element={<ListMembers />} />
-                    <Route path="/students" element={<ListStudents />} />
+                    <Route path="/music/update/:id" element={<UpdateMusic />} />
                     // Articles
                     <Route path="/articles" element={<ListArticles />} />
                     <Route path="/article/add" element={<AddArticle />} />
@@ -111,6 +112,7 @@ function App() {
                     />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/uploads" element={<Uploads />} />
+                    <Route path="/students" element={<ListStudents />} />
                   </Routes>
                 </main>
               </div>

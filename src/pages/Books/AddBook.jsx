@@ -26,9 +26,9 @@ const AddBook = (props) => {
   let BookImage = "";
   let Url = "";
   const handleSubmit = () => {
-    BookImage = bookImage.replace(`${config.baseUrl}/storage/`, "");
+    BookImage = bookImage.replace(`${config.HttpBaseUrl}/storage/`, "");
 
-    Url = url.replace(`${config.baseUrl}/storage/`, "");
+    Url = url.replace(`${config.HttpBaseUrl}/storage/`, "");
 
     const data = {
       name: title,

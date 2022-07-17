@@ -35,7 +35,7 @@ const AddProduct = (props) => {
 
   let ProductImage = "";
   const handleSubmit = () => {
-    ProductImage = productImage.replace(`${config.baseUrl}/storage/`, "");
+    ProductImage = productImage.replace(`${config.HttpBaseUrl}/storage/`, "");
 
     const data = {
       name,

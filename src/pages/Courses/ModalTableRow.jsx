@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 // css
 import style from "./TableRow.module.scss";
-const TableRow = ({ name, link, onClickf }) => {
+const TableRow = ({ name }) => {
   return (
     <>
       <td className="py-2 pr-4">
@@ -26,10 +26,7 @@ const TableRow = ({ name, link, onClickf }) => {
 
       <td className="px-1 py-3 sm:py-2 sm:px-2">
         <div className="flex flex-col justify-end gap-2 sm:flex-row">
-          <button
-            onClick={() => {}}
-            className="px-2 sm:px-5 py-1 text-sm text-white sm:text-base bg-blue-light dark:bg-blue-dark rounded-2xl "
-          >
+          <button className="px-2 sm:px-5 py-1 text-sm text-white sm:text-base bg-blue-light dark:bg-blue-dark rounded-2xl ">
             {`انتخاب فایل`}
           </button>
         </div>

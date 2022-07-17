@@ -62,9 +62,9 @@ const UpdateCourse = (props) => {
     if (isFree) {
       setPrice("0");
     }
-    CourseImage = courseImage.replace(`${config.baseUrl}/storage/`, "");
+    CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, "");
 
-    CoursePoster = coursePoster.replace(`${config.baseUrl}/storage/`, "");
+    CoursePoster = coursePoster.replace(`${config.HttpBaseUrl}/storage/`, "");
 
     CoursePoster = coursePoster.replace(
       "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif",

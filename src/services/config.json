@@ -1,3 +1,4 @@
 {
-  "baseUrl": "https://seeuland.com"
+  "baseUrl": "https://seeuland.com",
+  "HttpBaseUrl": "http://seeuland.com"
 }

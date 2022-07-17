@@ -1,83 +1,71 @@
 import React, { useEffect, useState } from "react";
-import {
-  AddBookService,
-  SingleBookService,
-  UploadedFiles,
-} from "../../services/BookServices";
-import ImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
-
-// css
-import style from "./TableRow.module.scss";
-//icons
-import { BsPlusCircleDotted } from "react-icons/bs";
 import { BsDashCircleDotted } from "react-icons/bs";
+import {
+  AddAMusicService,
+  SingleMusicService,
+  UploadedFiles,
+} from "../../services/MusicsServices";
+import { useParams } from "react-router-dom";
+import MusicImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
 // components
 import TableRow from "./ModalTableRow";
-import { toast } from "react-toastify";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
 import config from "../../services/config.json";
-import { useParams } from "react-router-dom";
+// css
+import style from "./TableRow.module.scss";
+import { toast } from "react-toastify";
 
-const UpdateBook = (props) => {
-  const { id: courseId } = useParams();
-
+const UpdateMusic = (props) => {
+  const { id: musicId } = useParams();
   const [files, setFiles] = useState([]);
   const [uploadModal, setUploadModal] = useState(0);
-  const [description, setDescription] = useState("");
-  const [bookImage, setBookImage] = useState(ImageDefault);
-  const [title, setTitle] = useState("");
 
-  const [url, setUrl] = useState([]);
+  const [musicImage, setMusicImage] = useState(MusicImageDefault);
+  const [url, setUrl] = useState("");
+  const [name, setName] = useState("");
 
-  let BookImage = "";
   let Url = "";
+  let MusicImage = "";
   const handleSubmit = () => {
-    BookImage = bookImage.replace(`${config.HttpBaseUrl}/storage/`, "");
-
+    MusicImage = musicImage.replace(`${config.HttpBaseUrl}/storage/`, "");
     Url = url.replace(`${config.HttpBaseUrl}/storage/`, "");
 
     const data = {
-      name: title,
-      img: BookImage,
-      link: Url,
-      description,
+      name: name,
+      url: url,
+      img: musicImage,
     };
-    if (
-      BookImage !== "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif"
-    ) {
-      AddBookService(data).then((res) => {
-        if (res.status == 200) {
-          toast.success("کتاب با موفقیت ثبت شد");
-        }
-      });
-    } else {
-      toast.warn("لطفا عکس کتاب را انتخاب کنید");
-    }
+    AddAMusicService(data).then((res) => {
+      if (res.status == 200) {
+        toast.success("موزیک با موفقیت ثبت شد");
+      }
+    });
   };
+
   useEffect(() => {
+    SingleMusicService(musicId).then((res) => {
+      const data = res.data.data;
+
+      setUrl(data.url);
+      setMusicImage(data.img);
+      setName(data.name);
+    });
+
     UploadedFiles().then((res) => {
       setFiles(res.data.data);
     });
-
-    SingleBookService(courseId).then((res) => {
-      const data = res.data.data;
-      setBookImage(data.img);
-      setUrl(data.link);
-      setTitle(data.name);
-      // setDescription(data.description);
-    });
   }, []);
+
   return (
     <div className="bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl">
       <form>
         <div className="grid grid-cols-12 xl:gap-6">
-          {/* C O U R S E - I M A G E */}
+          {/* M U S I C  - I M A G E */}
           <div
-            className={` ${"col-span-12"} relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
+            className={` 
+            relative col-span-12  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
             <img
-              src={bookImage}
+              src={musicImage}
               className="w-96 rounded-md"
               onClick={() => {
                 setUploadModal(2);
@@ -87,19 +75,19 @@ const UpdateBook = (props) => {
               className="p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               for="user_avatar"
             >
-              {`انتخاب عکس کتاب`}
+              {`انتخاب عکس `}
             </label>
           </div>
-          {/* B O O K  - N A M E */}
-          <div className="relative col-span-3 pl-2 z-0 w-full mb-6 group">
+          {/* M U S I C  - N A M E */}
+          <div className="relative col-span-3 z-0 w-full mb-6 group">
             <input
-              onChange={(e) => setTitle(e.target.value)}
               type="text"
-              value={title}
               name="courseName"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required=""
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
             <label
               for="courseName"
@@ -108,39 +96,25 @@ const UpdateBook = (props) => {
               {`عنوان `}
             </label>
           </div>
-          {/* B O O K  - U R L */}
+          {/* M U S I C  - U R L */}
           <div className="relative col-span-9 z-0 w-full mb-6 group">
             <input
               type="text"
-              onClick={() => setUploadModal(1)}
-              value={url}
               name="excrept"
               id="excrept"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required=""
+              value={url}
+              onClick={() => setUploadModal(1)}
             />
             <label
               for="excrept"
               className={`  right-0
               peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
             >
-              {`لینک کتاب`}
+              {`لینک موزیک`}
             </label>
-          </div>
-          {/* A R T I C L E  - D E S C R I B T I O N*/}
-          <div className="relative col-span-12 z-0 w-full mb-6 group">
-            <CKEditor
-              editor={ClassicEditor}
-              className={`text-right right-0`}
-              data={description}
-              // this will we change  =>  {data} has html
-
-              onChange={(event, editor) => {
-                const data = editor.getData();
-                setDescription(data);
-              }}
-            />
           </div>
         </div>
         <button
@@ -154,6 +128,7 @@ const UpdateBook = (props) => {
           {`انتشار `}
         </button>
       </form>
+
       {/* Upload Modal*/}
       {uploadModal !== 0 && (
         <div className="w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] ">
@@ -185,11 +160,11 @@ const UpdateBook = (props) => {
                       setUrl(item.url);
                     }
                     if (uploadModal == 2) {
-                      setBookImage(item.url);
+                      setMusicImage(item.url);
                     }
                   }}
                 >
-                  <TableRow name={item.name} link={item.url} />
+                  <TableRow name={item.name} />
                 </tr>
               ))}
             </div>
@@ -200,4 +175,4 @@ const UpdateBook = (props) => {
   );
 };
 
-export default UpdateBook;
+export default UpdateMusic;

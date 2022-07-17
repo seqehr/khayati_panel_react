@@ -1,11 +1,12 @@
 // Icons
 import { MdAutorenew } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 // css
 import style from "./TableRow.module.scss";
-const TableRow = ({ name, size, link, date }) => {
+const TableRow = ({ name, views, id, handleDelete }) => {
   return (
-    <tr className={`${style.walletTableRow} `}>
+    <tr key={id} className={`${style.walletTableRow} `}>
       <td className="py-2 pr-4">
         <div className="flex items-center gap-2">
           <div>
@@ -18,17 +19,11 @@ const TableRow = ({ name, size, link, date }) => {
           </div>
         </div>
       </td>
+
       <td className="py-2">
         <div>
           <div className="flex gap-2 text-sm text-black sm:text-base dark:text-white">
-            <span>{date}</span>
-          </div>
-        </div>
-      </td>
-      <td className="py-2">
-        <div>
-          <div className="flex gap-2 text-sm text-black sm:text-base dark:text-white">
-            <span>{size}</span>
+            <span>{views}</span>
           </div>
         </div>
       </td>
@@ -36,16 +31,24 @@ const TableRow = ({ name, size, link, date }) => {
       <div className="float-left">
         <td className="px-1 py-3 sm:py-2 sm:px-1">
           <div className="flex flex-col justify-end gap-2 sm:flex-row">
-            <button className="px-2 sm:px-5 py-1 text-sm text-white sm:text-base bg-red-light dark:bg-red-dark rounded-2xl ">
+            <button
+              onClick={() => {
+                handleDelete(id);
+              }}
+              className="px-2 sm:px-5 py-1 text-sm text-white sm:text-base bg-red-light dark:bg-red-dark rounded-2xl "
+            >
               {`پاک کردن`}
             </button>
           </div>
         </td>
         <td className="px-1 py-3 sm:py-2 sm:px-1">
           <div className="flex flex-col justify-end gap-2 sm:flex-row">
-            <button className="px-2 sm:px-5 py-1 text-sm text-white sm:text-base bg-blue-light dark:bg-blue-dark rounded-2xl ">
+            <Link
+              to={`/music/update/${id}`}
+              className="px-2 sm:px-5 py-1 text-sm text-white sm:text-base bg-blue-light dark:bg-blue-dark rounded-2xl "
+            >
               {`ویرایش`}
-            </button>
+            </Link>
           </div>
         </td>
       </div>

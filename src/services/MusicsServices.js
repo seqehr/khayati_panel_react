@@ -30,9 +30,9 @@ export const ListMusicsService = () => {
   );
 };
 export const DeleteMusicService = (id) => {
-  return httpService.post(
-    `${config.baseUrl}/api/posts/delete/${id}`,
-    {},
+  return httpService.get(
+    `${config.baseUrl}/api/musics/delete/${id}`,
+
     {
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export const DeleteMusicService = (id) => {
   );
 };
 export const SingleMusicService = (id) => {
-  return httpService.get(`${config.baseUrl}/api/.../single/${id}`, {
+  return httpService.get(`${config.baseUrl}/api/musics/single/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
