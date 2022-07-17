@@ -23,7 +23,7 @@ const ListMusics = (props) => {
   const handleDelete = (id) => {
     toast.error(
       <p dir="rtl">
-        <span className="pl-2">عملیات بازگشت پذیر نیست </span>
+        <span className="pl-2">مجدد تایید کنید</span>
         <span
           onClick={() => confirmDelete()}
           className=" p-2 px-3  bg-red-light rounded-lg text-white hover:border-2 text-center ease-in-out duration-300"
