@@ -26,41 +26,38 @@ const Whatchlist = (props) => {
 
       {/* ————— W A T C H L I S T ————— */}
       <div className={`overflow-x-auto ${style.watchlistCoinsBox}`}>
-        <div className="flex gap-4 mb-4">
+        <div className="flex gap-4 my-4">
           <WhatchlistCoin
             icon={<BiBitcoin />}
-            name={`متن`}
-            symbol="BTC"
+            name={`دوره دور دوزی`}
             color="#FF9416"
             chartData={bitcoinData}
-            price={43577}
+            price={"250,480,000"}
             delta={0.27}
           />
           <WhatchlistCoin
-            icon={<FaEthereum />}
-            name={`دوره دوردوزی`}
-            color="#2E2E87"
+            icon={<BiBitcoin />}
+            name={`دوره خیاطی`}
+            color="#FF9416"
             chartData={bitcoinData}
-            price={43577}
-            delta={-0.15}
+            price={"250,480,000"}
+            delta={0.27}
           />
           <WhatchlistCoin
-            icon={<FaEthereum />}
-            name={`متن`}
-            symbol="ETH"
-            color="#2E2E87"
+            icon={<BiBitcoin />}
+            name={`دوره 2`}
+            color="#FF9416"
             chartData={bitcoinData}
-            price={43577}
-            delta={-0.15}
+            price={"250,480,000"}
+            delta={0.27}
           />
           <WhatchlistCoin
-            icon={<FaEthereum />}
-            name={`متن`}
-            symbol="ETH"
-            color="#2E2E87"
+            icon={<BiBitcoin />}
+            name={`دوره 3`}
+            color="#FF9416"
             chartData={bitcoinData}
-            price={43577}
-            delta={-0.15}
+            price={"250,480,000"}
+            delta={0.27}
           />
         </div>
       </div>

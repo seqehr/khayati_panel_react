@@ -13,14 +13,12 @@ const Dashboard = (props) => {
     <div className={`${style.dashboard}`}>
       {/* One Side */}
       <div className="flex flex-col gap-6 flex-2">
-        <TotalBalance />
         <Whatchlist />
         <Statistics />
       </div>
 
       {/* Other Side */}
       <div>
-        <BuySell />
         <Portfolio />
       </div>
     </div>
