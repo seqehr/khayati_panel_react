@@ -14,8 +14,6 @@ const ListMembers = (props) => {
       setLoading(false);
     });
   }, []);
-  console.log(listMembers);
-
   return (
     <div>
       <table className="w-full overflow-hidden rounded-2xl">

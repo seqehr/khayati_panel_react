@@ -1,5 +1,6 @@
 // Icons
 import { MdAutorenew } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 // css
 import style from "./TableRow.module.scss";
@@ -36,9 +37,12 @@ const WalletTableRow = ({ name, phone, id }) => {
         </td>
         <td className="px-1 py-3 sm:py-2 sm:px-1">
           <div className="flex flex-col justify-end gap-2 sm:flex-row">
-            <button className="px-2 sm:px-5 py-1 text-sm text-white sm:text-base bg-bitcoin-light dark:bg-bitcoin-dark rounded-2xl ">
+            <Link
+              to={`/courses/member/${id}`}
+              className="px-2 sm:px-5 py-1 text-sm text-white sm:text-base bg-bitcoin-light dark:bg-bitcoin-dark rounded-2xl "
+            >
               {`دوره ها`}
-            </button>
+            </Link>
           </div>
         </td>
       </div>

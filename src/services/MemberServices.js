@@ -9,3 +9,11 @@ export const ListMembersService = () => {
     },
   });
 };
+
+export const MemberListCoursesService = (id) => {
+  return http.get(`${config.baseUrl}/api/courses/userCourses/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

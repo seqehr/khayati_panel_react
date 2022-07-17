@@ -39,6 +39,7 @@ import ListProducts from "./pages/Products/ListProducts";
 import AddProduct from "./pages/Products/AddProduct";
 import UpdateProduct from "./pages/Products/UpdateProduct";
 import UpdateMusic from "./pages/Music/UpdateMusic";
+import MemberListCourses from "./pages/Members/MemberListCourses";
 function App() {
   const { token } = useToken();
 
@@ -86,7 +87,6 @@ function App() {
                     // Musics
                     <Route path="/musics" element={<ListMusics />} />
                     <Route path="/music/add" element={<AddMusic />} />
-                    <Route path="/members" element={<ListMembers />} />
                     <Route path="/music/update/:id" element={<UpdateMusic />} />
                     // Articles
                     <Route path="/articles" element={<ListArticles />} />
@@ -112,7 +112,13 @@ function App() {
                     />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/uploads" element={<Uploads />} />
+                    // users
                     <Route path="/students" element={<ListStudents />} />
+                    <Route path="/members" element={<ListMembers />} />
+                    <Route
+                      path="/courses/member/:id"
+                      element={<MemberListCourses />}
+                    />
                   </Routes>
                 </main>
               </div>
