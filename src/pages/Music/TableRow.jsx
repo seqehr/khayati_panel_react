@@ -20,14 +20,6 @@ const TableRow = ({ name, views, id, handleDelete }) => {
         </div>
       </td>
 
-      <td className="py-2">
-        <div>
-          <div className="flex gap-2 text-sm text-black sm:text-base dark:text-white">
-            <span>{views}</span>
-          </div>
-        </div>
-      </td>
-
       <div className="float-left">
         <td className="px-1 py-3 sm:py-2 sm:px-1">
           <div className="flex flex-col justify-end gap-2 sm:flex-row">

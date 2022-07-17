@@ -22,7 +22,7 @@ const ListMusics = (props) => {
   }, []);
   const handleDelete = (id) => {
     toast.error(
-      <p>
+      <p dir="rtl">
         <span className="pl-2">عملیات بازگشت پذیر نیست </span>
         <span
           onClick={() => confirmDelete()}
@@ -44,7 +44,7 @@ const ListMusics = (props) => {
           className={`${"text-right"} bg-[#80808033] text-black dark:text-white `}
         >
           <th className="px-2 py-2 pr-4">{`عنوان موزیک `}</th>
-          <th className="px-2 py-2 pr-4">{`تعداد بازدید `}</th>
+
           <th></th>
           <th></th>
         </thead>
