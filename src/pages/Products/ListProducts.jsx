@@ -8,6 +8,7 @@ import TableRow from "./TableRow";
 import Skeleton from "react-loading-skeleton";
 // css
 import "react-loading-skeleton/dist/skeleton.css";
+import { toast } from "react-toastify";
 
 const ListProducts = (props) => {
   const [listProducts, setListProducts] = useState([]);
@@ -19,8 +20,21 @@ const ListProducts = (props) => {
     });
   }, []);
   const handleDelete = (id) => {
-    DeleteProductService(id);
-    setListProducts(listProducts.filter((i) => i.id !== id));
+    toast.error(
+      <p>
+        <span className="pl-2">عملیات بازگشت پذیر نیست </span>
+        <span
+          onClick={() => confirmDelete()}
+          className=" p-2 px-3  bg-red-light rounded-lg text-white hover:border-2 text-center ease-in-out duration-300"
+        >
+          حذف شود!
+        </span>
+      </p>
+    );
+    const confirmDelete = () => {
+      DeleteProductService(id);
+      setListProducts(listProducts.filter((i) => i.id !== id));
+    };
   };
   return (
     <div>

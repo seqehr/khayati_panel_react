@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 // css
 import style from "./TableRow.module.scss";
-const WalletTableRow = ({ name, views, id, handleDelete }) => {
+const TableRow = ({ name, views, id, handleDelete }) => {
   return (
     <tr key={id} className={`${style.walletTableRow} `}>
       <td className="py-2 pr-4">
@@ -56,4 +56,4 @@ const WalletTableRow = ({ name, views, id, handleDelete }) => {
   );
 };
 
-export default WalletTableRow;
+export default TableRow;

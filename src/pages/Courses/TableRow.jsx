@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 // css
 import style from "./TableRow.module.scss";
-const WalletTableRow = ({ name, views, date, id, handleDelete }) => {
+const TableRow = ({ name, views, date, id, handleDelete }) => {
   return (
-    <tr key={id} className={`${style.walletTableRow} `}>
+    <tr key={id} className={`${style.TableRow} `}>
       <td className="py-2 pr-4">
         <div className="flex items-center gap-2">
           <div>
@@ -62,4 +62,4 @@ const WalletTableRow = ({ name, views, date, id, handleDelete }) => {
   );
 };
 
-export default WalletTableRow;
+export default TableRow;

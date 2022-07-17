@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 // css
 import style from "./TableRow.module.scss";
-const WalletTableRow = ({ name, link, onClickf }) => {
+const TableRow = ({ name, link, onClickf }) => {
   return (
     <>
       <td className="py-2 pr-4">
@@ -38,4 +38,4 @@ const WalletTableRow = ({ name, link, onClickf }) => {
   );
 };
 
-export default WalletTableRow;
+export default TableRow;

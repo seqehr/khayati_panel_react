@@ -60,6 +60,7 @@ const Sidebar = (props) => {
 				dark:bg-background2-dark
          rounded-tl-xl rounded-bl-xl
 				${style.aside}
+        ${style.scrollStyle} 
 				${asideMobileDirectionClass}
 				${sidebar && asideMobileShowClass}
 				`}
@@ -69,7 +70,7 @@ const Sidebar = (props) => {
 
         {/* ————— S I D E B A R ————— */}
         <div>
-          <ul className="flex flex-col gap-7 xl:h-full">
+          <ul className={`${style.scrollStyle} flex flex-col gap-7 xl:h-full`}>
             {/* Menu */}
             <SidebarSubHeading text={`منو`} />
 

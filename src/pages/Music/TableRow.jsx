@@ -3,7 +3,7 @@ import { MdAutorenew } from "react-icons/md";
 
 // css
 import style from "./TableRow.module.scss";
-const WalletTableRow = ({ name, size, link, date }) => {
+const TableRow = ({ name, size, link, date }) => {
   return (
     <tr className={`${style.walletTableRow} `}>
       <td className="py-2 pr-4">
@@ -53,4 +53,4 @@ const WalletTableRow = ({ name, size, link, date }) => {
   );
 };
 
-export default WalletTableRow;
+export default TableRow;

@@ -111,7 +111,7 @@ const UpdateProduct = (props) => {
               className="p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               for="user_avatar"
             >
-              {`انتخاب عکس مقاله`}
+              {`انتخاب عکس محصول`}
             </label>
           </div>
 
@@ -171,7 +171,7 @@ const UpdateProduct = (props) => {
               className={`  right-0
               peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
             >
-              {`قیمت ثبت نام در دوره`}
+              {`قیمت محصول`}
             </label>
           </div>
 
@@ -196,7 +196,7 @@ const UpdateProduct = (props) => {
           }}
           className="text-white bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
         >
-          {`انتشار مقاله`}
+          {`انتشار محصول`}
         </button>
       </form>
 
