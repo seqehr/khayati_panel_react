@@ -22,7 +22,7 @@ const Whatchlist = (props) => {
       className={`bg-background2-light dark:bg-background2-dark rounded-2xl ${boxClass_basedOnDirection}`}
     >
       {/* ————— H E A D ————— */}
-      <DashboardBoxHead text={`متن`} />
+      <DashboardBoxHead text={`فروش های دوره ها`} />
 
       {/* ————— W A T C H L I S T ————— */}
       <div className={`overflow-x-auto ${style.watchlistCoinsBox}`}>
