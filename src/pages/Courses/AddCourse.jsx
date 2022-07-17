@@ -23,7 +23,7 @@ const AddCourse = (props) => {
   const [uploadModal, setUploadModal] = useState(0);
 
   // Form States
-  const { getLesson, setLessons } = useCourse();
+  const { getLesson, setLessons, setLinkLesson } = useCourse();
   const [courseImage, setCourseImage] = useState(CourseImageDefault);
   const [coursePoster, setCoursePoster] = useState(CourseImageDefault);
   const [color, setColor] = useState("");
@@ -50,18 +50,27 @@ const AddCourse = (props) => {
   ];
   let CourseImage = "";
   let CoursePoster = "";
+  let GetLesson = [];
   const handleSubmit = () => {
     if (isFree) {
       setPrice("0");
     }
     CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, "");
 
-    CoursePoster = coursePoster.replace(`${config.HttpBaseUrl}/storage/`, "");
+    CoursePoster = coursePoster;
 
     CoursePoster = coursePoster.replace(
       "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif",
       ""
     );
+    getLesson.map((item) => {
+      GetLesson.push({
+        id: item.id,
+        name: item.name,
+        url: item.url.replace(`${config.HttpBaseUrl}/storage/`, ""),
+      });
+    });
+  
     const data = {
       excerpt,
       price,
@@ -71,7 +80,7 @@ const AddCourse = (props) => {
       gradient: color,
       img: CourseImage,
       poster: coursePoster,
-      videos: JSON.stringify(getLesson),
+      videos: JSON.stringify(GetLesson),
       name,
       teacher: "مقدم جو",
     };
@@ -94,6 +103,10 @@ const AddCourse = (props) => {
       setLessons(false);
     });
   }, []);
+
+  const selectLessenFile = () => {
+    setUploadModal(3);
+  };
   return (
     <div className="bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl ">
       <form>
@@ -273,7 +286,7 @@ const AddCourse = (props) => {
           </div>
           {/* L E S S O N S */}
           <div className="grid  col-span-12">
-            <Lessons />
+            <Lessons selectLessenFileF={selectLessenFile} />
           </div>
         </div>
         <button
@@ -319,6 +332,9 @@ const AddCourse = (props) => {
                     }
                     if (uploadModal == 2) {
                       setCoursePoster(item.url);
+                    }
+                    if (uploadModal == 3) {
+                      setLinkLesson(item.url);
                     }
                   }}
                 >

@@ -3,7 +3,7 @@ import useCourses from "../../hooks/useCourses";
 //icons
 import { BsPlusCircleDotted } from "react-icons/bs";
 import { BsDashCircleDotted } from "react-icons/bs";
-const Lessons = () => {
+const Lessons = ({ selectLessenFileF }) => {
   const {
     getLesson,
     getLinkLesson,
@@ -30,7 +30,7 @@ const Lessons = () => {
             required=""
           />
           <input
-            onChange={(e) => setLinkLesson(e.target.value)}
+            onClick={() => selectLessenFileF()}
             value={getLinkLesson}
             type="text"
             name="lessonLink"

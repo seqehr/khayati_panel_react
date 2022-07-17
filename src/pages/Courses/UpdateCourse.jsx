@@ -58,6 +58,7 @@ const UpdateCourse = (props) => {
   ];
   let CourseImage = "";
   let CoursePoster = "";
+  let GetLesson = [];
   const handleSubmit = () => {
     if (isFree) {
       setPrice("0");
@@ -70,6 +71,14 @@ const UpdateCourse = (props) => {
       "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif",
       ""
     );
+    getLesson.map((item) => {
+      GetLesson.push({
+        id: item.id,
+        name: item.name,
+        url: item.url.replace(`${config.HttpBaseUrl}/storage/`, ""),
+      });
+    });
+
     const data = {
       excerpt,
       price,
@@ -79,7 +88,7 @@ const UpdateCourse = (props) => {
       gradient: color,
       img: CourseImage,
       poster: coursePoster,
-      videos: JSON.stringify(getLesson),
+      videos: JSON.stringify(GetLesson),
       name,
       teacher: "مقدم جو",
     };
@@ -117,7 +126,6 @@ const UpdateCourse = (props) => {
       }
       setIsFree(data.type);
       setExcerpt(data.excerpt);
-      console.log(data);
     });
   }, []);
   return (
