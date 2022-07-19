@@ -1,3 +1,4 @@
+import { ArticlesContextProvider } from "./Articles/ArticlesContext";
 import { BooksContextProvider } from "./Books/BooksContext";
 import { CourseContextProvider } from "./Courses/CoursesContext";
 import { LoginContextProvider } from "./login/LoginContext";
@@ -21,7 +22,10 @@ const ContextProvider = ({ children }) => {
               {/* C O U R S E*/}
               <CourseContextProvider>
                 {/* B O O K S*/}
-                <BooksContextProvider>{children}</BooksContextProvider>
+                <BooksContextProvider>
+                  {/* A R T I C L E S*/}
+                  <ArticlesContextProvider>{children}</ArticlesContextProvider>
+                </BooksContextProvider>
               </CourseContextProvider>
             </LoginContextProvider>
           </TokenContextProvider>

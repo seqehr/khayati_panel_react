@@ -1,64 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { Radio } from "@material-tailwind/react";
-import ArticleImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
 import "./CKEditor.css";
 import style from "./TableRow.module.scss";
-
+import ArticleImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
 // hooks
-import useCourse from "../../hooks/useCourses";
-import {
-  AddArticleService,
-  CatListService,
-  UploadedFiles,
-} from "../../services/ArticleServices";
+import useArticles from "../../hooks/useArticles";
+import { CatListService, UploadedFiles } from "../../services/ArticleServices";
 //icons
 import { BsPlusCircleDotted } from "react-icons/bs";
 import { BsDashCircleDotted } from "react-icons/bs";
 import { AiFillPlusSquare } from "react-icons/ai";
 // components
 import TableRow from "./ModalTableRow";
-import config from "../../services/config.json";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
-import { toast } from "react-toastify";
-import { ChekLoginUser } from "../../services/UserService";
 
 const AddArticle = (props) => {
-  const [files, setFiles] = useState([]);
-  const [categorries, setCategorries] = useState([]);
-  const [uploadModal, setUploadModal] = useState(false);
-
-  const [articleImage, setArticleImage] = useState(ArticleImageDefault);
-  const [catId, setCatId] = useState(1);
-  const [description, setDescription] = useState("");
-  const [name, setName] = useState("");
-  const [hashtags, setHashtags] = useState([]);
-  const [hashtag, setHashtag] = useState("");
-
-  let ArticleImage = "";
-  const handleSubmit = () => {
-    ArticleImage = articleImage.replace(`${config.HttpBaseUrl}/storage/`, "");
-
-    const data = {
-      name,
-      cat_id: catId,
-      img: ArticleImage,
-      content: description,
-      tags: JSON.stringify(hashtags),
-    };
-    if (
-      ArticleImage !==
-      "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif"
-    ) {
-      AddArticleService(data).then((res) => {
-        if (res.status == 200) {
-          toast.success("مقاله با موفقیت ساخته شد");
-        }
-      });
-    } else {
-      toast.warn("لطفا عکس مقاله را انتخاب کنید");
-    }
-  };
+  const {
+    handleSubmit,
+    creaeHashagHandler,
+    deleteHashagHandler,
+    files,
+    setFiles,
+    categorries,
+    setCategorries,
+    uploadModal,
+    setUploadModal,
+    articleImage,
+    setArticleImage,
+    name,
+    setName,
+    hashtags,
+    setHashtags,
+    hashtag,
+    setHashtag,
+    catId,
+    setCatId,
+    description,
+    setDescription,
+  } = useArticles();
   useEffect(() => {
     // get uploaded files
     UploadedFiles().then((res) => {
@@ -67,23 +46,12 @@ const AddArticle = (props) => {
     CatListService().then((res) => {
       setCategorries(res.data.data);
     });
+
+    setHashtags([]);
+    setArticleImage(ArticleImageDefault);
+    setName("");
+    setDescription("");
   }, []);
-
-  const creaeHashagHandler = () => {
-    const arrHashtags = [...hashtags];
-
-    arrHashtags.push(hashtag);
-    setHashtag("");
-    setHashtags(arrHashtags);
-  };
-  const deleteHashagHandler = (index) => {
-    const arrHashtags = [...hashtags];
-
-    const item = arrHashtags[index];
-    const filteredArr = arrHashtags.filter((i) => i !== item);
-
-    setHashtags(filteredArr);
-  };
 
   return (
     <div className="bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl">
@@ -110,6 +78,7 @@ const AddArticle = (props) => {
           <div className="relative col-span-9 px-1 z-0 w-full mb-6 group">
             <input
               type="text"
+              value={name}
               onChange={(e) => setName(e.target.value)}
               name="courseName"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -194,7 +163,7 @@ const AddArticle = (props) => {
             <CKEditor
               editor={ClassicEditor}
               className={`text-right right-0`}
-              data="<p>ویرایشگر پیشرفته</p>"
+              data={description}
               // this will we change  =>  {data} has html
 
               onChange={(event, editor) => {

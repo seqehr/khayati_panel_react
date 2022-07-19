@@ -1,66 +1,50 @@
 import React, { useEffect, useState } from "react";
-import { Radio } from "@material-tailwind/react";
-import ArticleImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
 import { useParams } from "react-router-dom";
 import "./CKEditor.css";
 import style from "./TableRow.module.scss";
 
 // hooks
-import useCourse from "../../hooks/useCourses";
+import useArticles from "../../hooks/useArticles";
+// services
 import {
-  AddArticleService,
   SingleArticleService,
   CatListService,
   UploadedFiles,
 } from "../../services/ArticleServices";
+
 //icons
 import { AiFillPlusSquare } from "react-icons/ai";
-import { BsPlusCircleDotted } from "react-icons/bs";
 import { BsDashCircleDotted } from "react-icons/bs";
 // components
-import config from "../../services/config.json";
 import TableRow from "./ModalTableRow";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
-import { toast } from "react-toastify";
-import Settings from "../Settings/Settings";
 
 const UpdateArticle = (props) => {
   const { id: courseId } = useParams();
-  const [files, setFiles] = useState([]);
-  const [uploadModal, setUploadModal] = useState(false);
-  const [categorries, setCategorries] = useState([]);
-
-  const [articleImage, setArticleImage] = useState(ArticleImageDefault);
-  const [catId, setCatId] = useState(1);
-  const [description, setDescription] = useState("");
-  const [name, setName] = useState("");
-  const [hashtags, setHashtags] = useState([]);
-  const [hashtag, setHashtag] = useState("");
-
-  let ArticleImage = "";
-  const handleSubmit = () => {
-    ArticleImage = articleImage.replace(`${config.HttpBaseUrl}/storage/`, "");
-
-    const data = {
-      name,
-      cat_id: catId,
-      img: ArticleImage,
-      content: description,
-    };
-    if (
-      ArticleImage !==
-      "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif"
-    ) {
-      AddArticleService(data).then((res) => {
-        if (res.status == 200) {
-          toast.success("مقاله با موفقیت ساخته شد");
-        }
-      });
-    } else {
-      toast.warn("لطفا عکس مقاله را انتخاب کنید");
-    }
-  };
+  const {
+    handleSubmit,
+    creaeHashagHandler,
+    deleteHashagHandler,
+    files,
+    setFiles,
+    categorries,
+    setCategorries,
+    uploadModal,
+    setUploadModal,
+    articleImage,
+    setArticleImage,
+    name,
+    setName,
+    hashtags,
+    setHashtags,
+    hashtag,
+    setHashtag,
+    catId,
+    setCatId,
+    description,
+    setDescription,
+  } = useArticles();
   useEffect(() => {
     UploadedFiles().then((res) => {
       setFiles(res.data.data);
@@ -86,22 +70,6 @@ const UpdateArticle = (props) => {
       setCategorries(res.data.data);
     });
   }, []);
-
-  const creaeHashagHandler = () => {
-    const arrHashtags = [...hashtags];
-
-    arrHashtags.push(hashtag);
-    setHashtag("");
-    setHashtags(arrHashtags);
-  };
-  const deleteHashagHandler = (index) => {
-    const arrHashtags = [...hashtags];
-
-    const item = arrHashtags[index];
-    const filteredArr = arrHashtags.filter((i) => i !== item);
-
-    setHashtags(filteredArr);
-  };
 
   return (
     <div className="bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl">
