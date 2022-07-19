@@ -7,19 +7,34 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 // hooks
 import useUpload from "../../hooks/useUpload";
+import { toast } from "react-toastify";
 
 const Files = (props) => {
   const { files, setFiles } = useUpload();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    // get uploaded files
     UploadedFiles().then((res) => {
       setFiles(res.data.data);
       setLoading(false);
     });
   }, []);
   const handleDelete = (id) => {
-    //DeleteArticleService(id);
-    setFiles(files.filter((i) => i.id !== id));
+    toast.error(
+      <p dir="rtl">
+        <span className="pl-2">مجدد تایید کنید</span>
+        <span
+          onClick={() => confirmDelete()}
+          className=" p-2 px-3  bg-red-light rounded-lg text-white hover:border-2 text-center ease-in-out duration-300"
+        >
+          حذف شود!
+        </span>
+      </p>
+    );
+    const confirmDelete = () => {
+      // DeleteArticleService(id);
+      setFiles(files.filter((i) => i.id !== id));
+    };
   };
   return (
     <div>

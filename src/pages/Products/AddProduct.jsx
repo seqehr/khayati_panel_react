@@ -58,9 +58,11 @@ const AddProduct = (props) => {
     }
   };
   useEffect(() => {
+    // get uploaded files
     UploadedFiles().then((res) => {
       setFiles(res.data.data);
     });
+    // get categories
     CatListService().then((res) => {
       setCategorries(res.data.data);
     });

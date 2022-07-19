@@ -60,6 +60,7 @@ const AddArticle = (props) => {
     }
   };
   useEffect(() => {
+    // get uploaded files
     UploadedFiles().then((res) => {
       setFiles(res.data.data);
     });

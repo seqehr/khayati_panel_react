@@ -26,85 +26,34 @@ import {
 
 const UpdateCourse = (props) => {
   const { id: courseId } = useParams();
+  const {
+    setLessons,
+    handleSubmit,
+    files,
+    setFiles,
+    uploadModal,
+    setUploadModal,
+    courseImage,
+    setCourseImage,
+    coursePoster,
+    setCoursePoster,
+    color,
+    setColor,
+    isPin,
+    setIsPin,
+    isFree,
+    setIsFree,
+    description,
+    setDescription,
+    price,
+    setPrice,
+    excerpt,
+    setExcerpt,
+    name,
+    setName,
+    colors,
+  } = useCourse();
 
-  const [files, setFiles] = useState([]);
-  const [uploadModal, setUploadModal] = useState(0);
-
-  // Form States
-  const { getLesson, setLessons } = useCourse();
-  const [courseImage, setCourseImage] = useState(CourseImageDefault);
-  const [coursePoster, setCoursePoster] = useState(CourseImageDefault);
-  const [color, setColor] = useState("");
-  const [isPin, setIsPin] = useState(false);
-  const [isFree, setIsFree] = useState("price");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [excerpt, setExcerpt] = useState("");
-  const [name, setName] = useState("");
-
-  const colors = [
-    {
-      color: "linear-gradient(180deg, #F90000 39.06%, #000000 100%)",
-      name: "قرمز",
-    },
-    {
-      color: "linear-gradient(180deg, #3D39FF 39.06%, #000000 100%)",
-      name: "آبی",
-    },
-    {
-      color: "linear-gradient(180deg, #A900F9 39.06%, #000000 100%)",
-      name: "بنفش",
-    },
-  ];
-  let CourseImage = "";
-  let CoursePoster = "";
-  let GetLesson = [];
-  const handleSubmit = () => {
-    if (isFree) {
-      setPrice("0");
-    }
-    CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, "");
-
-    CoursePoster = coursePoster.replace(`${config.HttpBaseUrl}/storage/`, "");
-
-    CoursePoster = coursePoster.replace(
-      "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif",
-      ""
-    );
-    getLesson.map((item) => {
-      GetLesson.push({
-        id: item.id,
-        name: item.name,
-        url: item.url.replace(`${config.HttpBaseUrl}/storage/`, ""),
-      });
-    });
-
-    const data = {
-      excerpt,
-      price,
-      description,
-      type: isFree,
-      ispin: isPin,
-      gradient: color,
-      img: CourseImage,
-      poster: coursePoster,
-      videos: JSON.stringify(GetLesson),
-      name,
-      teacher: "مقدم جو",
-    };
-    if (
-      CourseImage !==
-      "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif"
-    ) {
-      AddCourseService(data).then((res) => {
-        if (res.status == 200) {
-          toast.success("دوره با موفقیت ساخته شد");
-        }
-      });
-    } else {
-      toast.warn("لطفا عکس دوره را انتخاب کنید");
-    }
-  };
   useEffect(() => {
     UploadedFiles().then((res) => {
       setFiles(res.data.data);

@@ -9,6 +9,7 @@ const ListMembers = (props) => {
   const [listMembers, setListMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+      // get  members
     ListMembersService().then((res) => {
       setListMembers(res.data.data);
       setLoading(false);

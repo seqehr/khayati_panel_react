@@ -1,112 +1,66 @@
 import React, { useEffect, useState } from "react";
-import { Radio } from "@material-tailwind/react";
-import CourseImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
 import "./CKEditor.css";
 import style from "./TableRow.module.scss";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
+// images gifs
+import CourseImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
 // hooks
 import useCourse from "../../hooks/useCourses";
-import { AddCourseService } from "../../services/CourseServices";
 //icons
-import { BsPlusCircleDotted } from "react-icons/bs";
 import { BsDashCircleDotted } from "react-icons/bs";
 // components
-import config from "../../services/config.json";
 import Lessons from "./Lessons";
 import { UploadedFiles } from "../../services/CourseServices";
-import { toast } from "react-toastify";
 import TableRow from "./ModalTableRow";
 
 const AddCourse = (props) => {
-  const [files, setFiles] = useState([]);
-  const [uploadModal, setUploadModal] = useState(0);
+  const {
+    setLinkLesson,
+    setLessons,
+    handleSubmit,
+    files,
+    setFiles,
+    uploadModal,
+    setUploadModal,
+    courseImage,
+    setCourseImage,
+    coursePoster,
+    setCoursePoster,
+    color,
+    setColor,
+    isPin,
+    setIsPin,
+    isFree,
+    setIsFree,
+    description,
+    setDescription,
+    price,
+    setPrice,
+    excerpt,
+    setExcerpt,
+    name,
+    setName,
+    colors,
+    selectLessenFile,
+  } = useCourse();
 
-  // Form States
-  const { getLesson, setLessons, setLinkLesson } = useCourse();
-  const [courseImage, setCourseImage] = useState(CourseImageDefault);
-  const [coursePoster, setCoursePoster] = useState(CourseImageDefault);
-  const [color, setColor] = useState("");
-  const [isPin, setIsPin] = useState(false);
-  const [isFree, setIsFree] = useState("price");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [excerpt, setExcerpt] = useState("");
-  const [name, setName] = useState("");
-
-  const colors = [
-    {
-      color: "linear-gradient(180deg, #F90000 39.06%, #000000 100%)",
-      name: "قرمز",
-    },
-    {
-      color: "linear-gradient(180deg, #3D39FF 39.06%, #000000 100%)",
-      name: "آبی",
-    },
-    {
-      color: "linear-gradient(180deg, #A900F9 39.06%, #000000 100%)",
-      name: "بنفش",
-    },
-  ];
-  let CourseImage = "";
-  let CoursePoster = "";
-  let GetLesson = [];
-  const handleSubmit = () => {
-    if (isFree) {
-      setPrice("0");
-    }
-    CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, "");
-
-    CoursePoster = coursePoster;
-
-    CoursePoster = coursePoster.replace(
-      "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif",
-      ""
-    );
-    getLesson.map((item) => {
-      GetLesson.push({
-        id: item.id,
-        name: item.name,
-        url: item.url.replace(`${config.HttpBaseUrl}/storage/`, ""),
-      });
-    });
-  
-    const data = {
-      excerpt,
-      price,
-      description,
-      type: isFree,
-      ispin: isPin,
-      gradient: color,
-      img: CourseImage,
-      poster: coursePoster,
-      videos: JSON.stringify(GetLesson),
-      name,
-      teacher: "مقدم جو",
-    };
-    if (
-      CourseImage !==
-      "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif"
-    ) {
-      AddCourseService(data).then((res) => {
-        if (res.status == 200) {
-          toast.success("دوره با موفقیت ساخته شد");
-        }
-      });
-    } else {
-      toast.warn("لطفا عکس دوره را انتخاب کنید");
-    }
-  };
   useEffect(() => {
+    // get uploaded files
     UploadedFiles().then((res) => {
       setFiles(res.data.data);
       setLessons(false);
     });
+    setName("");
+    setDescription("");
+    setColor("");
+    setCourseImage(CourseImageDefault);
+    setCoursePoster(CourseImageDefault);
+    setPrice("");
+    setLessons([]);
+    setExcerpt("");
   }, []);
 
-  const selectLessenFile = () => {
-    setUploadModal(3);
-  };
   return (
     <div className="bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl ">
       <form>
@@ -152,6 +106,7 @@ const AddCourse = (props) => {
           {/* C O U R S E - N A M E */}
           <div className="relative col-span-3 z-0 w-full mb-6 group">
             <input
+              value={name}
               type="text"
               name="courseName"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -169,6 +124,7 @@ const AddCourse = (props) => {
           {/* C O U R S E - E X C R E P T */}
           <div className="relative col-span-9 z-0 w-full mb-6 group">
             <input
+              value={excerpt}
               type="text"
               name="excrept"
               onChange={(e) => setExcerpt(e.target.value)}
@@ -190,7 +146,7 @@ const AddCourse = (props) => {
             <CKEditor
               editor={ClassicEditor}
               className={`text-right right-0`}
-              data="<p>ویرایشگر پیشرفته</p>"
+              data={description}
               // this will we change  =>  {data} has html
 
               onChange={(event, editor) => {
@@ -207,6 +163,7 @@ const AddCourse = (props) => {
           >
             <input
               type="number"
+              value={price}
               name="price"
               id="price"
               onChange={(e) => setPrice(e.target.value)}

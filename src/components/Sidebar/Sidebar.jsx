@@ -13,13 +13,18 @@ import SidebarOption from "./SidebarOption";
 import SidebarSeperatorLine from "./SidebarSeperatorLine";
 import SidebarOptionDropDown from "./SidebarOptionDropDown";
 // Icons
-import { MdDashboard } from "react-icons/md";
+import {
+  MdDashboard,
+  MdOutlinePostAdd,
+  MdOutlineProductionQuantityLimits,
+} from "react-icons/md";
 import { FiMusic } from "react-icons/fi";
 import { MdHelpOutline } from "react-icons/md";
 import { AiOutlineSetting, AiOutlineBook } from "react-icons/ai";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { GoFileMedia } from "react-icons/go";
+import { BiTransfer } from "react-icons/bi";
 // CSS
 import style from "./Sidebar.module.scss";
 const Sidebar = (props) => {
@@ -108,7 +113,7 @@ const Sidebar = (props) => {
 
             {/* Products */}
             <SidebarOptionDropDown
-              icon={<AiOutlineBook />}
+              icon={<MdOutlineProductionQuantityLimits />}
               title={` محصولات`}
               active={products}
               onClickF={() => setProducts(!products)}
@@ -206,7 +211,7 @@ const Sidebar = (props) => {
 
             {/* transactions */}
             <SidebarOptionDropDown
-              icon={<RiUserSettingsLine />}
+              icon={<BiTransfer />}
               title={`تراکنش ها`}
               active={transactions}
               onClickF={() => setTransactions(!transactions)}
@@ -224,7 +229,7 @@ const Sidebar = (props) => {
 
             {/* articles */}
             <SidebarOptionDropDown
-              icon={<RiUserSettingsLine />}
+              icon={<MdOutlinePostAdd />}
               title={`مقالات`}
               active={articles}
               onClickF={() => setArticles(!articles)}

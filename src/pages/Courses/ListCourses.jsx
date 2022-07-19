@@ -16,6 +16,7 @@ const ListCourses = (props) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // get courses
     ListCoursesService().then((res) => {
       setListCourses(res.data.data);
       setLoading(false);
