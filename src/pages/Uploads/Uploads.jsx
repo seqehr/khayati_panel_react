@@ -19,9 +19,9 @@ const Uploads = () => {
     const browseFile = document.querySelector("#browseFile");
 
     let resumable = new Resumable({
-      target: config.baseUrl,
+      target: `${config.baseUrl}/api/upload/new`,
       query: { _token: "{{ csrf_token() }}" }, // CSRF token
-      fileType: ["mp4", "jpg", "png", "mp3"],
+      fileType: ["mp4", "jpg", "png", "mp3", "zip", "rar"],
       headers: {
         Authorization: `Bearer ${window.localStorage.getItem("Khayati-token")}`,
         Accept: "application/json",
@@ -57,7 +57,7 @@ const Uploads = () => {
       setProgress(value);
     }
   }, []);
-  console.log(progress);
+
   if (progress == "100") {
     setTimeout(() => {
       UploadedFiles().then((res) => {
