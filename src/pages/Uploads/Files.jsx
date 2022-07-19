@@ -42,13 +42,14 @@ const Files = (props) => {
         <thead
           className={`${"text-right"} bg-[#80808033] text-black dark:text-white `}
         >
-          <th className="px-2 py-2 pr-4">{`نام فایل`}</th>
+          <tr>
+            <th className="px-2 py-2 pr-4">{`نام فایل`}</th>
 
-          <th></th>
-          <th></th>
+            <th></th>
+            <th></th>
+          </tr>
         </thead>
         <tbody className="bg-background2-light dark:bg-background2-dark ">
-          {console.log(files)}
           {loading ? (
             <>
               <tr>

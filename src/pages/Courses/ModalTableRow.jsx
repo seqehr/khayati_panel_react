@@ -1,6 +1,3 @@
-// Icons
-import { MdAutorenew } from "react-icons/md";
-import { toast } from "react-toastify";
 
 // css
 import style from "./TableRow.module.scss";

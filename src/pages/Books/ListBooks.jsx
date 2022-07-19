@@ -10,7 +10,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { toast } from "react-toastify";
 
-const ListBooks = (props) => {
+const ListBooks = () => {
   const [listBooks, setListBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {

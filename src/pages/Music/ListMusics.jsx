@@ -16,7 +16,7 @@ const ListMusics = (props) => {
   useEffect(() => {
     ListMusicsService().then((res) => {
       setListMusics(res.data.data);
-      console.log(res.data.data);
+
       setLoading(false);
     });
   }, []);

@@ -1,7 +1,5 @@
-// Icons
-import { MdAutorenew } from "react-icons/md";
 import { toast } from "react-toastify";
-
+import React from "react";
 // css
 import style from "./TableRow.module.scss";
 const WalletTableRow = ({ name, link, handleDelete, id }) => {

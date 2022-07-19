@@ -115,7 +115,7 @@ const AddProduct = (props) => {
               name="countries"
               onChange={(e) => {
                 setCatId(e.target.value);
-                console.log(catId);
+               
               }}
               className="block py-2.5 pr-2 w-full text-sm  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             >

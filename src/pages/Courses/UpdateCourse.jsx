@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Radio } from "@material-tailwind/react";
-import CourseImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
+
 import TableRow from "./ModalTableRow";
 import "./CKEditor.css";
-import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
 // css
@@ -11,20 +9,17 @@ import style from "./TableRow.module.scss";
 // hooks
 import useCourse from "../../hooks/useCourses";
 //icons
-import { BsPlusCircleDotted } from "react-icons/bs";
 import { BsDashCircleDotted } from "react-icons/bs";
 // components
 import Lessons from "./Lessons";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
-import config from "../../services/config.json";
 import {
-  AddCourseService,
   UploadedFiles,
   SingleCourseService,
 } from "../../services/CourseServices";
 
-const UpdateCourse = (props) => {
+const UpdateCourse = () => {
   const { id: courseId } = useParams();
   const {
     setLessons,

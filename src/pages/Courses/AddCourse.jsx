@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./CKEditor.css";
 import style from "./TableRow.module.scss";
 import { CKEditor } from "@ckeditor/ckeditor5-react";

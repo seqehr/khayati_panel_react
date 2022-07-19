@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { AddBookService, UploadedFiles } from "../../services/BookServices";
+import React, { useEffect } from "react";
+import { UploadedFiles } from "../../services/BookServices";
 import ImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
 
 // css
 import style from "./TableRow.module.scss";
 //icons
-import { BsPlusCircleDotted } from "react-icons/bs";
 import { BsDashCircleDotted } from "react-icons/bs";
 // components
 import TableRow from "./ModalTableRow";
@@ -14,7 +13,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
 //hooks
 import useBooks from "../../hooks/useBooks";
 
-const AddBook = (props) => {
+const AddBook = () => {
   const {
     files,
     setFiles,

@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  AddBookService,
-  SingleBookService,
-  UploadedFiles,
-} from "../../services/BookServices";
-import ImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
-
+import { SingleBookService, UploadedFiles } from "../../services/BookServices";
 // css
 import style from "./TableRow.module.scss";
 //icons
-import { BsPlusCircleDotted } from "react-icons/bs";
 import { BsDashCircleDotted } from "react-icons/bs";
 // components
 import TableRow from "./ModalTableRow";
 import { toast } from "react-toastify";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
-import config from "../../services/config.json";
 import { useParams } from "react-router-dom";
 import useBooks from "../../hooks/useBooks";
 

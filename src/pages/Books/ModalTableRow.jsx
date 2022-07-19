@@ -1,10 +1,6 @@
-// Icons
-import { MdAutorenew } from "react-icons/md";
-import { toast } from "react-toastify";
-
 // css
 import style from "./TableRow.module.scss";
-const TableRow = ({ name, link, onClickf }) => {
+const TableRow = ({ name }) => {
   return (
     <>
       <td className="py-2 pr-4">
