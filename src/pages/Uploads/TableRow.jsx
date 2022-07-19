@@ -27,10 +27,20 @@ const WalletTableRow = ({ name, link, handleDelete, id }) => {
           <button
             onClick={() => {
               /* Copy the text inside the text field */
-              navigator.clipboard.writeText(link);
 
-              /* Alert the copied text */
-              toast.success("لینک کپی شد");
+              const clipboard = navigator.clipboard;
+              if (clipboard == undefined) {
+                toast.error("کلیپبورد شما شناسایی نشد");
+              } else {
+                clipboard.writeText(link).then(
+                  function () {
+                    toast.success("لینک با موفقیت کپی شد");
+                  },
+                  function () {
+                    toast.error("کپی شدن لینک امکان پذیر نیست");
+                  }
+                );
+              }
             }}
             className="px-2 sm:px-5 py-1 text-sm text-white sm:text-base bg-blue-light dark:bg-blue-dark rounded-2xl "
           >

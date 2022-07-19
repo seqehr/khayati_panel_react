@@ -13,6 +13,7 @@ import Files from "./Files";
 // css
 import "./Upload.css";
 import { UploadedFiles } from "../../services/CourseServices";
+import { toast } from "react-toastify";
 const Uploads = () => {
   const { progress, setProgress, setFiles } = useUpload();
   useEffect(() => {
@@ -44,13 +45,12 @@ const Uploads = () => {
     });
 
     resumable.on("fileSuccess", function (file, response) {
-      // trigger when file upload complete
-      response = JSON.parse(response);
+      toast.success("با موفقیت اپلود شد");
     });
 
     resumable.on("fileError", function (file, response) {
       // trigger when there is any error
-      alert("مشکلی به وجود امده");
+      toast.error("مشکلی به وجود امده");
     });
 
     function updateProgress(value) {
