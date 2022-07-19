@@ -51,6 +51,8 @@ const AddCourse = (props) => {
       setFiles(res.data.data);
       setLessons(false);
     });
+
+    // reset states
     setName("");
     setDescription("");
     setColor("");

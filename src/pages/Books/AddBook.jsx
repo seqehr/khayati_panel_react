@@ -9,50 +9,38 @@ import { BsPlusCircleDotted } from "react-icons/bs";
 import { BsDashCircleDotted } from "react-icons/bs";
 // components
 import TableRow from "./ModalTableRow";
-import { toast } from "react-toastify";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
-import config from "../../services/config.json";
+//hooks
+import useBooks from "../../hooks/useBooks";
 
 const AddBook = (props) => {
-  const [files, setFiles] = useState([]);
-  const [uploadModal, setUploadModal] = useState(0);
-  const [description, setDescription] = useState("");
-  const [bookImage, setBookImage] = useState(ImageDefault);
-  const [title, setTitle] = useState("");
+  const {
+    files,
+    setFiles,
+    uploadModal,
+    setUploadModal,
+    description,
+    setDescription,
+    bookImage,
+    setBookImage,
+    title,
+    setTitle,
+    url,
+    setUrl,
+    handleSubmit,
+  } = useBooks();
 
-  const [url, setUrl] = useState([]);
-
-  let BookImage = "";
-  let Url = "";
-  const handleSubmit = () => {
-    BookImage = bookImage.replace(`${config.HttpBaseUrl}/storage/`, "");
-
-    Url = url.replace(`${config.HttpBaseUrl}/storage/`, "");
-
-    const data = {
-      name: title,
-      img: BookImage,
-      link: Url,
-      description,
-    };
-    if (
-      BookImage !== "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif"
-    ) {
-      AddBookService(data).then((res) => {
-        if (res.status == 200) {
-          toast.success("کتاب با موفقیت ثبت شد");
-        }
-      });
-    } else {
-      toast.warn("لطفا عکس کتاب را انتخاب کنید");
-    }
-  };
   useEffect(() => {
     // get uploaded files
     UploadedFiles().then((res) => {
       setFiles(res.data.data);
     });
+    // reset states
+    setBookImage(ImageDefault);
+    setUrl("");
+    setTitle("");
+    setDescription("");
   }, []);
   return (
     <div className="bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl">
@@ -81,6 +69,7 @@ const AddBook = (props) => {
             <input
               onChange={(e) => setTitle(e.target.value)}
               type="text"
+              value={title}
               name="courseName"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
@@ -118,7 +107,7 @@ const AddBook = (props) => {
             <CKEditor
               editor={ClassicEditor}
               className={`text-right right-0`}
-              data="<p>ویرایشگر پیشرفته</p>"
+              data={description}
               // this will we change  =>  {data} has html
 
               onChange={(event, editor) => {
