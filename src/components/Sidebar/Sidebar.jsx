@@ -145,6 +145,42 @@ const Sidebar = (props) => {
         },
       ],
     },
+    {
+      title: 'تراکنش ها',
+      icon: <BiTransfer />,
+      state: transactions,
+      setState: () => {
+        setTransactions(!transactions)
+      },
+      subMenu: [
+        {
+          title: 'لیست  تراکنش ها',
+          to: '/transactions',
+        },
+      ],
+    },
+    {
+      title: 'مقالات',
+      icon: <MdOutlinePostAdd />,
+      state: articles,
+      setState: () => {
+        setArticles(!articles)
+      },
+      subMenu: [
+        {
+          title: ' افزودن مقاله ',
+          to: '/member/add',
+        },
+        {
+          title: 'لیست  مقالات',
+          to: '/members',
+        },
+        {
+          title: ' برچسب ها',
+          to: '/students',
+        },
+      ],
+    },
   ]
   const asideMobileDirectionClass = style.asideMobileRtl
   const asideMobileShowClass = style.asideMobileShowRtl
@@ -191,9 +227,12 @@ const Sidebar = (props) => {
                 />
 
                 <div
-                  className={`${
-                    item.state ? ` h-[${item.subMenu.length * 50}px]` : 'h-0'
-                  } ease-in-out  duration-300 overflow-hidden`}
+                  style={{
+                    height: item.state
+                      ? `${item.subMenu.length * 50}px`
+                      : '0px',
+                  }}
+                  className={`ease-in-out  duration-300 overflow-hidden`}
                 >
                   {item.subMenu.map((subItem) => (
                     <div className='pt-5'>
@@ -208,54 +247,6 @@ const Sidebar = (props) => {
                 </div>
               </div>
             ))}
-
-            {/* transactions */}
-            <SidebarOptionDropDown
-              icon={<BiTransfer />}
-              title={`تراکنش ها`}
-              active={transactions}
-              onClickF={() => setTransactions(!transactions)}
-            />
-            {transactions && (
-              <>
-                <SidebarOption
-                  to='/transactions'
-                  icon=' &nbsp; &nbsp;'
-                  title={`لیست تراکنش ها`}
-                  active={location.pathname === '/transactions'}
-                />
-              </>
-            )}
-
-            {/* articles */}
-            <SidebarOptionDropDown
-              icon={<MdOutlinePostAdd />}
-              title={`مقالات`}
-              active={articles}
-              onClickF={() => setArticles(!articles)}
-            />
-            {articles && (
-              <>
-                <SidebarOption
-                  to='/articles'
-                  icon=' &nbsp; &nbsp;'
-                  title={`لیست مقالات`}
-                  active={location.pathname === '/articles'}
-                />
-                <SidebarOption
-                  to='/tags'
-                  icon=' &nbsp; &nbsp;'
-                  title={`لیست برچسب ها`}
-                  active={location.pathname === '/tags'}
-                />
-                <SidebarOption
-                  to='/article/add'
-                  icon=' &nbsp; &nbsp;'
-                  title={`افزودن مقاله`}
-                  active={location.pathname === '/article/add'}
-                />
-              </>
-            )}
 
             <SidebarSeperatorLine />
             <SidebarOption
