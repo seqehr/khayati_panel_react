@@ -43,7 +43,7 @@ const ListTags = (props) => {
           className={`${'text-right'} bg-[#80808033] text-black dark:text-white `}
         >
           <th className='px-2 py-2 pr-4'>{`متن برچسب  `}</th>
-          
+
           <th></th>
         </thead>
         <tbody className='bg-background2-light dark:bg-background2-dark '>

@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 //services
-import config from "../../services/config.json";
-import { AddArticleService } from "../../services/ArticleServices";
+import config from '../../services/config.json'
+import { AddArticleService } from '../../services/ArticleServices'
 //images
-import ArticleImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
+import ArticleImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 
-const ArticlesContext = React.createContext();
+const ArticlesContext = React.createContext()
 export function ArticlesContextProvider({ children }) {
-  const [files, setFiles] = useState([]);
-  const [categorries, setCategorries] = useState([]);
-  const [uploadModal, setUploadModal] = useState(false);
+  const [files, setFiles] = useState([])
+  const [categorries, setCategorries] = useState([])
+  const [uploadModal, setUploadModal] = useState(false)
 
-  const [articleImage, setArticleImage] = useState(ArticleImageDefault);
-  const [catId, setCatId] = useState(1);
-  const [description, setDescription] = useState("");
-  const [name, setName] = useState("");
-  const [hashtags, setHashtags] = useState([]);
-  const [hashtag, setHashtag] = useState("");
+  const [articleImage, setArticleImage] = useState(ArticleImageDefault)
+  const [catId, setCatId] = useState(1)
+  const [description, setDescription] = useState('')
+  const [name, setName] = useState('')
+  const [hashtags, setHashtags] = useState([])
+  const [hashtag, setHashtag] = useState('')
 
-  let ArticleImage = "";
+  let ArticleImage = ''
   const handleSubmit = () => {
-    ArticleImage = articleImage.replace(`${config.HttpBaseUrl}/storage/`, "");
+    ArticleImage = articleImage.replace(`${config.HttpBaseUrl}/storage/`, '')
 
     const data = {
       name,
@@ -29,35 +29,35 @@ export function ArticlesContextProvider({ children }) {
       img: ArticleImage,
       content: description,
       tags: JSON.stringify(hashtags),
-    };
+    }
     if (
       ArticleImage !==
-      "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif"
+      '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
     ) {
       AddArticleService(data).then((res) => {
         if (res.status == 200) {
-          toast.success("مقاله با موفقیت ساخته شد");
+          toast.success('مقاله با موفقیت ساخته شد')
         }
-      });
+      })
     } else {
-      toast.warn("لطفا عکس مقاله را انتخاب کنید");
+      toast.warn('لطفا عکس مقاله را انتخاب کنید')
     }
-  };
+  }
   const creaeHashagHandler = () => {
-    const arrHashtags = [...hashtags];
+    const arrHashtags = [...hashtags]
 
-    arrHashtags.push(hashtag);
-    setHashtag("");
-    setHashtags(arrHashtags);
-  };
+    arrHashtags.push(hashtag)
+    setHashtag('')
+    setHashtags(arrHashtags)
+  }
   const deleteHashagHandler = (index) => {
-    const arrHashtags = [...hashtags];
+    const arrHashtags = [...hashtags]
 
-    const item = arrHashtags[index];
-    const filteredArr = arrHashtags.filter((i) => i !== item);
+    const item = arrHashtags[index]
+    const filteredArr = arrHashtags.filter((i) => i !== item)
 
-    setHashtags(filteredArr);
-  };
+    setHashtags(filteredArr)
+  }
   return (
     <ArticlesContext.Provider
       value={{
@@ -86,7 +86,7 @@ export function ArticlesContextProvider({ children }) {
     >
       {children}
     </ArticlesContext.Provider>
-  );
+  )
 }
 
-export default ArticlesContext;
+export default ArticlesContext

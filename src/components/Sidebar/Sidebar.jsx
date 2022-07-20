@@ -1,34 +1,35 @@
-import { Link, useLocation } from "react-router-dom";
-import React from "react";
+import { Link, useLocation } from 'react-router-dom'
+import React, { useState } from 'react'
 
 // Hooks
 
-import useSidebar from "../../hooks/useSidebar";
+import useSidebar from '../../hooks/useSidebar'
 
 // Components
-import SidebarMobileBackdrop from "./SidebarMobileBackdrop";
-import SidebarMobileCloseButton from "./SidebarMobileCloseButton";
-import SidebarSubHeading from "./SidebarSubHeading";
-import SidebarOption from "./SidebarOption";
-import SidebarSeperatorLine from "./SidebarSeperatorLine";
-import SidebarOptionDropDown from "./SidebarOptionDropDown";
+import SidebarMobileBackdrop from './SidebarMobileBackdrop'
+import SidebarMobileCloseButton from './SidebarMobileCloseButton'
+import SidebarSubHeading from './SidebarSubHeading'
+import SidebarOption from './SidebarOption'
+import SidebarSeperatorLine from './SidebarSeperatorLine'
+import SidebarOptionDropDown from './SidebarOptionDropDown'
+
 // Icons
 import {
   MdDashboard,
   MdOutlinePostAdd,
   MdOutlineProductionQuantityLimits,
-} from "react-icons/md";
-import { FiMusic } from "react-icons/fi";
-import { MdHelpOutline } from "react-icons/md";
-import { AiOutlineSetting, AiOutlineBook } from "react-icons/ai";
-import { RiUserSettingsLine } from "react-icons/ri";
-import { FaChalkboardTeacher } from "react-icons/fa";
-import { GoFileMedia } from "react-icons/go";
-import { BiTransfer } from "react-icons/bi";
+} from 'react-icons/md'
+import { FiMusic } from 'react-icons/fi'
+import { MdHelpOutline } from 'react-icons/md'
+import { AiOutlineSetting, AiOutlineBook } from 'react-icons/ai'
+import { RiUserSettingsLine } from 'react-icons/ri'
+import { FaChalkboardTeacher } from 'react-icons/fa'
+import { GoFileMedia } from 'react-icons/go'
+import { BiTransfer } from 'react-icons/bi'
 // CSS
-import style from "./Sidebar.module.scss";
+import style from './Sidebar.module.scss'
 const Sidebar = (props) => {
-  const location = useLocation();
+  const location = useLocation()
 
   const {
     sidebar,
@@ -37,8 +38,6 @@ const Sidebar = (props) => {
     setMusic,
     members,
     setMembers,
-    news,
-    setNews,
     articles,
     setArticles,
     courses,
@@ -49,9 +48,106 @@ const Sidebar = (props) => {
     setTransactions,
     products,
     setProducts,
-  } = useSidebar();
-  const asideMobileDirectionClass = style.asideMobileRtl;
-  const asideMobileShowClass = style.asideMobileShowRtl;
+  } = useSidebar()
+
+  const listItem = [
+    {
+      title: 'کتاب ها',
+      icon: <AiOutlineBook />,
+      state: books,
+      setState: () => {
+        setBooks(!books)
+      },
+      subMenu: [
+        {
+          title: 'لیست کتاب ها',
+          to: '/books',
+        },
+        {
+          title: 'افزودن کتاب',
+          to: '/book/add',
+        },
+      ],
+    },
+    {
+      title: 'دوره ها',
+      icon: <FaChalkboardTeacher />,
+      state: courses,
+      setState: () => {
+        setCourses(!courses)
+      },
+      subMenu: [
+        {
+          title: 'لیست دوره ها',
+          to: '/courses',
+        },
+        {
+          title: 'افزودن دوره',
+          to: '/course/add',
+        },
+      ],
+    },
+    {
+      title: 'محصولات',
+      icon: <MdOutlineProductionQuantityLimits />,
+      state: products,
+      setState: () => {
+        setProducts(!products)
+      },
+      subMenu: [
+        {
+          title: 'لیست محصولات',
+          to: '/products',
+        },
+        {
+          title: 'افزودن محصول',
+          to: '/product/add',
+        },
+      ],
+    },
+    {
+      title: 'موزیک ها',
+      icon: <FiMusic />,
+      state: music,
+      setState: () => {
+        setMusic(!music)
+      },
+      subMenu: [
+        {
+          title: 'لیست موزیک ها',
+          to: '/musics',
+        },
+        {
+          title: 'افزودن موزیک',
+          to: '/music/add',
+        },
+      ],
+    },
+    {
+      title: 'کاربران',
+      icon: <RiUserSettingsLine />,
+      state: members,
+      setState: () => {
+        setMembers(!members)
+      },
+      subMenu: [
+        {
+          title: 'لیست  کاربران',
+          to: '/members',
+        },
+        {
+          title: 'لیست  هنرشجویان',
+          to: '/students',
+        },
+        {
+          title: ' افزودن حساب کاربری',
+          to: '/member/add',
+        },
+      ],
+    },
+  ]
+  const asideMobileDirectionClass = style.asideMobileRtl
+  const asideMobileShowClass = style.asideMobileShowRtl
 
   return (
     <>
@@ -78,136 +174,40 @@ const Sidebar = (props) => {
           <ul className={`${style.scrollStyle} flex flex-col gap-7 xl:h-full`}>
             {/* Menu */}
             <SidebarSubHeading text={`منو`} />
-
             <SidebarOption
-              to="/"
+              to='/'
               icon={<MdDashboard />}
               title={`داشبورد`}
-              active={location.pathname === "/"}
+              active={location.pathname === '/'}
             />
 
-            {/* Courses */}
-            <SidebarOptionDropDown
-              icon={<FaChalkboardTeacher />}
-              title={`دوره ها`}
-              active={courses}
-              onClickF={() => setCourses(!courses)}
-            />
-            {courses && (
-              <>
-                <SidebarOption
-                  to="/courses"
-                  icon=" &nbsp; &nbsp;"
-                  title={`لیست دوره ها`}
-                  active={location.pathname === "/courses"}
+            {listItem.map((item) => (
+              <div>
+                <SidebarOptionDropDown
+                  icon={item.icon}
+                  title={item.title}
+                  active={item.state}
+                  onClickF={() => item.setState()}
                 />
 
-                <SidebarOption
-                  to="/course/add"
-                  icon=" &nbsp; &nbsp;"
-                  title={`افزودن دوره`}
-                  active={location.pathname === "/course/add"}
-                />
-              </>
-            )}
-
-            {/* Products */}
-            <SidebarOptionDropDown
-              icon={<MdOutlineProductionQuantityLimits />}
-              title={` محصولات`}
-              active={products}
-              onClickF={() => setProducts(!products)}
-            />
-            {products && (
-              <>
-                <SidebarOption
-                  to="/products"
-                  icon=" &nbsp; &nbsp;"
-                  title={` لیست محصولات`}
-                  active={location.pathname === "/products"}
-                />
-
-                <SidebarOption
-                  to="/product/add"
-                  icon=" &nbsp; &nbsp;"
-                  title={`افزودن محصول`}
-                  active={location.pathname === "/product/add"}
-                />
-              </>
-            )}
-            {/* Music */}
-            <SidebarOptionDropDown
-              icon={<FiMusic />}
-              title={` موزیک ها`}
-              active={music}
-              onClickF={() => setMusic(!music)}
-            />
-            {music && (
-              <>
-                <SidebarOption
-                  to="/musics"
-                  icon=" &nbsp; &nbsp;"
-                  title={`لیست موزیک ها`}
-                  active={location.pathname === "/musics"}
-                />
-
-                <SidebarOption
-                  to="/music/add"
-                  icon=" &nbsp; &nbsp;"
-                  title={`افزودن موزیک`}
-                  active={location.pathname === "/music/add"}
-                />
-              </>
-            )}
-
-            {/* Books */}
-            <SidebarOptionDropDown
-              icon={<AiOutlineBook />}
-              title={` کتاب ها`}
-              active={books}
-              onClickF={() => setBooks(!books)}
-            />
-            {books && (
-              <>
-                <SidebarOption
-                  to="/books"
-                  icon=" &nbsp; &nbsp;"
-                  title={`لیست کتاب ها`}
-                  active={location.pathname === "/books"}
-                />
-
-                <SidebarOption
-                  to="/book/add"
-                  icon=" &nbsp; &nbsp;"
-                  title={`افزودن کتاب`}
-                  active={location.pathname === "/book/add"}
-                />
-              </>
-            )}
-            {/* members */}
-            <SidebarOptionDropDown
-              icon={<RiUserSettingsLine />}
-              title={`کاربران`}
-              active={members}
-              onClickF={() => setMembers(!members)}
-            />
-            {members && (
-              <>
-                <SidebarOption
-                  to="/members"
-                  icon=" &nbsp; &nbsp;"
-                  title={`لیست کاربران`}
-                  active={location.pathname === "/members"}
-                />
-
-                <SidebarOption
-                  to="/students"
-                  icon=" &nbsp; &nbsp;"
-                  title={`لیست هنرجویان`}
-                  active={location.pathname === "/students"}
-                />
-              </>
-            )}
+                <div
+                  className={`${
+                    item.state ? ` h-[${item.subMenu.length * 50}px]` : 'h-0'
+                  } ease-in-out  duration-300 overflow-hidden`}
+                >
+                  {item.subMenu.map((subItem) => (
+                    <div className='pt-5'>
+                      <SidebarOption
+                        to={subItem.to}
+                        icon=' &nbsp; &nbsp;'
+                        title={subItem.title}
+                        active={location.pathname === subItem.to}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
 
             {/* transactions */}
             <SidebarOptionDropDown
@@ -219,10 +219,10 @@ const Sidebar = (props) => {
             {transactions && (
               <>
                 <SidebarOption
-                  to="/transactions"
-                  icon=" &nbsp; &nbsp;"
+                  to='/transactions'
+                  icon=' &nbsp; &nbsp;'
                   title={`لیست تراکنش ها`}
-                  active={location.pathname === "/transactions"}
+                  active={location.pathname === '/transactions'}
                 />
               </>
             )}
@@ -237,50 +237,50 @@ const Sidebar = (props) => {
             {articles && (
               <>
                 <SidebarOption
-                  to="/articles"
-                  icon=" &nbsp; &nbsp;"
+                  to='/articles'
+                  icon=' &nbsp; &nbsp;'
                   title={`لیست مقالات`}
-                  active={location.pathname === "/articles"}
+                  active={location.pathname === '/articles'}
                 />
                 <SidebarOption
-                  to="/tags"
-                  icon=" &nbsp; &nbsp;"
+                  to='/tags'
+                  icon=' &nbsp; &nbsp;'
                   title={`لیست برچسب ها`}
-                  active={location.pathname === "/tags"}
+                  active={location.pathname === '/tags'}
                 />
                 <SidebarOption
-                  to="/article/add"
-                  icon=" &nbsp; &nbsp;"
+                  to='/article/add'
+                  icon=' &nbsp; &nbsp;'
                   title={`افزودن مقاله`}
-                  active={location.pathname === "/article/add"}
+                  active={location.pathname === '/article/add'}
                 />
               </>
             )}
 
             <SidebarSeperatorLine />
             <SidebarOption
-              to="/help"
+              to='/help'
               icon={<MdHelpOutline />}
               title={`راهنمای  پنل کاربری`}
-              active={location.pathname === "/help"}
+              active={location.pathname === '/help'}
             />
             <SidebarOption
-              to="/settings"
+              to='/settings'
               icon={<AiOutlineSetting />}
               title={`تنظیمات`}
-              active={location.pathname === "/settings"}
+              active={location.pathname === '/settings'}
             />
             <SidebarOption
-              to="/uploads"
+              to='/uploads'
               icon={<GoFileMedia />}
               title={`اپلود ویدیو`}
-              active={location.pathname === "/uploads"}
+              active={location.pathname === '/uploads'}
             />
           </ul>
         </div>
       </aside>
     </>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar
