@@ -243,6 +243,12 @@ const Sidebar = (props) => {
                   active={location.pathname === "/articles"}
                 />
                 <SidebarOption
+                  to="/tags"
+                  icon=" &nbsp; &nbsp;"
+                  title={`لیست برچسب ها`}
+                  active={location.pathname === "/tags"}
+                />
+                <SidebarOption
                   to="/article/add"
                   icon=" &nbsp; &nbsp;"
                   title={`افزودن مقاله`}

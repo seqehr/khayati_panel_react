@@ -56,3 +56,24 @@ export const CatListService = () => {
     },
   });
 };
+
+export const ListTagsService = () => {
+  return httpService.get(`${config.baseUrl}/api/tags/list`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const DeleteTagService = (id) => {
+  return httpService.get(
+    `${config.baseUrl}/api/tags/delete/${id}`,
+   
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};

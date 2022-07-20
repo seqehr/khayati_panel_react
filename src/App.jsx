@@ -40,6 +40,7 @@ import AddProduct from "./pages/Products/AddProduct";
 import UpdateProduct from "./pages/Products/UpdateProduct";
 import UpdateMusic from "./pages/Music/UpdateMusic";
 import MemberListCourses from "./pages/Members/MemberListCourses";
+import ListTags from "./pages/Articles/Tags/ListTags";
 function App() {
   const { token } = useToken();
 
@@ -95,6 +96,7 @@ function App() {
                       path="/article/update/:id"
                       element={<UpdateArticle />}
                     />
+                    <Route path="/tags" element={<ListTags />} />
                     // Products
                     <Route path="/products" element={<ListProducts />} />
                     <Route path="/product/add" element={<AddProduct />} />

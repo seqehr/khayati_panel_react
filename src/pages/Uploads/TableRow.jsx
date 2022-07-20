@@ -30,7 +30,7 @@ const WalletTableRow = ({ name, link, handleDelete, id }) => {
 
               const clipboard = navigator.clipboard;
               if (clipboard == undefined) {
-                toast.error("کلیپبورد شما شناسایی نشد");
+                toast.error("   کپی کردن امکانپذیر نیست. ارتباط نا امن است");
               } else {
                 clipboard.writeText(link).then(
                   function () {
