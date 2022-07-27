@@ -169,15 +169,15 @@ const Sidebar = (props) => {
       subMenu: [
         {
           title: ' افزودن مقاله ',
-          to: '/member/add',
+          to: '/article/add',
         },
         {
           title: 'لیست  مقالات',
-          to: '/members',
+          to: '/articles',
         },
         {
           title: ' برچسب ها',
-          to: '/students',
+          to: '/tags',
         },
       ],
     },

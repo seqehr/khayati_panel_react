@@ -1,14 +1,8 @@
-import axios from 'axios'
 import config from './config.json'
-import useUpload from '../hooks/useUpload'
 import httpService from './httpService'
-import useToken from '../hooks/useToken'
-const ArticleServices = () => {
-  const { token } = useToken()
-  return { token }
-}
+let token = window.localStorage.getItem('Khayati-token')
+
 export const UploadedFiles = () => {
-  const { token } = ArticleServices()
   return httpService.get(`${config.baseUrl}/api/upload/files`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -16,7 +10,6 @@ export const UploadedFiles = () => {
   })
 }
 export const AddProductService = (data) => {
-  const { token } = ArticleServices()
   return httpService.post(`${config.baseUrl}/api/products/create`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -24,7 +17,6 @@ export const AddProductService = (data) => {
   })
 }
 export const ListProductsService = () => {
-  const { token } = ArticleServices()
   return httpService.get(
     `${config.baseUrl}/api/products/archive`,
 
@@ -36,7 +28,6 @@ export const ListProductsService = () => {
   )
 }
 export const DeleteProductService = (id) => {
-  const { token } = ArticleServices()
   return httpService.get(
     `${config.baseUrl}/api/products/delete/${id}`,
 
@@ -49,7 +40,6 @@ export const DeleteProductService = (id) => {
   )
 }
 export const SingleProductService = (id) => {
-  const { token } = ArticleServices()
   return httpService.get(`${config.baseUrl}/api/products/single/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -58,7 +48,6 @@ export const SingleProductService = (id) => {
 }
 
 export const CatListService = () => {
-  const { token } = ArticleServices()
   return httpService.get(`${config.baseUrl}/api/posts/cats/list`, {
     headers: {
       Authorization: `Bearer ${token}`,

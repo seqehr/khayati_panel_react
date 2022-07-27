@@ -1,6 +1,4 @@
-import axios from 'axios'
 import config from './config.json'
-import useUpload from '../hooks/useUpload'
 import httpService from './httpService'
 let token = window.localStorage.getItem('Khayati-token')
 
