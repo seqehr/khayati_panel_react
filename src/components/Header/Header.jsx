@@ -21,6 +21,7 @@ import { CgClose } from 'react-icons/cg'
 
 // Images
 import userPng from '../../assets/images/user.png'
+import logo from '../../assets/images/logo.png'
 
 // CSS
 import style from './Header.module.scss'
@@ -64,9 +65,8 @@ const Header = (props) => {
             className={`hidden xl:flex items-center gap-2 font-medium text-2xl ${style.headerLogoBox}`}
           >
             <i className='text-blue-light dark:text-blue-dark text-xl'>
-              <BsFillLayersFill />
+              <img src={logo} alt='logo' className='w-20' />
             </i>
-            <h2 className='text-black dark:text-white font-medium'>{`logo`}</h2>
           </div>
 
           {/* Left side */}
