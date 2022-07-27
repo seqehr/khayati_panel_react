@@ -136,7 +136,7 @@ const Sidebar = (props) => {
           to: '/members',
         },
         {
-          title: 'لیست  هنرشجویان',
+          title: 'لیست  هنرجویان',
           to: '/students',
         },
         {

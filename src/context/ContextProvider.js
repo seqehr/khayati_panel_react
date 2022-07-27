@@ -1,11 +1,12 @@
-import { ArticlesContextProvider } from "./Articles/ArticlesContext";
-import { BooksContextProvider } from "./Books/BooksContext";
-import { CourseContextProvider } from "./Courses/CoursesContext";
-import { LoginContextProvider } from "./login/LoginContext";
-import { SidebarContextProvider } from "./sidebar/SidebarContext";
-import { ThemeContextProvider } from "./theme/ThemeContext";
-import { TokenContextProvider } from "./token/TokenContext";
-import { UploadContextProvider } from "./Upload/UploadContext";
+import { ArticlesContextProvider } from './Articles/ArticlesContext'
+import { BooksContextProvider } from './Books/BooksContext'
+import { CourseContextProvider } from './Courses/CoursesContext'
+import { DashboardContextProvider } from './Dashboard/DashboardContext'
+import { LoginContextProvider } from './login/LoginContext'
+import { SidebarContextProvider } from './sidebar/SidebarContext'
+import { ThemeContextProvider } from './theme/ThemeContext'
+import { TokenContextProvider } from './token/TokenContext'
+import { UploadContextProvider } from './Upload/UploadContext'
 
 const ContextProvider = ({ children }) => {
   return (
@@ -24,7 +25,12 @@ const ContextProvider = ({ children }) => {
                 {/* B O O K S*/}
                 <BooksContextProvider>
                   {/* A R T I C L E S*/}
-                  <ArticlesContextProvider>{children}</ArticlesContextProvider>
+                  <ArticlesContextProvider>
+                    {/* D A S H B O A R D*/}
+                    <DashboardContextProvider>
+                      {children}
+                    </DashboardContextProvider>
+                  </ArticlesContextProvider>
                 </BooksContextProvider>
               </CourseContextProvider>
             </LoginContextProvider>
@@ -32,7 +38,7 @@ const ContextProvider = ({ children }) => {
         </UploadContextProvider>
       </SidebarContextProvider>
     </ThemeContextProvider>
-  );
-};
+  )
+}
 
-export default ContextProvider;
+export default ContextProvider
