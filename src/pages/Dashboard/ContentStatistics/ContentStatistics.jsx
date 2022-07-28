@@ -1,24 +1,20 @@
 import React from 'react'
 // Icons
 import {
-  MdDashboard,
   MdOutlinePostAdd,
   MdOutlineProductionQuantityLimits,
 } from 'react-icons/md'
 import { FiMusic } from 'react-icons/fi'
-import { MdHelpOutline } from 'react-icons/md'
-import { AiOutlineSetting, AiOutlineBook } from 'react-icons/ai'
-import { RiUserSettingsLine } from 'react-icons/ri'
+import { AiOutlineBook } from 'react-icons/ai'
 import { FaChalkboardTeacher } from 'react-icons/fa'
-import { GoFileMedia } from 'react-icons/go'
-import { BiTransfer } from 'react-icons/bi'
+
 import useDashboard from '../../../hooks/useDashboard'
 
 // css
 import styles from './ContentStatistics.module.scss'
 import { Link } from 'react-router-dom'
 const ContentStatistics = () => {
-  const { data, setData } = useDashboard()
+  const { data } = useDashboard()
   return (
     <div
       className={`bg-background2-light dark:bg-background2-dark rounded-2xl `}
@@ -27,7 +23,7 @@ const ContentStatistics = () => {
       <div className={`${styles.scrollC} overflow-x-auto `}>
         <div className='flex w-max my-3 '>
           {/* courses */}
-          <div className='bg-background-light dark:bg-background-dark mx-4 p-3 rounded-lg dark:text-white '>
+          <div className='bg-[#F9F9F9] dark:bg-[#24242C]  mx-4 p-3 rounded-lg dark:text-white '>
             <div className='flex'>
               <FaChalkboardTeacher className='text-6xl bg-background2-light dark:bg-background2-dark p-3 rounded-2xl text-gray-light ml-5' />
               <div className='items-center flex justify-center'>
@@ -59,7 +55,7 @@ const ContentStatistics = () => {
             </div>
           </div>
           {/* posts */}
-          <div className='bg-background-light dark:bg-background-dark mx-4 p-3 rounded-lg dark:text-white '>
+          <div className='bg-[#F9F9F9] dark:bg-[#24242C]  mx-4 p-3 rounded-lg dark:text-white '>
             <div className='flex'>
               <MdOutlinePostAdd className='text-6xl bg-background2-light dark:bg-background2-dark p-3 rounded-2xl text-gray-light ml-5' />
               <div className='items-center flex justify-center'>
@@ -91,9 +87,9 @@ const ContentStatistics = () => {
             </div>
           </div>
           {/* products */}
-          <div className='bg-background-light dark:bg-background-dark mx-4 p-3 rounded-lg dark:text-white '>
+          <div className='bg-[#F9F9F9] dark:bg-[#24242C]  mx-4 p-3 rounded-lg dark:text-white '>
             <div className='flex'>
-              <MdOutlinePostAdd className='text-6xl bg-background2-light dark:bg-background2-dark p-3 rounded-2xl text-gray-light ml-5' />
+              <MdOutlineProductionQuantityLimits className='text-6xl bg-background2-light dark:bg-background2-dark p-3 rounded-2xl text-gray-light ml-5' />
               <div className='items-center flex justify-center'>
                 <p className='text-lg'>
                   {' '}
@@ -123,9 +119,9 @@ const ContentStatistics = () => {
             </div>
           </div>
           {/* musics */}
-          <div className='bg-background-light dark:bg-background-dark mx-4 p-3 rounded-lg dark:text-white '>
+          <div className='bg-[#F9F9F9] dark:bg-[#24242C]  mx-4 p-3 rounded-lg dark:text-white '>
             <div className='flex'>
-              <FaChalkboardTeacher className='text-6xl bg-background2-light dark:bg-background2-dark p-3 rounded-2xl text-gray-light ml-5' />
+              <FiMusic className='text-6xl bg-background2-light dark:bg-background2-dark p-3 rounded-2xl text-gray-light ml-5' />
               <div className='items-center flex justify-center'>
                 <p className='text-lg'>
                   {' '}
@@ -155,9 +151,9 @@ const ContentStatistics = () => {
             </div>
           </div>
           {/* books */}
-          <div className='bg-background-light dark:bg-background-dark mx-4 p-3 rounded-lg dark:text-white '>
+          <div className='bg-[#F9F9F9] dark:bg-[#24242C]  mx-4 p-3 rounded-lg dark:text-white '>
             <div className='flex'>
-              <FaChalkboardTeacher className='text-6xl bg-background2-light dark:bg-background2-dark p-3 rounded-2xl text-gray-light ml-5' />
+              <AiOutlineBook className='text-6xl bg-background2-light dark:bg-background2-dark p-3 rounded-2xl text-gray-light ml-5' />
               <div className='items-center flex justify-center'>
                 <p className='text-lg'>
                   {' '}
@@ -172,7 +168,7 @@ const ContentStatistics = () => {
             <div className='flex'>
               <Link
                 to={'/books'}
-                className='hover:shadow-md ease-in-out duration-300 hover:bg-binance-dark dark:hover:bg-bitcoin-light p-2 w-max bg-bitcoin-light rounded-lg cursor-pointer mt-5 text-white dark:bg-bitcoin-dark'
+                className='hover:shadow-md ease-in-out duration-300 hover:bg-binance-dark dark:hover:bg-bitcoin-light  dark:bg-bitcoin-dark bg-bitcoin-light p-2 w-max  rounded-lg cursor-pointer mt-5 text-white'
               >
                 {' '}
                 نمایش کتاب ها{' '}

@@ -7,8 +7,6 @@ import DashboardBoxHead from '../DashboardBoxHead'
 import PortfolioItem from './PortfolioItem'
 
 // Icons
-import { BiBitcoin } from 'react-icons/bi'
-import { FaEthereum } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 // services
 import { ListMembersService } from '../../../services/MemberServices'

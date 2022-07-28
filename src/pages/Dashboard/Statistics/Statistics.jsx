@@ -25,22 +25,19 @@ const Statistics = (props) => {
   const { data, setData } = useDashboard()
   return (
     <DashboardBox extraClasses='overflow-hidden'>
-      <DashboardBoxHead text={`نمودار بازدید سایت ( در یک ماه اخیر )`} />
-
+      <div className='flex justify-between'>
+        <DashboardBoxHead text={`نمودار بازدید سایت ( در یک ماه اخیر )`} />
+        <span
+          className='text-bitcoin-light pb-10 pt-1 pl-5 font-bold'
+          dir='ltr'
+        >
+          {data.totalviews > 1000
+            ? data.totalviews / 1000 + 'K'
+            : data.totalviews}{' '}
+          بازدید کل
+        </span>
+      </div>
       <div>
-        {/* —————————— C U R R E N C Y —————————— */}
-        <div dir='ltr' className='mb-6'>
-          <div className='flex'>
-            <div className='flex items-center gap-1 text-lg text-green-light dark:text-green-dark'>
-              <span>
-                {data.totalviews > 1000
-                  ? data.totalviews / 1000 + 'K'
-                  : data.totalviews}{' '}
-                بازدید کل
-              </span>
-            </div>
-          </div>
-        </div>
         {/* —————————— D A T E - R A N G E —————————— */}
 
         {/* —————————— C H A R T —————————— */}

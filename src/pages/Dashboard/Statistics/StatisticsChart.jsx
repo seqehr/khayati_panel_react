@@ -2,7 +2,7 @@
 import useTheme from '../../../hooks/useTheme'
 
 // Libraries
-import * as shamsi from 'shamsi'
+import * as shamsi from 'shamsi-date-converter'
 import {
   AreaChart,
   Area,
@@ -21,7 +21,17 @@ const StatisticsChart = (props) => {
   useEffect(() => {
     DataDashboardService()
       .then((res) => {
-        setData(res.data.data.newdate)
+        const Data = []
+        res.data.data.newdate.map((i, index) => {
+          const date = shamsi.gregorianToJalali(`${i.day}`)
+          Data.push({
+            بازدید: i.count,
+            تاریخ: `${date[0] + '/' + date[1] + '/' + date[2]}`,
+          })
+          if (index + 1 == res.data.data.newdate.length) {
+            setData(Data)
+          }
+        })
       })
       .catch((ex) => {
         console.log(ex)
@@ -31,7 +41,7 @@ const StatisticsChart = (props) => {
     <ResponsiveContainer>
       <AreaChart data={data}>
         <YAxis
-          dataKey='count'
+          dataKey='بازدید'
           type='number'
           axisLine={false}
           tickLine={false}
@@ -39,7 +49,7 @@ const StatisticsChart = (props) => {
           allowDecimals={false}
         />
         <XAxis
-          dataKey='day'
+          dataKey='تاریخ'
           type='category'
           axisLine={false}
           tickLine={false}
@@ -47,7 +57,7 @@ const StatisticsChart = (props) => {
         <Tooltip />
         <Area
           type='monotone'
-          dataKey='count'
+          dataKey='بازدید'
           stroke={`${theme === 'light' ? '#FF9416' : '#DD851D'}`}
           strokeWidth={3}
           fill='url(#dashboardStatisticsChartGradient)'

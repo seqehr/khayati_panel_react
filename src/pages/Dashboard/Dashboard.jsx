@@ -2,7 +2,6 @@ import React from 'react'
 // Components
 import Whatchlist from './Watchlist/Watchlist'
 import Statistics from './Statistics/Statistics'
-import Portfolio from './Portfolio/Portfolio'
 import Members from './Members/Portfolio'
 
 // CSS
@@ -16,6 +15,7 @@ const Dashboard = (props) => {
       {/* One Side */}
       <div className='flex flex-col gap-6 flex-2'>
         <ContentStatistics />
+
         <Statistics />
       </div>
 

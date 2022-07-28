@@ -9,7 +9,7 @@ const Orders = () => {
   return (
     <div>
       <DashboardBox extraClasses='mb-10'>
-        <div className={` flex items-center `}>
+        <div className={` flex items-center dark:text-white`}>
           <HiShoppingCart
             className={`${data.orders > 1 && 'animate-bounce'}
              text-bitcoin-light text-3xl ml-2  `}
@@ -18,7 +18,7 @@ const Orders = () => {
           <span
             className={`${data.orders > 4 && 'text-red-light'} ${
               data.orders > 1 && 'animate-pulse'
-            } bg-background-light dark:bg-background-light p-2 mx-4 rounded-xl `}
+            } bg-background-light dark:text-white dark:bg-background-dark p-2 mx-4 rounded-xl `}
           >
             {' '}
             {data.orders}
@@ -26,7 +26,7 @@ const Orders = () => {
           عدد
         </div>
         {data.orders > 1 && (
-          <p className='mt-3 mr-1'>
+          <p className='mt-3 mr-1 dark:text-white'>
             لطفا سریعتر{' '}
             <span
               className={`${
