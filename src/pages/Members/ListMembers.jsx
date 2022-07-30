@@ -15,7 +15,7 @@ import {
 const ListMembers = (props) => {
   const [listMembers, setListMembers] = useState([])
   //paginattion
-  const [perpage, setPerpage] = useState(5)
+  const [perpage, setPerpage] = useState(10)
   const [page, setPage] = useState(0)
   const [totalPages, settotalPages] = useState(0)
 
@@ -29,7 +29,7 @@ const ListMembers = (props) => {
       // pagination
       settotalPages(
         Math.ceil(
-          res.data.data.length > perpage ? res.data.data.length / perpage : 0
+          res.data.data.length >= perpage ? res.data.data.length / perpage : 0
         )
       )
     })
@@ -108,41 +108,47 @@ const ListMembers = (props) => {
         </tbody>
       </table>
       {/*________ Pagination buttons __________*/}
-      <div className='p-4 justify-center flex w-full'>
-        <button
-          disabled={page == 0}
-          onClick={() => {
-            setPage(page - 1)
-          }}
-        >
-          <AiOutlineRightCircle
-            className={` ${
-              page == 0 ? 'text-gray-light' : 'text-bitcoin-light'
-            } text-2xl drop-shadow-md mx-1`}
-          />
-        </button>{' '}
-        {[...Array(totalPages)].map((item, i) => (
-          <p
-            className={`${
-              i !== page ? 'text-gray-light' : 'text-bitcoin-light'
-            } text-md drop-shadow-md mx-1 `}
+      {totalPages !== 0 && (
+        <div className='p-4 justify-center flex w-full'>
+          <button
+            disabled={page == 0 || totalPages == 0}
+            onClick={() => {
+              setPage(page - 1)
+            }}
           >
-            {i + 1}
-          </p>
-        ))}
-        <button
-          disabled={page == totalPages - 1}
-          onClick={() => {
-            setPage(page + 1)
-          }}
-        >
-          <AiOutlineLeftCircle
-            className={`${
-              page == totalPages - 1 ? 'text-gray-light' : 'text-bitcoin-light'
-            } text-2xl drop-shadow-md mx-1 `}
-          />
-        </button>
-      </div>
+            <AiOutlineRightCircle
+              className={` ${
+                page == 0 || totalPages == 0
+                  ? 'text-gray-light'
+                  : 'text-bitcoin-light'
+              } text-2xl drop-shadow-md mx-1`}
+            />
+          </button>{' '}
+          {[...Array(totalPages)].map((item, i) => (
+            <p
+              className={`${
+                i !== page ? 'text-gray-light' : 'text-bitcoin-light'
+              } text-md drop-shadow-md mx-1 `}
+            >
+              {i + 1}
+            </p>
+          ))}
+          <button
+            disabled={page == totalPages - 1 || totalPages == 0}
+            onClick={() => {
+              setPage(page + 1)
+            }}
+          >
+            <AiOutlineLeftCircle
+              className={`${
+                page == totalPages - 1 || totalPages == 0
+                  ? 'text-gray-light'
+                  : 'text-bitcoin-light'
+              } text-2xl drop-shadow-md mx-1 `}
+            />
+          </button>
+        </div>
+      )}
     </div>
   )
 }

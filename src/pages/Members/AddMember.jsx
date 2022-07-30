@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
-import { AddAMusicService, UploadedFiles } from '../../services/MusicsServices'
-
 import { toast } from 'react-toastify'
+import { AddMemberService } from '../../services/MemberServices'
 
 const AddMember = (props) => {
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -13,7 +12,7 @@ const AddMember = (props) => {
       name: name,
       phone: phoneNumber,
     }
-    AddAMusicService(data).then((res) => {
+    AddMemberService(data).then((res) => {
       if (res.status == 200) {
         toast.success('حساب با موفقیت ایجاد شد')
       }

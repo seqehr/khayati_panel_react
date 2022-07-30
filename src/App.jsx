@@ -20,7 +20,7 @@ import { ToastContainer } from 'react-toastify'
 import ListCourses from './pages/Courses/ListCourses'
 import ListMusics from './pages/Music/ListMusics'
 import ListMembers from './pages/Members/ListMembers'
-import ListStudents from './pages/Students/ListStudents'
+
 import ListTransactions from './pages/Transactions/ListTransactions'
 import ListArticles from './pages/Articles/ListArticles'
 import AddArticle from './pages/Articles/AddArticle'
@@ -58,6 +58,7 @@ function App() {
         }
       })
   }, [])
+
   return (
     <>
       <Helmet>
@@ -116,7 +117,6 @@ function App() {
                     <Route path='/settings' element={<Settings />} />
                     <Route path='/uploads' element={<Uploads />} />
                     // users
-                    <Route path='/students' element={<ListStudents />} />
                     <Route path='/member/add' element={<AddMember />} />
                     <Route path='/members' element={<ListMembers />} />
                     <Route

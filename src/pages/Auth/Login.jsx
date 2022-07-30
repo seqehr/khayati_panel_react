@@ -1,18 +1,18 @@
-import { useState, useRef } from "react";
-import useToken from "../../hooks/useToken";
-import useLogin from "../../hooks/useLogin";
+import { useState, useRef } from 'react'
+import useToken from '../../hooks/useToken'
+import useLogin from '../../hooks/useLogin'
 
 // Components
-import LoginInputBox from "./LoginInputBox";
-import LoginButton from "./LoginButton";
+import LoginInputBox from './LoginInputBox'
+import LoginButton from './LoginButton'
 
 // Images
-import loadingGif from "../../assets/images/loading-32x32.gif";
-
+import loadingGif from '../../assets/images/loading-630x637.gif'
+import logo from '../../assets/images/logo.png'
 //hooks
 
 // CSS
-import style from "./Login.module.scss";
+import style from './Login.module.scss'
 
 const Login = (props) => {
   const {
@@ -30,7 +30,7 @@ const Login = (props) => {
     isVerificationCodeValid,
     loading,
     setVerifyCode,
-  } = useLogin();
+  } = useLogin()
 
   return (
     <>
@@ -38,7 +38,7 @@ const Login = (props) => {
       <div className={`bg-black ${style.loginBackdrop}`}></div>
 
       {loading ? (
-        <div className="overflow-hidden bg-[#3332325d]  z-[9999]  fixed w-screen flex justify-center h-screen">
+        <div className='overflow-hidden bg-[#3332325d]  z-[9999]  fixed w-screen flex justify-center h-screen'>
           <img src={loadingGif} className={` relative m-auto w-14 `}></img>
         </div>
       ) : (
@@ -48,31 +48,32 @@ const Login = (props) => {
       {/* Login */}
       <div className={`flex-center ${style.loginContainer}`}>
         <div
-          className={`bg-white dark:bg-black rounded-2xl p-4 ${style.login}`}
+          className={`bg-white dark:bg-black rounded-2xl p-6 ${style.login}`}
         >
-          <div className="mb-6">
-            <h6 className="text-black dark:text-white text-2xl font-medium text-center">
-              {"ورود به پنل ادمین"}
+          <div className='mb-6'>
+            <img src={logo} className={`w-40 m-auto pb-5`} />
+            <h6 className='text-black dark:text-white text-2xl font-medium text-center'>
+              {'ورود به پنل ادمین'}
             </h6>
           </div>
           <form onSubmit={(e) => e.preventDefault()}>
             {/* Mobile Number */}
             <LoginInputBox>
               <label
-                htmlFor="yhQrjcgu"
-                className="block mb-1 text-lg text-black dark:text-white"
+                htmlFor='yhQrjcgu'
+                className='block mb-1 text-lg text-black dark:text-white'
               >
-                {"شماره موبایل"} :
+                {'شماره موبایل'} :
               </label>
               <input
-                id="yhQrjcgu"
-                name="mobileNumber"
-                type="tel"
-                placeholder="9xx-xxx-xxxx"
+                id='yhQrjcgu'
+                name='mobileNumber'
+                type='tel'
+                placeholder='9xx-xxx-xxxx'
                 value={formatMobileNumber(mobileNumber)}
                 onChange={setTheMobileNumber}
-                dir="ltr"
-                autoComplete="off"
+                dir='ltr'
+                autoComplete='off'
                 className={`text-lg
 								rounded
 								p-2
@@ -81,7 +82,7 @@ const Login = (props) => {
 								border-solid
 								${
                   mobileNumber.length < 1
-                    ? "border-[#8080804d]"
+                    ? 'border-[#8080804d]'
                     : generateMobileValidationClasses(mobileNumber)
                 }
 								`}
@@ -92,20 +93,20 @@ const Login = (props) => {
             {step === 2 && (
               <LoginInputBox>
                 <label
-                  htmlFor="RcCXxjHF"
-                  className="block mb-1 text-lg text-black dark:text-white"
+                  htmlFor='RcCXxjHF'
+                  className='block mb-1 text-lg text-black dark:text-white'
                 >
-                  {"کد تایید"} :
+                  {'کد تایید'} :
                 </label>
                 <input
-                  id="RcCXxjHF"
-                  name="verificationCode"
-                  type="tel"
-                  placeholder="x x x x x x"
+                  id='RcCXxjHF'
+                  name='verificationCode'
+                  type='tel'
+                  placeholder='x x x x x x'
                   value={formatVerificationCode(verificationCode)}
                   onChange={setTheVerificationCode}
-                  dir="ltr"
-                  autoComplete="off"
+                  dir='ltr'
+                  autoComplete='off'
                   className={`text-lg
 									rounded
 									p-2
@@ -114,7 +115,7 @@ const Login = (props) => {
 									border-solid
 									${
                     verificationCode.length < 1
-                      ? "border-[#8080804d]"
+                      ? 'border-[#8080804d]'
                       : generateVerificationCodeValidationClasses(
                           verificationCode
                         )
@@ -127,14 +128,14 @@ const Login = (props) => {
             <LoginInputBox>
               {step === 1 && (
                 <LoginButton
-                  text={"ورود  "}
+                  text={'ورود  '}
                   disabled={!isMobileNumberValid(mobileNumber)}
                   onClick={handleNext}
                 />
               )}
               {step === 2 && (
                 <LoginButton
-                  text={"ارسال کد تایید"}
+                  text={'ارسال کد تایید'}
                   disabled={!isVerificationCodeValid(verificationCode)}
                   onClick={handleNext}
                 />
@@ -144,7 +145,7 @@ const Login = (props) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

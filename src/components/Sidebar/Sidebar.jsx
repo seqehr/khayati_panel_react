@@ -135,10 +135,7 @@ const Sidebar = (props) => {
           title: 'لیست  کاربران',
           to: '/members',
         },
-        {
-          title: 'لیست  هنرجویان',
-          to: '/students',
-        },
+
         {
           title: ' افزودن حساب کاربری',
           to: '/member/add',

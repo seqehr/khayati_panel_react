@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { toast } from 'react-toastify'
 import useToken from '../../hooks/useToken'
 import { loginUser, verifyCodeUser } from '../../services/UserService'
 
@@ -37,8 +38,13 @@ export function LoginContextProvider({ children }) {
       : 'border-red-light dark:border-red-dark'
 
   // ————— T I M E R —————
-  const timer = () => {
-    let sec = 120
+  const timer = (timeLeft) => {
+    let sec = 60
+
+    if (timeLeft !== undefined) {
+      sec = timeLeft
+    }
+
     let timer = setInterval(function () {
       document.getElementById('timerSMS').innerHTML = `(${sec})`
       sec--
@@ -54,6 +60,7 @@ export function LoginContextProvider({ children }) {
   const [verifyCode, setVerifyCode] = useState('')
   const [loading, setLoading] = useState(false)
   const { token, setToken } = useToken()
+
   const handleNext = async () => {
     if (isMobileNumberValid(mobileNumber)) {
       setLoading(true)
@@ -66,12 +73,17 @@ export function LoginContextProvider({ children }) {
           setLoading(true)
           try {
             const { status, data } = await loginUser(user)
-            if (status === 200) {
+            if (status === 200 || status == 201) {
               setStep(2)
-              timer()
+              //set timer
+              timer(data.data.timeleft)
               setLoading(false)
+            } else {
+              toast.error('شما اجازه دسترسی ندارید')
             }
           } catch (ex) {
+            setLoading(false)
+            toast.error('متاسفیم. خطایی رخ داده')
             console.log(ex)
           }
         }
@@ -90,7 +102,9 @@ export function LoginContextProvider({ children }) {
             const { status, data } = await verifyCodeUser(user)
             if (status === 200) {
               setToken(data.data.token)
-              setTimeout(() => {}, 1000)
+              setTimeout(() => {
+                window.location.reload(true)
+              }, 1000)
             }
           } catch (ex) {
             console.log(ex)
