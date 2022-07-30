@@ -45,6 +45,11 @@ const UpdateMusic = (props) => {
   }
 
   useEffect(() => {
+    //reset inputs
+    setUrl('')
+    setMusicImage('')
+    setName('')
+
     SingleMusicService(token, musicId).then((res) => {
       const data = res.data.data
 

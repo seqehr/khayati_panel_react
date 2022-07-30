@@ -2,7 +2,6 @@ import axios from 'axios'
 import config from './config.json'
 import useUpload from '../hooks/useUpload'
 import http from './httpService'
-let token = window.localStorage.getItem('Khayati-token')
 
 export const Sliders = (token) => {
   return http.post(`${config.baseUrl}/api/theme/TopRightSlider`, {

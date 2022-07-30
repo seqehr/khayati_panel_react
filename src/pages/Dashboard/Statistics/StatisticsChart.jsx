@@ -13,13 +13,15 @@ import {
 } from 'recharts'
 import { useEffect, useState } from 'react'
 import { DataDashboardService } from '../../../services/DashboardServices'
+import useToken from '../../../hooks/useToken'
 
 const StatisticsChart = (props) => {
+  const { token } = useToken()
   const { theme } = useTheme()
 
   const [data, setData] = useState([])
   useEffect(() => {
-    DataDashboardService()
+    DataDashboardService(token)
       .then((res) => {
         const Data = []
         res.data.data.newdate.map((i, index) => {
