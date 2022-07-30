@@ -13,6 +13,9 @@ import { AiOutlineLeftCircle, AiOutlineRightCircle } from 'react-icons/ai'
 //hooks
 import useToken from '../../hooks/useToken'
 
+//images
+import noResultImage from '../../assets/images/no-result.gif'
+
 const ListArticles = (props) => {
   const { token } = useToken()
   const [listArticles, setListArticles] = useState([])
@@ -53,7 +56,7 @@ const ListArticles = (props) => {
   }
   return (
     <div>
-      <table className='w-full overflow-hidden rounded-2xl'>
+      <table className='w-full overflow-hidden rounded-t-2xl'>
         <thead
           className={`${'text-right'} bg-[#80808033] text-black dark:text-white `}
         >
@@ -113,6 +116,13 @@ const ListArticles = (props) => {
           )}
         </tbody>
       </table>
+      {/*________ Show No Result __________*/}
+      {listArticles.length == 0 && loading == false && (
+        <div className='text-center items-center w-full bg-background2-light dark:bg-background2-dark pb-5'>
+          <img src={noResultImage} alt='' className='m-auto w-32 py-5' />
+          موردی یافت نشد!
+        </div>
+      )}
       {/*________ Pagination buttons __________*/}
       {totalPages !== 0 && (
         <div className='p-4 justify-center flex w-full'>

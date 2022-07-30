@@ -35,7 +35,7 @@ const AddProduct = (props) => {
   const [price, setPrice] = useState('')
   const [productImage, setProductImage] = useState(ArticleImageDefault)
   const [catId, setCatId] = useState(1)
-  const [description, setDescription] = useState('')
+  const [description, setDescription] = useState('<p></p>')
   const [name, setName] = useState('')
 
   let ProductImage = ''

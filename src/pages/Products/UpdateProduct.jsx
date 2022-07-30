@@ -43,7 +43,7 @@ const UpdateProduct = (props) => {
 
   let ArticleImage = ''
   const handleSubmit = () => {
-    ArticleImage = articleImage.replace(`${config.HttpBaseUrls}/storage/`, '')
+    ArticleImage = articleImage.replace(`${config.HttpBaseUrl}/storage/`, '')
 
     const data = {
       name,
@@ -65,6 +65,12 @@ const UpdateProduct = (props) => {
     }
   }
   useEffect(() => {
+    //reset inputs
+    setArticleImage('')
+    setName('')
+    setDescription('')
+    setPrice(0)
+
     UploadedFiles(token).then((res) => {
       setFiles(res.data.data)
     })

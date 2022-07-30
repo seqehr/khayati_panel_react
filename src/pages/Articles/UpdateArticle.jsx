@@ -48,6 +48,12 @@ const UpdateArticle = (props) => {
     setDescription,
   } = useArticles()
   useEffect(() => {
+    //reset inputs
+    setArticleImage('')
+    setName('')
+    setHashtags([])
+    setDescription('')
+
     UploadedFiles(token).then((res) => {
       setFiles(res.data.data)
     })

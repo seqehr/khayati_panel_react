@@ -1,29 +1,173 @@
 // Components
-import TableRow from "./TableRow";
+import { useEffect, useState } from 'react'
+import * as shamsi from 'shamsi-date-converter'
+import TableRow from './TableRow'
+import Skeleton from 'react-loading-skeleton'
+// css
+import 'react-loading-skeleton/dist/skeleton.css'
+import { useMemo } from 'react'
+import {
+  AiOutlineCopyrightCircle,
+  AiOutlineLeftCircle,
+  AiOutlineRightCircle,
+} from 'react-icons/ai'
+//hooks
+import useToken from '../../hooks/useToken'
+
+//images
+import noResultImage from '../../assets/images/no-result.gif'
+//services
+import { TransactionsListService } from '../../services/TransactionsServices'
 
 const ListTransactions = (props) => {
+  const { token } = useToken()
+  const [listTransactions, setListTransactions] = useState([])
+  //paginattion
+  const [perpage, setPerpage] = useState(10)
+  const [page, setPage] = useState(0)
+  const [totalPages, settotalPages] = useState(0)
+
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // get  members
+    TransactionsListService(token).then((res) => {
+      console.log(res.data)
+      setListTransactions(res.data.data)
+      setLoading(false)
+      // pagination
+      settotalPages(
+        Math.ceil(
+          res.data.data.length >= perpage ? res.data.data.length / perpage : 0
+        )
+      )
+    })
+  }, [])
+
   return (
     <div>
-      <table className="w-full overflow-hidden rounded-2xl">
+      <table className='w-full overflow-hidden rounded-t-2xl'>
         <thead
-          className={`${"text-right"} bg-[#80808033] text-black dark:text-white `}
+          className={`${'text-right'} bg-[#80808033] text-black dark:text-white `}
         >
-          <th className="px-2 py-2 pr-4">{`کاربر`}</th>
-          <th>{`تاریخ ثبت `}</th>
-          <th>{`مقدار `}</th>
-          <th></th>
-          <th></th>
+          <th className='px-2 py-2 pr-4'>{`کد کاربر`}</th>
+          <th>{`نوع کالا`}</th>
+          <th>{`قیمت`}</th>
+          <th>{`زمان پرداخت`}</th>
         </thead>
-        <tbody className="bg-background2-light dark:bg-background2-dark ">
-          <TableRow name={`سینا رضوانی `} date={`1400/3/1`} worth={`520000`} />
-          <TableRow name={`سینا رضوانی `} date={`1400/3/1`} worth={`520000`} />
-          <TableRow name={`سینا رضوانی `} date={`1400/3/1`} worth={`520000`} />
-          <TableRow name={`سینا رضوانی `} date={`1400/3/1`} worth={`520000`} />
-          <TableRow name={`سینا رضوانی `} date={`1400/3/1`} worth={`520000`} />
+        <tbody className='bg-background2-light dark:bg-background2-dark '>
+          {loading ? (
+            <>
+              <tr>
+                <td className='py-2 px-2'>
+                  <Skeleton />
+                </td>
+                <td className=' py-2 px-2'>
+                  <Skeleton />
+                </td>
+                <td className=' py-2 px-2'>
+                  <Skeleton />
+                </td>
+                <td className=' py-2 px-2'>
+                  <Skeleton />
+                </td>
+              </tr>
+              <tr>
+                <td className=' py-2 px-2'>
+                  <Skeleton />
+                </td>
+                <td className=' py-2 px-2'>
+                  <Skeleton />
+                </td>
+                <td className=' py-2 px-2'>
+                  <Skeleton />
+                </td>
+                <td className=' py-2 px-2'>
+                  <Skeleton />
+                </td>
+              </tr>
+              <tr>
+                <td className=' py-2 px-2'>
+                  <Skeleton />
+                </td>
+                <td className=' py-2 px-2'>
+                  <Skeleton />
+                </td>
+                <td className=' py-2 px-2'>
+                  <Skeleton />
+                </td>
+                <td className=' py-2 px-2'>
+                  <Skeleton />
+                </td>
+              </tr>
+            </>
+          ) : (
+            listTransactions
+              .slice(page * perpage, page * perpage + perpage)
+              .map((item, i) => (
+                <TableRow
+                  key={i}
+                  date={shamsi.gregorianToJalali(item.created_at)}
+                  type={item.order.type}
+                  userId={item.user_id}
+                  price={item.price}
+                />
+              ))
+          )}
         </tbody>
       </table>
-    </div>
-  );
-};
+      {/*________ Show No Result __________*/}
+      {listTransactions.length == 0 && loading == false && (
+        <div className='text-center items-center w-full bg-background2-light dark:bg-background2-dark pb-5'>
+          <img src={noResultImage} alt='' className='m-auto w-32 py-5' />
+          موردی یافت نشد!
+        </div>
+      )}
 
-export default ListTransactions;
+      {/*________ Pagination buttons __________*/}
+      {totalPages !== 0 && (
+        <div className='p-4 justify-center flex w-full'>
+          <button
+            disabled={page == 0 || totalPages == 0}
+            onClick={() => {
+              setPage(page - 1)
+            }}
+          >
+            <AiOutlineRightCircle
+              className={` ${
+                page == 0 || totalPages == 0
+                  ? 'text-gray-light'
+                  : 'text-bitcoin-light'
+              } text-2xl drop-shadow-md mx-1`}
+            />
+          </button>{' '}
+          {[...Array(totalPages)].map((item, i) => (
+            <p
+              className={`${
+                i !== page ? 'text-gray-light' : 'text-bitcoin-light'
+              } text-md drop-shadow-md mx-1 `}
+            >
+              {i + 1}
+            </p>
+          ))}
+          <button
+            disabled={page == totalPages - 1 || totalPages == 0}
+            onClick={() => {
+              setPage(page + 1)
+            }}
+          >
+            <AiOutlineLeftCircle
+              className={`${
+                page == totalPages - 1 || totalPages == 0
+                  ? 'text-gray-light'
+                  : 'text-bitcoin-light'
+              } text-2xl drop-shadow-md mx-1 `}
+            />
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default ListTransactions

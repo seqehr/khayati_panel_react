@@ -28,7 +28,7 @@ export const CourseContextProvider = ({ children }) => {
   const [color, setColor] = useState('')
   const [isPin, setIsPin] = useState(false)
   const [isFree, setIsFree] = useState('price')
-  const [description, setDescription] = useState('')
+  const [description, setDescription] = useState('<p></p>')
   const [price, setPrice] = useState('')
   const [excerpt, setExcerpt] = useState('')
   const [name, setName] = useState('')
@@ -69,9 +69,6 @@ export const CourseContextProvider = ({ children }) => {
   let CoursePoster = ''
   let GetLesson = []
   const handleSubmit = () => {
-    if (isFree) {
-      setPrice('0')
-    }
     CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, '')
 
     CoursePoster = coursePoster
@@ -90,7 +87,7 @@ export const CourseContextProvider = ({ children }) => {
 
     const data = {
       excerpt,
-      price,
+      price: isFree && '0',
       description,
       type: isFree,
       ispin: isPin,

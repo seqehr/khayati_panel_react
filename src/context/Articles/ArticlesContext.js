@@ -17,7 +17,7 @@ export function ArticlesContextProvider({ children }) {
 
   const [articleImage, setArticleImage] = useState(ArticleImageDefault)
   const [catId, setCatId] = useState(1)
-  const [description, setDescription] = useState('')
+  const [description, setDescription] = useState('<p></p>')
   const [name, setName] = useState('')
   const [hashtags, setHashtags] = useState([])
   const [hashtag, setHashtag] = useState('')

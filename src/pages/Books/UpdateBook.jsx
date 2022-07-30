@@ -35,9 +35,11 @@ const UpdateBook = (props) => {
   } = useBooks()
 
   useEffect(() => {
-    UploadedFiles(token).then((res) => {
-      setFiles(res.data.data)
-    })
+    // reset inputs
+    setBookImage('')
+    setUrl('')
+    setTitle('')
+    setDescription('')
 
     SingleBookService(token, courseId).then((res) => {
       const data = res.data.data

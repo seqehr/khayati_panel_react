@@ -1,26 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 
-import TableRow from "./ModalTableRow";
-import "./CKEditor.css";
-import { useParams } from "react-router-dom";
+import TableRow from './ModalTableRow'
+import './CKEditor.css'
+import { useParams } from 'react-router-dom'
 
 // css
-import style from "./TableRow.module.scss";
+import style from './TableRow.module.scss'
 // hooks
-import useCourse from "../../hooks/useCourses";
+import useCourse from '../../hooks/useCourses'
 //icons
-import { BsDashCircleDotted } from "react-icons/bs";
+import { BsDashCircleDotted } from 'react-icons/bs'
 // components
-import Lessons from "./Lessons";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
+import Lessons from './Lessons'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic/build/ckeditor'
 import {
   UploadedFiles,
   SingleCourseService,
-} from "../../services/CourseServices";
+} from '../../services/CourseServices'
+//hooks
+import useToken from '../../hooks/useToken'
 
 const UpdateCourse = () => {
-  const { id: courseId } = useParams();
+  const { token } = useToken()
+  const { id: courseId } = useParams()
   const {
     setLessons,
     handleSubmit,
@@ -47,105 +50,113 @@ const UpdateCourse = () => {
     name,
     setName,
     colors,
-  } = useCourse();
+  } = useCourse()
 
   useEffect(() => {
-    UploadedFiles().then((res) => {
-      setFiles(res.data.data);
-    });
+    //reset inputs
+    setName('')
+    setDescription('')
+    setColor('')
+    setCourseImage('')
+    setCoursePoster('')
+    setPrice(0)
+    setLessons([])
+    setIsPin(false)
+    setIsFree(false)
+    setExcerpt('')
 
-    SingleCourseService(courseId).then((res) => {
-      const data = res.data.data;
-      setName(data.name);
-      setDescription(data.description);
-      setColor(data.gradient);
-      setCourseImage(data.img);
-      setCoursePoster(data.poster);
-      setPrice(data.price);
-      setLessons(data.videos);
+    SingleCourseService(token, courseId).then((res) => {
+      const data = res.data.data
+      setName(data.name)
+      setDescription(data.description)
+      setColor(data.gradient)
+      setCourseImage(data.img)
+      setCoursePoster(data.poster)
+      setPrice(data.price)
+      setLessons(data.videos)
       if (data.ispin == 0) {
-        setIsPin(false);
+        setIsPin(false)
       } else {
-        setIsPin(true);
+        setIsPin(true)
       }
-      setIsFree(data.type);
-      setExcerpt(data.excerpt);
-    });
-  }, []);
+      setIsFree(data.type)
+      setExcerpt(data.excerpt)
+    })
+  }, [])
   return (
-    <div className="bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl ">
+    <div className='bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl '>
       <form>
-        <div className="grid grid-cols-12 xl:gap-6">
+        <div className='grid grid-cols-12 xl:gap-6'>
           {/* C O U R S E - I M A G E */}
           <div
             className={` ${
-              isPin ? "col-span-6" : "col-span-12"
+              isPin ? 'col-span-6' : 'col-span-12'
             } relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
             <img
               src={courseImage}
-              className="w-96 rounded-md"
+              className='w-96 rounded-md'
               onClick={() => {
-                setUploadModal(1);
+                setUploadModal(1)
               }}
             />
             <label
-              className="p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              for="user_avatar"
+              className='p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+              for='user_avatar'
             >
               {`انتخاب عکس دوره`}
             </label>
           </div>
           {/* C O U R S E - P O S T E R */}
           {isPin == 1 && (
-            <div className="relative col-span-6 flex justify-center flex-col items-center z-0 w-full mb-6 group">
+            <div className='relative col-span-6 flex justify-center flex-col items-center z-0 w-full mb-6 group'>
               <img
                 src={coursePoster}
-                className="w-96 rounded-md"
+                className='w-96 rounded-md'
                 onClick={() => {
-                  setUploadModal(2);
+                  setUploadModal(2)
                 }}
               />
               <label
-                className="p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                for="user_avatar"
+                className='p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                for='user_avatar'
               >
                 {`انتخاب پوستر`}
               </label>
             </div>
           )}
           {/* C O U R S E - N A M E */}
-          <div className="relative col-span-3 z-0 w-full mb-6 group">
+          <div className='relative col-span-3 z-0 w-full mb-6 group'>
             <input
-              type="text"
-              name="courseName"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required=""
+              type='text'
+              name='courseName'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              required=''
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <label
-              for="courseName"
-              className={`  ${"right-0"}peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
+              for='courseName'
+              className={`  ${'right-0'}peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
             >
               {`نام دوره`}
             </label>
           </div>
           {/* C O U R S E - E X C R E P T */}
-          <div className="relative col-span-9 z-0 w-full mb-6 group">
+          <div className='relative col-span-9 z-0 w-full mb-6 group'>
             <input
-              type="text"
-              name="excrept"
+              type='text'
+              name='excrept'
               value={excerpt}
               onChange={(e) => setExcerpt(e.target.value)}
-              id="excrept"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required=""
+              id='excrept'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              required=''
             />
             <label
-              for="excrept"
+              for='excrept'
               className={`  right-0
               peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
             >
@@ -153,35 +164,35 @@ const UpdateCourse = () => {
             </label>
           </div>
           {/* C O U R S E - D E S C R I B T I O N*/}
-          <div className="relative col-span-12 z-0 w-full mb-6 group">
+          <div className='relative col-span-12 z-0 w-full mb-6 group'>
             <CKEditor
               editor={ClassicEditor}
               className={`text-right right-0`}
               data={description}
               onChange={(event, editor) => {
-                const data = editor.getData();
-                setDescription(data);
+                const data = editor.getData()
+                setDescription(data)
               }}
             />
           </div>
           {/* C O U R S E  - P R I C E */}
           <div
             className={`${
-              isFree == "free" && `hidden`
+              isFree == 'free' && `hidden`
             } relative col-span-3  z-0 w-full mb-6 group`}
           >
             <input
-              type="number"
-              name="price"
-              id="price"
+              type='number'
+              name='price'
+              id='price'
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required=""
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              required=''
             />
             <label
-              for="price"
+              for='price'
               className={`  right-0
               peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
             >
@@ -189,44 +200,44 @@ const UpdateCourse = () => {
             </label>
           </div>
           {/* C O U R S E  - C H E K B I X E S */}
-          <div className="relative  col-span-4  z-0 w-full mb-6 group">
-            <div className="flex justify-center">
+          <div className='relative  col-span-4  z-0 w-full mb-6 group'>
+            <div className='flex justify-center'>
               <div>
                 <div>
                   <input
-                    className="form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white "
-                    type="checkbox"
-                    id="ispin"
+                    className='form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white '
+                    type='checkbox'
+                    id='ispin'
                     checked={isPin}
                     onClick={() => {
-                      setIsPin(!isPin);
+                      setIsPin(!isPin)
                     }}
                   />
                   <label
-                    className="form-check-label pr-3  inline-block text-gray-800"
-                    for="ispin"
+                    className='form-check-label pr-3  inline-block text-gray-800'
+                    for='ispin'
                   >
                     در صفحه اصلی پین شود
                   </label>
                 </div>
-                <div className="mt-3">
+                <div className='mt-3'>
                   <input
-                    className="form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white "
-                    type="checkbox"
+                    className='form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white '
+                    type='checkbox'
                     value={isFree}
-                    id="isfre"
-                    checked={isFree == "free" && true}
+                    id='isfre'
+                    checked={isFree == 'free' && true}
                     onClick={() => {
-                      if (isFree == "price") {
-                        setIsFree("free");
+                      if (isFree == 'price') {
+                        setIsFree('free')
                       } else {
-                        setIsFree("price");
+                        setIsFree('price')
                       }
                     }}
                   />
                   <label
-                    className="form-check-label pr-3  inline-block text-gray-800"
-                    for="isfree"
+                    className='form-check-label pr-3  inline-block text-gray-800'
+                    for='isfree'
                   >
                     انتشار به صورت رایگان
                   </label>
@@ -235,10 +246,10 @@ const UpdateCourse = () => {
             </div>
           </div>
           {/* C O U R S E  - C O L O R S */}
-          <div className="grid  col-span-5">
-            <p className="col-span-12">رنگ خود را انتخاب کنید</p>
+          <div className='grid  col-span-5'>
+            <p className='col-span-12'>رنگ خود را انتخاب کنید</p>
             {colors.map((item) => (
-              <div className="relative   z-0 w-20 mb-6 group">
+              <div className='relative   z-0 w-20 mb-6 group'>
                 <div
                   onClick={() => setColor(item.color)}
                   style={{ background: `${item.color}` }}
@@ -252,37 +263,37 @@ const UpdateCourse = () => {
             ))}
           </div>
           {/* L E S S O N S */}
-          <div className="grid  col-span-12">
+          <div className='grid  col-span-12'>
             <Lessons />
           </div>
         </div>
         <button
           onClick={(e) => {
-            e.preventDefault();
-            handleSubmit();
+            e.preventDefault()
+            handleSubmit()
           }}
-          type="submit"
-          className="text-white bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
+          type='submit'
+          className='text-white bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center '
         >
           {`انتشار دوره`}
         </button>
       </form>
       {/* Upload Modal*/}
       {uploadModal !== 0 && (
-        <div className="w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] ">
+        <div className='w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] '>
           <div
             onClick={() => setUploadModal(0)}
-            className="mx-auto flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2"
+            className='mx-auto flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2'
           >
-            <span className="text-sm pl-3"> بستن صفحه </span>
+            <span className='text-sm pl-3'> بستن صفحه </span>
 
             <BsDashCircleDotted />
           </div>
-          <table className="max-w-fit mx-auto  overflow-hidden rounded-2xl">
+          <table className='max-w-fit mx-auto  overflow-hidden rounded-2xl'>
             <thead
-              className={`${"text-right"} bg-white text-black dark:text-white `}
+              className={`${'text-right'} bg-white text-black dark:text-white `}
             >
-              <th className="px-2 py-2 pr-4">{`نام فایل`}</th>
+              <th className='px-2 py-2 pr-4'>{`نام فایل`}</th>
 
               <th></th>
             </thead>
@@ -291,14 +302,14 @@ const UpdateCourse = () => {
             >
               {files.map((item) => (
                 <tr
-                  className=""
+                  className=''
                   key={item.id}
                   onClick={() => {
                     if (uploadModal == 1) {
-                      setCourseImage(item.url);
+                      setCourseImage(item.url)
                     }
                     if (uploadModal == 2) {
-                      setCoursePoster(item.url);
+                      setCoursePoster(item.url)
                     }
                   }}
                 >
@@ -310,7 +321,7 @@ const UpdateCourse = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default UpdateCourse;
+export default UpdateCourse

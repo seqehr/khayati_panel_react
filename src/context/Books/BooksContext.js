@@ -11,7 +11,7 @@ export function BooksContextProvider({ children }) {
   const { token } = useToken()
   const [files, setFiles] = useState([])
   const [uploadModal, setUploadModal] = useState(0)
-  const [description, setDescription] = useState('')
+  const [description, setDescription] = useState('<p></p>')
   const [bookImage, setBookImage] = useState(ImageDefault)
   const [title, setTitle] = useState('')
 

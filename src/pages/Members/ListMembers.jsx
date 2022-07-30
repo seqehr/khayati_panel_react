@@ -14,6 +14,10 @@ import {
 //hooks
 import useToken from '../../hooks/useToken'
 
+//images
+import noResultImage from '../../assets/images/no-result.gif'
+import { data } from 'jquery'
+
 const ListMembers = (props) => {
   const { token } = useToken()
   const [listMembers, setListMembers] = useState([])
@@ -40,14 +44,13 @@ const ListMembers = (props) => {
 
   return (
     <div>
-      <table className='w-full overflow-hidden rounded-2xl'>
+      <table className='w-full overflow-hidden rounded-t-2xl'>
         <thead
           className={`${'text-right'} bg-[#80808033] text-black dark:text-white `}
         >
           <th className='px-2 py-2 pr-4'>{`نام کامل`}</th>
           <th>{`شماره تلفن`}</th>
 
-          <th></th>
           <th></th>
         </thead>
         <tbody className='bg-background2-light dark:bg-background2-dark '>
@@ -63,14 +66,8 @@ const ListMembers = (props) => {
                 <td className=' py-2 px-2'>
                   <Skeleton />
                 </td>
-                <td className=' py-2 px-2'>
-                  <Skeleton />
-                </td>
               </tr>
               <tr>
-                <td className='py-2 px-2'>
-                  <Skeleton />
-                </td>
                 <td className=' py-2 px-2'>
                   <Skeleton />
                 </td>
@@ -82,9 +79,6 @@ const ListMembers = (props) => {
                 </td>
               </tr>
               <tr>
-                <td className='py-2 px-2'>
-                  <Skeleton />
-                </td>
                 <td className=' py-2 px-2'>
                   <Skeleton />
                 </td>
@@ -110,6 +104,14 @@ const ListMembers = (props) => {
           )}
         </tbody>
       </table>
+      {/*________ Show No Result __________*/}
+      {listMembers.length == 0 && loading == false && (
+        <div className='text-center items-center w-full bg-background2-light dark:bg-background2-dark pb-5'>
+          <img src={noResultImage} alt='' className='m-auto w-32 py-5' />
+          موردی یافت نشد!
+        </div>
+      )}
+
       {/*________ Pagination buttons __________*/}
       {totalPages !== 0 && (
         <div className='p-4 justify-center flex w-full'>

@@ -17,8 +17,8 @@ export const MemberListCoursesService = (token, id) => {
   })
 }
 
-export const AddMemberService = (token) => {
-  return http.post(`${config.baseUrl}/api/admin/adduser`, {
+export const AddMemberService = (token, data) => {
+  return http.post(`${config.baseUrl}/api/admin/adduser`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
