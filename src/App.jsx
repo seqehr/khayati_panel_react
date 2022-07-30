@@ -64,14 +64,14 @@ function App() {
       <Helmet>
         <title>{`khaiati`}</title>
       </Helmet>
-
+      <ToastContainer />
       {/*  */}
       {!token ? (
         <Login />
       ) : (
         <>
           <Header />
-          <ToastContainer />
+
           <div className='min-h-screen py-4 bg-background-light dark:bg-background-dark sm:py-8'>
             <div className='wrapper'>
               <div className='relative flex gap-8'>

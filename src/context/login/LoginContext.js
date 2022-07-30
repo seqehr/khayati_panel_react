@@ -74,12 +74,15 @@ export function LoginContextProvider({ children }) {
           try {
             const { status, data } = await loginUser(user)
             if (status === 200 || status == 201) {
-              setStep(2)
-              //set timer
-              timer(data.data.timeleft)
-              setLoading(false)
-            } else {
-              toast.error('شما اجازه دسترسی ندارید')
+              if (data.isDone == false) {
+                toast.error('شما اجازه دسترسی ندارید')
+                setLoading(false)
+              } else {
+                setStep(2)
+                //set timer
+                timer(data.data.timeleft)
+                setLoading(false)
+              }
             }
           } catch (ex) {
             setLoading(false)

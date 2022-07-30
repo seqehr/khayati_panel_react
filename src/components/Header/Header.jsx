@@ -36,7 +36,7 @@ const Header = (props) => {
   const [userNumber, setuserNumber] = useState('')
   useEffect(() => {
     // get uploaded files
-    ChekLoginUser().then((res) => {
+    ChekLoginUser(token).then((res) => {
       setuserNumber(res.data.data)
     })
   }, [])
