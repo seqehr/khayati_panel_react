@@ -1,23 +1,21 @@
-
 import config from './config.json'
 import httpService from './httpService'
-let token = window.localStorage.getItem('Khayati-token')
 
-export const UploadedFiles = () => {
+export const UploadedFiles = (token) => {
   return httpService.get(`${config.baseUrl}/api/upload/files`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
 }
-export const AddAMusicService = (data) => {
+export const AddAMusicService = (token, data) => {
   return httpService.post(`${config.baseUrl}/api/musics/create`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
 }
-export const ListMusicsService = () => {
+export const ListMusicsService = (token) => {
   return httpService.post(
     `${config.baseUrl}/api/musics/archive`,
     {},
@@ -28,7 +26,7 @@ export const ListMusicsService = () => {
     }
   )
 }
-export const DeleteMusicService = (id) => {
+export const DeleteMusicService = (token, id) => {
   return httpService.get(
     `${config.baseUrl}/api/musics/delete/${id}`,
 
@@ -40,7 +38,7 @@ export const DeleteMusicService = (id) => {
     }
   )
 }
-export const SingleMusicService = (id) => {
+export const SingleMusicService = (token, id) => {
   return httpService.get(`${config.baseUrl}/api/musics/single/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,

@@ -11,8 +11,11 @@ import {
   AiOutlineLeftCircle,
   AiOutlineRightCircle,
 } from 'react-icons/ai'
+//hooks
+import useToken from '../../hooks/useToken'
 
 const ListMembers = (props) => {
+  const { token } = useToken()
   const [listMembers, setListMembers] = useState([])
   //paginattion
   const [perpage, setPerpage] = useState(10)
@@ -23,7 +26,7 @@ const ListMembers = (props) => {
 
   useEffect(() => {
     // get  members
-    ListMembersService().then((res) => {
+    ListMembersService(token).then((res) => {
       setListMembers(res.data.data)
       setLoading(false)
       // pagination

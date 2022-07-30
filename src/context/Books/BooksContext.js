@@ -1,44 +1,47 @@
-import React, { useEffect, useState } from "react";
-import config from "../../services/config.json";
-import { AddBookService, UploadedFiles } from "../../services/BookServices";
-import ImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react'
+import config from '../../services/config.json'
+import { AddBookService, UploadedFiles } from '../../services/BookServices'
+import ImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
+import { toast } from 'react-toastify'
+//hooks
+import useToken from '../../hooks/useToken'
 
-const BooksContext = React.createContext();
+const BooksContext = React.createContext()
 export function BooksContextProvider({ children }) {
-  const [files, setFiles] = useState([]);
-  const [uploadModal, setUploadModal] = useState(0);
-  const [description, setDescription] = useState("");
-  const [bookImage, setBookImage] = useState(ImageDefault);
-  const [title, setTitle] = useState("");
+  const { token } = useToken()
+  const [files, setFiles] = useState([])
+  const [uploadModal, setUploadModal] = useState(0)
+  const [description, setDescription] = useState('')
+  const [bookImage, setBookImage] = useState(ImageDefault)
+  const [title, setTitle] = useState('')
 
-  const [url, setUrl] = useState([]);
+  const [url, setUrl] = useState([])
 
-  let BookImage = "";
-  let Url = "";
+  let BookImage = ''
+  let Url = ''
   const handleSubmit = () => {
-    BookImage = bookImage.replace(`${config.HttpBaseUrl}/storage/`, "");
+    BookImage = bookImage.replace(`${config.HttpBaseUrl}/storage/`, '')
 
-    Url = url.replace(`${config.HttpBaseUrl}/storage/`, "");
+    Url = url.replace(`${config.HttpBaseUrl}/storage/`, '')
 
     const data = {
       name: title,
       img: BookImage,
       link: Url,
       description,
-    };
-    if (
-      BookImage !== "/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif"
-    ) {
-      AddBookService(data).then((res) => {
-        if (res.status == 200) {
-          toast.success("کتاب با موفقیت ثبت شد");
-        }
-      });
-    } else {
-      toast.warn("لطفا عکس کتاب را انتخاب کنید");
     }
-  };
+    if (
+      BookImage !== '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
+    ) {
+      AddBookService(token, data).then((res) => {
+        if (res.status == 200) {
+          toast.success('کتاب با موفقیت ثبت شد')
+        }
+      })
+    } else {
+      toast.warn('لطفا عکس کتاب را انتخاب کنید')
+    }
+  }
   return (
     <BooksContext.Provider
       value={{
@@ -59,7 +62,7 @@ export function BooksContextProvider({ children }) {
     >
       {children}
     </BooksContext.Provider>
-  );
+  )
 }
 
-export default BooksContext;
+export default BooksContext

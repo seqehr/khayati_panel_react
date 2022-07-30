@@ -1,22 +1,21 @@
 import config from './config.json'
 import httpService from './httpService'
-let token = window.localStorage.getItem('Khayati-token')
 
-export const UploadedFiles = () => {
+export const UploadedFiles = (token) => {
   return httpService.get(`${config.baseUrl}/api/upload/files`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
 }
-export const AddProductService = (data) => {
+export const AddProductService = (token, data) => {
   return httpService.post(`${config.baseUrl}/api/products/create`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
 }
-export const ListProductsService = () => {
+export const ListProductsService = (token) => {
   return httpService.get(
     `${config.baseUrl}/api/products/archive`,
 
@@ -27,7 +26,7 @@ export const ListProductsService = () => {
     }
   )
 }
-export const DeleteProductService = (id) => {
+export const DeleteProductService = (token, id) => {
   return httpService.get(
     `${config.baseUrl}/api/products/delete/${id}`,
 
@@ -39,7 +38,7 @@ export const DeleteProductService = (id) => {
     }
   )
 }
-export const SingleProductService = (id) => {
+export const SingleProductService = (token, id) => {
   return httpService.get(`${config.baseUrl}/api/products/single/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -47,7 +46,7 @@ export const SingleProductService = (id) => {
   })
 }
 
-export const CatListService = () => {
+export const CatListService = (token) => {
   return httpService.get(`${config.baseUrl}/api/posts/cats/list`, {
     headers: {
       Authorization: `Bearer ${token}`,

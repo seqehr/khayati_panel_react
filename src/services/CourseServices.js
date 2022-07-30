@@ -1,30 +1,29 @@
 import axios from 'axios'
 import config from './config.json'
 import httpService from './httpService'
-let token = window.localStorage.getItem('Khayati-token')
 
-export const UploadedFiles = () => {
+export const UploadedFiles = (token) => {
   return httpService.get(`${config.baseUrl}/api/upload/files`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
 }
-export const AddCourseService = (data) => {
+export const AddCourseService = (token, data) => {
   return httpService.post(`${config.baseUrl}/api/courses/create`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
 }
-export const ListCoursesService = () => {
+export const ListCoursesService = (token) => {
   return httpService.get(`${config.baseUrl}/api/courses/archive`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
 }
-export const DeleteCoursesService = (id) => {
+export const DeleteCoursesService = (token, id) => {
   return httpService.post(
     `${config.baseUrl}/api/courses/delete/${id}`,
     {},
@@ -37,7 +36,7 @@ export const DeleteCoursesService = (id) => {
   )
 }
 
-export const SingleCourseService = (id) => {
+export const SingleCourseService = (token, id) => {
   return httpService.get(`${config.baseUrl}/api/courses/single/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,

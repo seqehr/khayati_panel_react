@@ -1,64 +1,67 @@
-import React, { useEffect, useState } from "react";
-import { BsDashCircleDotted } from "react-icons/bs";
+import React, { useEffect, useState } from 'react'
+import { BsDashCircleDotted } from 'react-icons/bs'
 import {
   AddAMusicService,
   SingleMusicService,
   UploadedFiles,
-} from "../../services/MusicsServices";
-import { useParams } from "react-router-dom";
-import MusicImageDefault from "../../assets/images/UF_Infinity_khayati.gif";
+} from '../../services/MusicsServices'
+import { useParams } from 'react-router-dom'
+import MusicImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 // components
-import TableRow from "./ModalTableRow";
-import config from "../../services/config.json";
+import TableRow from './ModalTableRow'
+import config from '../../services/config.json'
 // css
-import style from "./TableRow.module.scss";
-import { toast } from "react-toastify";
+import style from './TableRow.module.scss'
+import { toast } from 'react-toastify'
+//hooks
+import useToken from '../../hooks/useToken'
 
 const UpdateMusic = (props) => {
-  const { id: musicId } = useParams();
-  const [files, setFiles] = useState([]);
-  const [uploadModal, setUploadModal] = useState(0);
+  const { token } = useToken()
+  const { id: musicId } = useParams()
+  const [files, setFiles] = useState([])
+  const [uploadModal, setUploadModal] = useState(0)
 
-  const [musicImage, setMusicImage] = useState(MusicImageDefault);
-  const [url, setUrl] = useState("");
-  const [name, setName] = useState("");
+  const [musicImage, setMusicImage] = useState(MusicImageDefault)
+  const [url, setUrl] = useState('')
+  const [name, setName] = useState('')
 
-  let Url = "";
-  let MusicImage = "";
+  let Url = ''
+  let MusicImage = ''
   const handleSubmit = () => {
-    MusicImage = musicImage.replace(`${config.HttpBaseUrl}/storage/`, "");
-    Url = url.replace(`${config.HttpBaseUrl}/storage/`, "");
+    MusicImage = musicImage.replace(`${config.HttpBaseUrl}/storage/`, '')
+    Url = url.replace(`${config.HttpBaseUrl}/storage/`, '')
 
     const data = {
       name: name,
       url: url,
       img: musicImage,
-    };
-    AddAMusicService(data).then((res) => {
+    }
+    AddAMusicService(token, data).then((res) => {
       if (res.status == 200) {
-        toast.success("موزیک با موفقیت ثبت شد");
+        toast.success('موزیک با موفقیت ثبت شد')
       }
-    });
-  };
+    })
+  }
 
   useEffect(() => {
-    SingleMusicService(musicId).then((res) => {
-      const data = res.data.data;
+    SingleMusicService(token, musicId).then((res) => {
+      const data = res.data.data
 
-      setUrl(data.url);
-      setMusicImage(data.img);
-      setName(data.name);
-    });
+      setUrl(data.url)
+      setMusicImage(data.img)
+      setName(data.name)
+    })
 
-    UploadedFiles().then((res) => {
-      setFiles(res.data.data);
-    });
-  }, []);
+    UploadedFiles(token).then((res) => {
+      setFiles(res.data.data)
+    })
+  }, [])
 
   return (
-    <div className="bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl">
+    <div className='bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl'>
       <form>
-        <div className="grid grid-cols-12 xl:gap-6">
+        <div className='grid grid-cols-12 xl:gap-6'>
           {/* M U S I C  - I M A G E */}
           <div
             className={` 
@@ -66,50 +69,50 @@ const UpdateMusic = (props) => {
           >
             <img
               src={musicImage}
-              className="w-96 rounded-md"
+              className='w-96 rounded-md'
               onClick={() => {
-                setUploadModal(2);
+                setUploadModal(2)
               }}
             />
             <label
-              className="p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              for="user_avatar"
+              className='p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+              for='user_avatar'
             >
               {`انتخاب عکس `}
             </label>
           </div>
           {/* M U S I C  - N A M E */}
-          <div className="relative col-span-3 z-0 w-full mb-6 group">
+          <div className='relative col-span-3 z-0 w-full mb-6 group'>
             <input
-              type="text"
-              name="courseName"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required=""
+              type='text'
+              name='courseName'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              required=''
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <label
-              for="courseName"
-              className={`  ${"right-0"}peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
+              for='courseName'
+              className={`  ${'right-0'}peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
             >
               {`عنوان `}
             </label>
           </div>
           {/* M U S I C  - U R L */}
-          <div className="relative col-span-9 z-0 w-full mb-6 group">
+          <div className='relative col-span-9 z-0 w-full mb-6 group'>
             <input
-              type="text"
-              name="excrept"
-              id="excrept"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required=""
+              type='text'
+              name='excrept'
+              id='excrept'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              required=''
               value={url}
               onClick={() => setUploadModal(1)}
             />
             <label
-              for="excrept"
+              for='excrept'
               className={`  right-0
               peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
             >
@@ -118,12 +121,12 @@ const UpdateMusic = (props) => {
           </div>
         </div>
         <button
-          type="submit"
+          type='submit'
           onClick={(e) => {
-            e.preventDefault();
-            handleSubmit();
+            e.preventDefault()
+            handleSubmit()
           }}
-          className="text-white bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
+          className='text-white bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center '
         >
           {`انتشار `}
         </button>
@@ -131,20 +134,20 @@ const UpdateMusic = (props) => {
 
       {/* Upload Modal*/}
       {uploadModal !== 0 && (
-        <div className="w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] ">
+        <div className='w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] '>
           <div
             onClick={() => setUploadModal(0)}
-            className="mx-auto flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2"
+            className='mx-auto flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2'
           >
-            <span className="text-sm pl-3"> بستن صفحه </span>
+            <span className='text-sm pl-3'> بستن صفحه </span>
 
             <BsDashCircleDotted />
           </div>
-          <table className="max-w-fit mx-auto  overflow-hidden rounded-2xl">
+          <table className='max-w-fit mx-auto  overflow-hidden rounded-2xl'>
             <thead
-              className={`${"text-right"} bg-white text-black dark:text-white `}
+              className={`${'text-right'} bg-white text-black dark:text-white `}
             >
-              <th className="px-2 py-2 pr-4">{`نام فایل`}</th>
+              <th className='px-2 py-2 pr-4'>{`نام فایل`}</th>
 
               <th></th>
             </thead>
@@ -153,14 +156,14 @@ const UpdateMusic = (props) => {
             >
               {files.map((item) => (
                 <tr
-                  className=""
+                  className=''
                   key={item.id}
                   onClick={() => {
                     if (uploadModal == 1) {
-                      setUrl(item.url);
+                      setUrl(item.url)
                     }
                     if (uploadModal == 2) {
-                      setMusicImage(item.url);
+                      setMusicImage(item.url)
                     }
                   }}
                 >
@@ -172,7 +175,7 @@ const UpdateMusic = (props) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default UpdateMusic;
+export default UpdateMusic

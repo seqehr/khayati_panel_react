@@ -46,7 +46,7 @@ function App() {
   const { token, setToken } = useToken()
 
   useEffect(() => {
-    ChekLoginUser()
+    ChekLoginUser(token)
       .then((res) => {})
       .catch((err) => {
         if (err.response.status == 401) {

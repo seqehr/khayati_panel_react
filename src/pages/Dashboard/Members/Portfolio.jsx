@@ -5,21 +5,24 @@ import useDashboard from '../../../hooks/useDashboard'
 import DashboardBox from '../DashboardBox'
 import DashboardBoxHead from '../DashboardBoxHead'
 import PortfolioItem from './PortfolioItem'
-
+import { Link } from 'react-router-dom'
 // Icons
+import { AiOutlineReload } from 'react-icons/ai'
 import { useEffect, useState } from 'react'
 // services
 import { ListMembersService } from '../../../services/MemberServices'
-import { AiOutlineReload } from 'react-icons/ai'
-import { Link } from 'react-router-dom'
+
+//hooks
+import useToken from '../../../hooks/useToken'
 
 const Portfolio = (props) => {
+  const { token } = useToken()
   const { data } = useDashboard()
   const [listMembers, setListMembers] = useState([])
 
   useEffect(() => {
     // get  members
-    ListMembersService().then((res) => {
+    ListMembersService(token).then((res) => {
       setListMembers(res.data.data)
     })
   }, [])

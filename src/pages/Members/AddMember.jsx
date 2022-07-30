@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
-
 import { toast } from 'react-toastify'
+//hooks
+import useToken from '../../hooks/useToken'
+//services
 import { AddMemberService } from '../../services/MemberServices'
 
 const AddMember = (props) => {
+  const { token } = useToken()
   const [phoneNumber, setPhoneNumber] = useState('')
   const [name, setName] = useState('')
 
@@ -12,7 +15,7 @@ const AddMember = (props) => {
       name: name,
       phone: phoneNumber,
     }
-    AddMemberService(data).then((res) => {
+    AddMemberService(token, data).then((res) => {
       if (res.status == 200) {
         toast.success('حساب با موفقیت ایجاد شد')
       }

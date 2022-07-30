@@ -5,9 +5,12 @@ import config from '../../services/config.json'
 import { AddArticleService } from '../../services/ArticleServices'
 //images
 import ArticleImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
+// hooks
+import useToken from '../../hooks/useToken'
 
 const ArticlesContext = React.createContext()
 export function ArticlesContextProvider({ children }) {
+  const { token } = useToken()
   const [files, setFiles] = useState([])
   const [categorries, setCategorries] = useState([])
   const [uploadModal, setUploadModal] = useState(false)
@@ -34,7 +37,7 @@ export function ArticlesContextProvider({ children }) {
       ArticleImage !==
       '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
     ) {
-      AddArticleService(data).then((res) => {
+      AddArticleService(token, data).then((res) => {
         if (res.status == 200) {
           toast.success('مقاله با موفقیت ساخته شد')
         }

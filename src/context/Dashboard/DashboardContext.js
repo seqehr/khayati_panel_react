@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
+//hooks
+import useToken from '../../hooks/useToken'
 // services
 import { DataDashboardService } from '../../services/DashboardServices'
 
 const DashboardContext = React.createContext()
 export function DashboardContextProvider({ children }) {
+  const { token } = useToken()
   const [data, setData] = useState({})
   useEffect(() => {
-    DataDashboardService()
+    DataDashboardService(token)
       .then((res) => {
         setData(res.data.data)
       })

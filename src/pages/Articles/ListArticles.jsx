@@ -10,8 +10,11 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { toast } from 'react-toastify'
 import { AiOutlineLeftCircle, AiOutlineRightCircle } from 'react-icons/ai'
+//hooks
+import useToken from '../../hooks/useToken'
 
 const ListArticles = (props) => {
+  const { token } = useToken()
   const [listArticles, setListArticles] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -21,7 +24,7 @@ const ListArticles = (props) => {
   const [totalPages, settotalPages] = useState(0)
 
   useEffect(() => {
-    ListArticlesService().then((res) => {
+    ListArticlesService(token).then((res) => {
       setListArticles(res.data.data)
       setLoading(false)
       settotalPages(
@@ -44,7 +47,7 @@ const ListArticles = (props) => {
       </p>
     )
     const confirmDelete = () => {
-      DeleteArticleService(id)
+      DeleteArticleService(token, id)
       setListArticles(listArticles.filter((i) => i.id !== id))
     }
   }

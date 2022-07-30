@@ -1,23 +1,21 @@
-
 import config from './config.json'
 import httpService from './httpService'
-let token = window.localStorage.getItem('Khayati-token')
 
-export const UploadedFiles = () => {
+export const UploadedFiles = (token) => {
   return httpService.get(`${config.baseUrl}/api/upload/files`, {
     headers: {
       Authorization: `Bearer${token}`,
     },
   })
 }
-export const AddBookService = (data) => {
+export const AddBookService = (token, data) => {
   return httpService.post(`${config.baseUrl}/api/books/create`, data, {
     headers: {
       Authorization: `Bearer${token}`,
     },
   })
 }
-export const ListBooksService = () => {
+export const ListBooksService = (token) => {
   return httpService.get(
     `${config.baseUrl}/api/books/archive`,
 
@@ -28,7 +26,7 @@ export const ListBooksService = () => {
     }
   )
 }
-export const DeleteBookService = (id) => {
+export const DeleteBookService = (token, id) => {
   return httpService.post(
     `${config.baseUrl}/api/books/delete/${id}`,
     {},
@@ -41,7 +39,7 @@ export const DeleteBookService = (id) => {
   )
 }
 
-export const SingleBookService = (id) => {
+export const SingleBookService = (token, id) => {
   return httpService.get(`${config.baseUrl}/api/books/single/${id}`, {
     headers: {
       Authorization: `Bearer${token}`,
