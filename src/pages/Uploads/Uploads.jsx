@@ -28,7 +28,7 @@ const Uploads = () => {
     let resumable = new Resumable({
       target: `${config.baseUrl}/api/upload/new`,
       query: { _token: '{{ csrf_token() }}' }, // CSRF token
-      fileType: ['mp4', 'jpg', 'png', 'mp3', 'zip', 'rar'],
+      fileType: ['mp4', 'jpg', 'png', 'mp3', 'zip', 'rar', 'pdf'],
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',

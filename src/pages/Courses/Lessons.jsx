@@ -1,4 +1,7 @@
 import React from 'react'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
+//hooks
 import useCourses from '../../hooks/useCourses'
 //icons
 import { BsPlusCircleDotted } from 'react-icons/bs'
@@ -12,6 +15,8 @@ const Lessons = ({ selectLessenFileF }) => {
     handleDelete,
     setLinkLesson,
     setTitleLesson,
+    setContentLesson,
+    getContentLesson,
   } = useCourses()
   return (
     <>
@@ -53,6 +58,19 @@ const Lessons = ({ selectLessenFileF }) => {
               افزودن درس
             </span>
           </button>
+          <div className='relative col-span-12 z-0 w-full my-5  group '>
+            <CKEditor
+              editor={ClassicEditor}
+              className={`text-right right-0`}
+              data={getContentLesson}
+              // this will we change  =>  {data} has html
+
+              onChange={(event, editor) => {
+                const data = editor.getData()
+                setContentLesson(data)
+              }}
+            />
+          </div>
         </div>
         {/* show lessons */}
         {getLesson.map((lesson) => (
@@ -88,6 +106,19 @@ const Lessons = ({ selectLessenFileF }) => {
                 حذف درس
               </span>
             </button>
+            <div className='relative col-span-12 z-0 w-full my-5  group '>
+              <CKEditor
+                editor={ClassicEditor}
+                className={`text-right right-0`}
+                data={lesson.content}
+                // this will we change  =>  {data} has html
+
+                onChange={(event, editor) => {
+                  const data = editor.getData()
+                  setContentLesson(data)
+                }}
+              />
+            </div>
           </div>
         ))}
       </div>

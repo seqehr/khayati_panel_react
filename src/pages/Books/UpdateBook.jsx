@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { SingleBookService, UploadedFiles } from '../../services/BookServices'
 import { toast } from 'react-toastify'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic/build/ckeditor'
+import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
 import { useParams } from 'react-router-dom'
 // css
 import style from './TableRow.module.scss'

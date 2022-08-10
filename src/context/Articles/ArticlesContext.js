@@ -7,6 +7,7 @@ import { AddArticleService } from '../../services/ArticleServices'
 import ArticleImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 // hooks
 import useToken from '../../hooks/useToken'
+import useCategories from '../../hooks/useCategories'
 
 const ArticlesContext = React.createContext()
 export function ArticlesContextProvider({ children }) {
@@ -16,7 +17,8 @@ export function ArticlesContextProvider({ children }) {
   const [uploadModal, setUploadModal] = useState(false)
 
   const [articleImage, setArticleImage] = useState(ArticleImageDefault)
-  const [catId, setCatId] = useState(1)
+
+  const { checked, setChecked } = useCategories()
   const [description, setDescription] = useState('<p></p>')
   const [name, setName] = useState('')
   const [hashtags, setHashtags] = useState([])
@@ -28,7 +30,7 @@ export function ArticlesContextProvider({ children }) {
 
     const data = {
       name,
-      cat_id: catId,
+      cat_id: checked,
       img: ArticleImage,
       content: description,
       tags: JSON.stringify(hashtags),
@@ -37,13 +39,17 @@ export function ArticlesContextProvider({ children }) {
       ArticleImage !==
       '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
     ) {
-      AddArticleService(token, data).then((res) => {
-        if (res.status == 200) {
-          toast.success('مقاله با موفقیت ساخته شد')
-        }
-      })
+      if (hashtags.length !== 0) {
+        AddArticleService(token, data).then((res) => {
+          if (res.status == 200) {
+            toast.success('مقاله با موفقیت ساخته شد')
+          }
+        })
+      } else {
+        toast.warn('لطفا یک بر چسب ایجاد کنید')
+      }
     } else {
-      toast.warn('لطفا عکس مقاله را انتخاب کنید')
+      toast.warn('لطفا  عکس را انتخاب کنید')
     }
   }
   const creaeHashagHandler = () => {
@@ -81,8 +87,7 @@ export function ArticlesContextProvider({ children }) {
         setHashtags,
         hashtag,
         setHashtag,
-        catId,
-        setCatId,
+
         description,
         setDescription,
       }}

@@ -54,6 +54,14 @@ export const CatListService = (token) => {
   })
 }
 
+export const CreateCatService = (token, data) => {
+  return httpService.post(`${config.baseUrl}/api/posts/cats/create`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}
+
 export const ListTagsService = (token) => {
   return httpService.get(`${config.baseUrl}/api/tags/list`, {
     headers: {

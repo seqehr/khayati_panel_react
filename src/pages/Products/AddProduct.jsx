@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Radio } from '@material-tailwind/react'
 import ArticleImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic/build/ckeditor'
+import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
 import { toast } from 'react-toastify'
 // css
 import './CKEditor.css'

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import './CKEditor.css'
 import style from './TableRow.module.scss'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic/build/ckeditor'
+import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
 // images gifs
 import CourseImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 // hooks
@@ -28,6 +28,8 @@ const AddCourse = (props) => {
     courseImage,
     setCourseImage,
     coursePoster,
+    getContentLesson,
+    setContentLesson,
     setCoursePoster,
     color,
     setColor,
@@ -62,6 +64,7 @@ const AddCourse = (props) => {
     setCoursePoster(CourseImageDefault)
     setPrice('')
     setLessons([])
+
     setExcerpt('')
   }, [])
 

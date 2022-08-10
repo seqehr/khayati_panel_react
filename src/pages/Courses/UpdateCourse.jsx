@@ -13,7 +13,7 @@ import { BsDashCircleDotted } from 'react-icons/bs'
 // components
 import Lessons from './Lessons'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic/build/ckeditor'
+import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
 import {
   UploadedFiles,
   SingleCourseService,
@@ -27,7 +27,9 @@ const UpdateCourse = () => {
   const {
     setLessons,
     handleSubmit,
+    setLinkLesson,
     files,
+    selectLessenFile,
     setFiles,
     uploadModal,
     setUploadModal,
@@ -53,6 +55,11 @@ const UpdateCourse = () => {
   } = useCourse()
 
   useEffect(() => {
+    // get uploaded files
+    UploadedFiles(token).then((res) => {
+      setFiles(res.data.data)
+      setLessons(false)
+    })
     //reset inputs
     setName('')
     setDescription('')
@@ -264,7 +271,7 @@ const UpdateCourse = () => {
           </div>
           {/* L E S S O N S */}
           <div className='grid  col-span-12'>
-            <Lessons />
+            <Lessons selectLessenFileF={selectLessenFile} />
           </div>
         </div>
         <button
@@ -310,6 +317,9 @@ const UpdateCourse = () => {
                     }
                     if (uploadModal == 2) {
                       setCoursePoster(item.url)
+                    }
+                    if (uploadModal == 3) {
+                      setLinkLesson(item.url)
                     }
                   }}
                 >

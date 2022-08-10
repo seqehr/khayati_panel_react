@@ -42,6 +42,7 @@ import UpdateMusic from './pages/Music/UpdateMusic'
 import MemberListCourses from './pages/Members/MemberListCourses'
 import ListTags from './pages/Articles/Tags/ListTags'
 import AddMember from './pages/Members/AddMember'
+import AddCategory from './pages/Articles/Categories/AddCategory'
 function App() {
   const { token, setToken } = useToken()
 
@@ -97,6 +98,10 @@ function App() {
                     <Route
                       path='/article/update/:id'
                       element={<UpdateArticle />}
+                    />
+                    <Route
+                      path='/article/category/add'
+                      element={<AddCategory />}
                     />
                     <Route path='/tags' element={<ListTags />} />
                     // Products

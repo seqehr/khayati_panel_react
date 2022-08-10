@@ -9,8 +9,8 @@ import { BsDashCircleDotted } from 'react-icons/bs'
 // components
 import TableRow from './ModalTableRow'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic/build/ckeditor'
-//hooks
+import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
+//hookss
 import useBooks from '../../hooks/useBooks'
 import useToken from '../../hooks/useToken'
 

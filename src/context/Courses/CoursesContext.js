@@ -17,6 +17,7 @@ export const CourseContextProvider = ({ children }) => {
   const [getLesson, setLesson] = useState([])
   const [getLinkLesson, setLinkLesson] = useState('')
   const [getTitleLesson, setTitleLesson] = useState('')
+  const [getContentLesson, setContentLesson] = useState('')
 
   //files
   const [files, setFiles] = useState([])
@@ -82,6 +83,7 @@ export const CourseContextProvider = ({ children }) => {
         id: item.id,
         name: item.name,
         url: item.url.replace(`${config.HttpBaseUrl}/storage/`, ''),
+        content: item.content,
       })
     })
 
@@ -120,6 +122,7 @@ export const CourseContextProvider = ({ children }) => {
       id: uuidv4(),
       name: getTitleLesson,
       url: getLinkLesson,
+      content: getContentLesson,
     }
     if (
       getTitleLesson !== '' &&
@@ -130,6 +133,7 @@ export const CourseContextProvider = ({ children }) => {
       setLesson(lessons)
       setTitleLesson('')
       setLinkLesson('')
+      setContentLesson('')
       toast.success(`(${lesson.name}) با موفقیت اضافه شد`, {
         position: 'top-right',
         autoClose: 5000,
@@ -162,6 +166,7 @@ export const CourseContextProvider = ({ children }) => {
           id: item.id,
           name: item.name,
           url: item.url,
+          content: item.content,
         }
 
         lessons.push(lesson)
@@ -207,6 +212,8 @@ export const CourseContextProvider = ({ children }) => {
         setName,
         colors,
         selectLessenFile,
+        getContentLesson,
+        setContentLesson,
       }}
     >
       {children}

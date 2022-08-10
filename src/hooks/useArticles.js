@@ -1,6 +1,6 @@
 // Context
-import { useContext } from "react";
-import ArticlesContext from "../context/Articles/ArticlesContext";
+import { useContext } from 'react'
+import ArticlesContext from '../context/Articles/ArticlesContext'
 
 const useArticles = (props) => {
   const {
@@ -21,11 +21,10 @@ const useArticles = (props) => {
     setHashtags,
     hashtag,
     setHashtag,
-    catId,
-    setCatId,
+
     description,
     setDescription,
-  } = useContext(ArticlesContext);
+  } = useContext(ArticlesContext)
   return {
     handleSubmit,
     creaeHashagHandler,
@@ -44,11 +43,10 @@ const useArticles = (props) => {
     setHashtags,
     hashtag,
     setHashtag,
-    catId,
-    setCatId,
+
     description,
     setDescription,
-  };
-};
+  }
+}
 
-export default useArticles;
+export default useArticles

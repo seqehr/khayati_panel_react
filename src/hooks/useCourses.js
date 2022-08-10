@@ -1,6 +1,6 @@
 // Context
-import { useContext } from "react";
-import CoursesContext from "../context/Courses/CoursesContext";
+import { useContext } from 'react'
+import CoursesContext from '../context/Courses/CoursesContext'
 
 const useCourses = (props) => {
   const {
@@ -36,8 +36,10 @@ const useCourses = (props) => {
     name,
     setName,
     colors,
+    getContentLesson,
+    setContentLesson,
     selectLessenFile,
-  } = useContext(CoursesContext);
+  } = useContext(CoursesContext)
 
   return {
     handleCreate,
@@ -73,7 +75,9 @@ const useCourses = (props) => {
     setName,
     colors,
     selectLessenFile,
-  };
-};
+    getContentLesson,
+    setContentLesson,
+  }
+}
 
-export default useCourses;
+export default useCourses

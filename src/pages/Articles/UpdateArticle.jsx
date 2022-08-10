@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
+//css
 import './CKEditor.css'
 import style from './TableRow.module.scss'
 
 // hooks
 import useArticles from '../../hooks/useArticles'
 import useToken from '../../hooks/useToken'
+import useCategories from '../../hooks/useCategories'
 // services
 import {
   SingleArticleService,
@@ -18,10 +22,11 @@ import { AiFillPlusSquare } from 'react-icons/ai'
 import { BsDashCircleDotted } from 'react-icons/bs'
 // components
 import TableRow from './ModalTableRow'
-import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic/build/ckeditor'
+import TreeView from './TreeViewe'
 
 const UpdateArticle = (props) => {
+  const { catlist, setCatlist, checked, setChecked } = useCategories()
+  const [refresh, setRefresh] = useState(false)
   const { token } = useToken()
   const { id: courseId } = useParams()
   const {
@@ -48,11 +53,22 @@ const UpdateArticle = (props) => {
     setDescription,
   } = useArticles()
   useEffect(() => {
+    // cats
+    CatListService(token).then((res) => {
+      const categories = { ...catlist }
+      categories.children = res.data.data
+      setCatlist(categories)
+      setTimeout(() => {
+        setRefresh(!refresh)
+      }, 100)
+    })
+
     //reset inputs
     setArticleImage('')
     setName('')
     setHashtags([])
     setDescription('')
+    setChecked('')
 
     UploadedFiles(token).then((res) => {
       setFiles(res.data.data)
@@ -71,7 +87,8 @@ const UpdateArticle = (props) => {
 
       setArticleImage(data.img)
       setName(data.name)
-
+      setChecked(data.cat_id)
+      console.log(data)
       setDescription(data.content)
     })
     CatListService(token).then((res) => {
@@ -85,7 +102,7 @@ const UpdateArticle = (props) => {
         <div className='grid grid-cols-12 xl:gap-6'>
           {/* A R T I C L E - E I M A G E */}
           <div
-            className={` ${'col-span-12'} relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
+            className={` ${'col-span-8'} relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
             <img
               onClick={() => setUploadModal(true)}
@@ -99,14 +116,19 @@ const UpdateArticle = (props) => {
               {`انتخاب عکس مقاله`}
             </label>
           </div>
-
+          {/* A R T I C L E - C A T */}
+          <div
+            className={` ${'col-span-4'}  relative  flex  justify-start bg-background-light p-5 rounded-2xl drop-shadow-md  flex-col  z-0  mb-6 group`}
+          >
+            <TreeView explorer={catlist} />
+          </div>
           {/* A R T I C L E  - N A M E */}
-          <div className='relative col-span-9 z-0 w-full mb-6 group'>
+          <div className='relative col-span-6 px-1 z-0 w-full mb-6 group'>
             <input
               type='text'
+              value={name}
               onChange={(e) => setName(e.target.value)}
               name='courseName'
-              value={name}
               className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
               placeholder=' '
               required=''
@@ -118,27 +140,7 @@ const UpdateArticle = (props) => {
               {`عنوان `}
             </label>
           </div>
-          {/* A R T I C L E - C A T */}
-          <div
-            className={` ${'col-span-3'}  relative  flex  justify-center flex-col  z-0 w-full mb-6 group`}
-          >
-            <select
-              value={catId}
-              id='countries'
-              name='countries'
-              onChange={(e) => {
-                setCatId(e.target.value)
-              }}
-              className='block py-2.5 pr-2 w-full text-sm  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-            >
-              {categorries.map((cat) => (
-                <option value={cat.id}> {cat.name}</option>
-              ))}
-              <option value='' disabled selected hidden>
-                یک دسته بندی انتخاب کنید:
-              </option>
-            </select>
-          </div>
+
           {/* A R T I C L E  - H A S H T A G */}
           <div className='relative flex col-span-6 z-0 px-1 w-full mb-6 group'>
             <input
@@ -167,7 +169,7 @@ const UpdateArticle = (props) => {
             </p>
           </div>
           <div
-            className={`${style.myLink} relative items-end overflow-x-scroll flex col-span-6 z-0 px-1 w-full mb-6 group`}
+            className={`${style.myLink} relative items-end overflow-x-scroll flex col-span-12 z-0 px-1 w-full mb-6 group`}
           >
             {hashtags.map((item, index) => (
               <p className='shadow-md mx-2 p-1 flex'>
@@ -190,6 +192,8 @@ const UpdateArticle = (props) => {
               editor={ClassicEditor}
               className={`text-right right-0`}
               data={description}
+              // this will we change  =>  {data} has html
+
               onChange={(event, editor) => {
                 const data = editor.getData()
                 setDescription(data)

@@ -176,6 +176,10 @@ const Sidebar = (props) => {
           title: ' برچسب ها',
           to: '/tags',
         },
+        {
+          title: 'افزودن دسته بندی   ',
+          to: '/article/category/add',
+        },
       ],
     },
   ]
@@ -261,7 +265,7 @@ const Sidebar = (props) => {
             <SidebarOption
               to='/uploads'
               icon={<GoFileMedia />}
-              title={`اپلود ویدیو`}
+              title={`اپلود سنتر`}
               active={location.pathname === '/uploads'}
             />
           </ul>

@@ -23,7 +23,7 @@ import { BsDashCircleDotted } from 'react-icons/bs'
 import config from '../../services/config.json'
 import TableRow from './ModalTableRow'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic/build/ckeditor'
+import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
 import { toast } from 'react-toastify'
 
 const UpdateProduct = (props) => {
