@@ -31,11 +31,15 @@ const AddMusic = (props) => {
       url: url,
       img: musicImage,
     }
-    AddAMusicService(token, data).then((res) => {
-      if (res.status == 200) {
-        toast.success('موزیک با موفقیت ثبت شد')
-      }
-    })
+    if (name && url !== ' ') {
+      AddAMusicService(token, data).then((res) => {
+        if (res.status == 200) {
+          toast.success('موزیک با موفقیت ثبت شد')
+        }
+      })
+    } else {
+      toast.warn('لطفا تمام مقادیر را وارد کنید')
+    }
   }
 
   useEffect(() => {

@@ -40,11 +40,19 @@ export function ArticlesContextProvider({ children }) {
       '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
     ) {
       if (hashtags.length !== 0) {
-        AddArticleService(token, data).then((res) => {
-          if (res.status == 200) {
-            toast.success('مقاله با موفقیت ساخته شد')
+        if (name !== '') {
+          if (checked !== 0) {
+            AddArticleService(token, data).then((res) => {
+              if (res.status == 200) {
+                toast.success('مقاله با موفقیت ساخته شد')
+              }
+            })
+          } else {
+            toast.warn('لطفا یک دسته بندی انتخاب کنید')
           }
-        })
+        } else {
+          toast.warn('لطفا عنوان را انتخاب کنید')
+        }
       } else {
         toast.warn('لطفا یک بر چسب ایجاد کنید')
       }
@@ -55,7 +63,11 @@ export function ArticlesContextProvider({ children }) {
   const creaeHashagHandler = () => {
     const arrHashtags = [...hashtags]
 
-    arrHashtags.push(hashtag)
+    if (hashtag == '') {
+      toast.warn('لطفا نام برچسب را وارد کنید')
+    } else {
+      arrHashtags.push(hashtag)
+    }
     setHashtag('')
     setHashtags(arrHashtags)
   }

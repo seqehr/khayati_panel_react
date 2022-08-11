@@ -15,11 +15,15 @@ const AddMember = (props) => {
       name: name,
       phone: phoneNumber,
     }
-    AddMemberService(token, data).then((res) => {
-      if (res.status == 200) {
-        toast.success('حساب با موفقیت ایجاد شد')
-      }
-    })
+    if (name && phoneNumber !== '') {
+      AddMemberService(token, data).then((res) => {
+        if (res.status == 200) {
+          toast.success('حساب با موفقیت ایجاد شد')
+        }
+      })
+    } else {
+      toast.warn('لطفا تمام مقادریر را وارد کنید')
+    }
   }
 
   return (

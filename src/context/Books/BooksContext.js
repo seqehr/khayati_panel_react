@@ -15,7 +15,7 @@ export function BooksContextProvider({ children }) {
   const [bookImage, setBookImage] = useState(ImageDefault)
   const [title, setTitle] = useState('')
 
-  const [url, setUrl] = useState([])
+  const [url, setUrl] = useState('')
 
   let BookImage = ''
   let Url = ''
@@ -33,11 +33,19 @@ export function BooksContextProvider({ children }) {
     if (
       BookImage !== '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
     ) {
-      AddBookService(token, data).then((res) => {
-        if (res.status == 200) {
-          toast.success('کتاب با موفقیت ثبت شد')
+      if (title !== '') {
+        if (url !== '') {
+          AddBookService(token, data).then((res) => {
+            if (res.status == 200) {
+              toast.success('کتاب با موفقیت ثبت شد')
+            }
+          })
+        } else {
+          toast.warn('لطفا فایل کتاب را انتخاب کنید')
         }
-      })
+      } else {
+        toast.warn('لطفا نام کتاب را بنویسید')
+      }
     } else {
       toast.warn('لطفا عکس کتاب را انتخاب کنید')
     }

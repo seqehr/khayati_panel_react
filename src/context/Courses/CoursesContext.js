@@ -104,11 +104,23 @@ export const CourseContextProvider = ({ children }) => {
       CourseImage !==
       '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
     ) {
-      AddCourseService(token, data).then((res) => {
-        if (res.status == 200) {
-          toast.success('دوره با موفقیت ساخته شد')
+      if (name !== '') {
+        if (color !== '') {
+          if (price !== 0 && isFree !== false) {
+            AddCourseService(token, data).then((res) => {
+              if (res.status == 200) {
+                toast.success('دوره با موفقیت ساخته شد')
+              }
+            })
+          } else {
+            toast.warn('لطفا  قیمت را انتخاب کنید')
+          }
+        } else {
+          toast.warn('لطفا  رنگ را انتخاب کنید')
         }
-      })
+      } else {
+        toast.warn('لطفا نام دوره را انتخاب کنید')
+      }
     } else {
       toast.warn('لطفا عکس دوره را انتخاب کنید')
     }
