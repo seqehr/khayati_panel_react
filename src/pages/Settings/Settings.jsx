@@ -36,9 +36,9 @@ const Settings = () => {
   }, [])
 
   return (
-    <div className='bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl'>
+    <div className='bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl container'>
       <form>
-        <div className='grid grid-cols-12 xl:gap-6'>
+        <div className='grid grid-cols-12 xl:gap-6 gap-4'>
           {/* site biography */}
           <div className='relative col-span-3 z-0 w-full mb-6 group'>
             <input
@@ -72,7 +72,7 @@ const Settings = () => {
             </label>
           </div>
           {/* Slider setting*/}
-          <div className='relative col-span-7 z-0  mb-6 group'>
+          <div className='relative col-span-12 lg:mx-52 z-0  mb-6 group'>
             <Slider {...settings}>
               {loading ? (
                 <>
@@ -86,19 +86,20 @@ const Settings = () => {
               ) : (
                 imagesSlider.map((item) => (
                   <div className=' flex flex-row'>
-                    <img src={item.img} className='  rounded-md w-full' />
+                    <img src={item.img} className='  rounded-t-md w-full' />
 
                     <button
                       onClick={(e) => {
                         e.preventDefault()
                       }}
-                      className='text-white items-center mt-2 m-auto  text-sm flex justify-center   bg-red-light ring-2 ring-red-dark hover:bg-background-light hover:text-black dark:text-black dark:bg-red-dark hover:ring-2 dark:ring-red-light dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg   px-5 py-1 text-center '
+                      className='text-white items-center -mt-10 drop-shadow-md  mb-5  z-[9999] m-auto  text-sm flex justify-center  text-center '
                     >
-                      <span className='flex '>
+                      <span className='flex  bg-bitcoin-light ring-2 ring-bitcoin-light hover:bg-background-light hover:text-black ease-in-out duration-200  focus:outline-none  font-medium rounded-lg   px-5 py-1 '>
                         <span className='text-xl ml-2'>
-                          <BsDashCircleDotted />
+                          {' '}
+                          <BsDashCircleDotted className='mr-3' />{' '}
                         </span>
-                        حذف عکس این از اسلایدر
+                        حذف این عکس از اسلایدر
                       </span>
                     </button>
                   </div>
@@ -106,12 +107,12 @@ const Settings = () => {
               )}
             </Slider>
           </div>
-          <div className=' grid grid-cols-12 col-span-7 h-10'>
+          <div className=' grid grid-cols-12 col-span-12 h-10'>
             <input
               type='text'
               name='lessonLink'
               id='lessonLink'
-              className='block py-2.5 px-2  col-span-8 text-sm dark:bg-background2-dark dark:placeholder:text-white border-2 rounded-md border-gray-light placeholder:text-black appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              className='block py-2.5 px-2  sm:col-span-9 col-span-12  text-sm dark:bg-background2-dark dark:placeholder:text-white border-2 rounded-md border-gray-light placeholder:text-black appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
               placeholder=' لینک تصویر جدید را وارد کنید'
               required=''
             />
@@ -119,7 +120,7 @@ const Settings = () => {
               onClick={(e) => {
                 e.preventDefault()
               }}
-              className='text-white items-center flex justify-center col-span-4   text-xs md:text-sm md:mr-3 bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg   px-5 py-1 text-center '
+              className='text-white items-center flex justify-center sm:col-span-3 col-span-12  text-xs md:text-sm md:mr-3 bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg   px-5 py-1 text-center '
             >
               <span className='flex '>
                 <span className='text-xl ml-2'>

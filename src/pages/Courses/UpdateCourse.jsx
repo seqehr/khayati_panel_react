@@ -93,7 +93,7 @@ const UpdateCourse = () => {
   return (
     <div className='bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl '>
       <form>
-        <div className='grid grid-cols-12 xl:gap-6'>
+        <div className='grid grid-cols-12 xl:gap-6 gap-4'>
           {/* C O U R S E - I M A G E */}
           <div
             className={` ${
@@ -207,8 +207,8 @@ const UpdateCourse = () => {
             </label>
           </div>
           {/* C O U R S E  - C H E K B I X E S */}
-          <div className='relative  col-span-4  z-0 w-full mb-6 group'>
-            <div className='flex justify-center'>
+          <div className='relative col-span-12 sm:col-span-4  z-0 w-full mb-6 group'>
+            <div className='flex'>
               <div>
                 <div>
                   <input
@@ -253,22 +253,24 @@ const UpdateCourse = () => {
             </div>
           </div>
           {/* C O U R S E  - C O L O R S */}
-          <div className='grid  col-span-5'>
-            <p className='col-span-12'>رنگ خود را انتخاب کنید</p>
-            {colors.map((item) => (
-              <div className='relative   z-0 w-20 mb-6 group'>
-                <div
-                  onClick={() => setColor(item.color)}
-                  style={{ background: `${item.color}` }}
-                  className={`border-2  rounded-xl py-2 text-white  cursor-pointer shadow-sm text-center mt-1 ${
-                    color == item.color && `border-gray-light shadow-lg`
-                  } `}
-                >
-                  {`${item.name}`}
+          {isFree == 'price' && (
+            <div className='grid  col-span-12 sm:col-span-5'>
+              <p className='col-span-12'>رنگ خود را انتخاب کنید</p>
+              {colors.map((item) => (
+                <div className='relative   z-0 w-20 mb-6 group'>
+                  <div
+                    onClick={() => setColor(item.color)}
+                    style={{ background: `${item.color}` }}
+                    className={`border-2  rounded-xl py-2 text-white  cursor-pointer shadow-sm text-center mt-1 ${
+                      color == item.color && `border-gray-light shadow-lg`
+                    } `}
+                  >
+                    {`${item.name}`}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
           {/* L E S S O N S */}
           <div className='grid  col-span-12'>
             <Lessons selectLessenFileF={selectLessenFile} />

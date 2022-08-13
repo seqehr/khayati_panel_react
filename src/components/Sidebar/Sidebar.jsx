@@ -250,12 +250,7 @@ const Sidebar = (props) => {
             ))}
 
             <SidebarSeperatorLine />
-            <SidebarOption
-              to='/help'
-              icon={<MdHelpOutline />}
-              title={`راهنمای  پنل کاربری`}
-              active={location.pathname === '/help'}
-            />
+
             <SidebarOption
               to='/settings'
               icon={<AiOutlineSetting />}

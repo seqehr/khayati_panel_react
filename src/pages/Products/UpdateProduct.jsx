@@ -4,10 +4,13 @@ import ArticleImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 import { useParams } from 'react-router-dom'
 import './CKEditor.css'
 import style from './TableRow.module.scss'
-
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
+import { toast } from 'react-toastify'
 // hooks
 import useCourse from '../../hooks/useCourses'
 import useToken from '../../hooks/useToken'
+import useCategories from '../../hooks/useCategories'
 //services
 import {
   SingleProductService,
@@ -22,9 +25,8 @@ import { BsDashCircleDotted } from 'react-icons/bs'
 // components
 import config from '../../services/config.json'
 import TableRow from './ModalTableRow'
-import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
-import { toast } from 'react-toastify'
+
+import TreeView from './TreeViewe'
 
 const UpdateProduct = (props) => {
   const { token } = useToken()
@@ -41,30 +43,61 @@ const UpdateProduct = (props) => {
   const [hashtags, setHashtags] = useState([])
   const [hashtag, setHashtag] = useState('')
 
-  let ArticleImage = ''
+  //categories states
+  const { catlist, setCatlist } = useCategories()
+  const [refresh, setRefresh] = useState(false)
+
+  //validate
+  let productImage = ''
   const handleSubmit = () => {
-    ArticleImage = articleImage.replace(`${config.HttpBaseUrl}/storage/`, '')
+    productImage = articleImage.replace(`${config.HttpBaseUrl}/storage/`, '')
 
     const data = {
       name,
       cat_id: catId,
-      img: ArticleImage,
+      img: productImage,
       content: description,
     }
     if (
-      ArticleImage !==
+      productImage !==
       '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
     ) {
-      AddProductService(token, data).then((res) => {
-        if (res.status == 200) {
-          toast.success('مقاله با موفقیت ساخته شد')
+      if (catId !== 0) {
+        if (description !== '') {
+          if (name !== '') {
+            if (price !== '') {
+              AddProductService(token, data).then((res) => {
+                if (res.status == 200) {
+                  toast.success('مقاله با موفقیت زخیره شد')
+                }
+              })
+            } else {
+              toast.warn('لطفا قیمت  محصول را وارد کنید')
+            }
+          } else {
+            toast.warn('لطفا نام  محصول را بنویسید')
+          }
+        } else {
+          toast.warn('لطفا توضیحات را  بنویسید')
         }
-      })
+      } else {
+        toast.warn('لطفا دسته بندی را انتخاب کنید')
+      }
     } else {
       toast.warn('لطفا عکس مقاله را انتخاب کنید')
     }
   }
+
   useEffect(() => {
+    // cats
+    CatListService(token).then((res) => {
+      const categories = { ...catlist }
+      categories.children = res.data.data
+      setCatlist(categories)
+      setTimeout(() => {
+        setRefresh(!refresh)
+      }, 100)
+    })
     //reset inputs
     setArticleImage('')
     setName('')
@@ -123,7 +156,12 @@ const UpdateProduct = (props) => {
               {`انتخاب عکس محصول`}
             </label>
           </div>
-
+          {/* A R T I C L E - C A T */}
+          <div
+            className={` ${'col-span-4'}  relative  flex  justify-start bg-background-light p-5 rounded-2xl drop-shadow-md  flex-col  z-0  mb-6 group`}
+          >
+            <TreeView explorer={catlist} />
+          </div>
           {/* A R T I C L E  - N A M E */}
           <div className='relative col-span-6 px-1 z-0 w-full mb-6 group'>
             <input

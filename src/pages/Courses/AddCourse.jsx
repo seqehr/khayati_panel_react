@@ -69,9 +69,9 @@ const AddCourse = (props) => {
   }, [])
 
   return (
-    <div className='bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl '>
+    <div className='bg-white dark:bg-background2-dark p-10  shadow-md rounded-xl '>
       <form>
-        <div className='grid grid-cols-12 xl:gap-6'>
+        <div className='grid grid-cols-12 xl:gap-6 gap-4 w-full '>
           {/* C O U R S E - I M A G E */}
           <div
             className={` ${
@@ -166,7 +166,7 @@ const AddCourse = (props) => {
           <div
             className={`${
               isFree == 'free' && `hidden`
-            } relative col-span-3  z-0 w-full mb-6 group`}
+            } relative sm:col-span-3 col-span-12  z-0 w-full mb-6 group`}
           >
             <input
               type='number'
@@ -187,8 +187,8 @@ const AddCourse = (props) => {
             </label>
           </div>
           {/* C O U R S E  - C H E K B I X E S */}
-          <div className='relative  col-span-4  z-0 w-full mb-6 group'>
-            <div className='flex justify-center'>
+          <div className='relative col-span-12 sm:col-span-4  z-0 w-full  mb-6 group'>
+            <div className='flex '>
               <div>
                 <div>
                   <input
@@ -232,22 +232,24 @@ const AddCourse = (props) => {
             </div>
           </div>
           {/* C O U R S E  - C O L O R S */}
-          <div className='grid  col-span-5'>
-            <p className='col-span-12'>رنگ خود را انتخاب کنید</p>
-            {colors.map((item) => (
-              <div className='relative   z-0 w-20 mb-6 group'>
-                <div
-                  onClick={() => setColor(item.name)}
-                  style={{ background: `${item.color}` }}
-                  className={`border-2  rounded-xl py-2 text-white  cursor-pointer shadow-sm text-center mt-1 ${
-                    color == item.name && `border-gray-light shadow-lg`
-                  } `}
-                >
-                  {`${item.name}`}
+          {isFree == 'price' && (
+            <div className='grid  col-span-12 sm:col-span-5 '>
+              <p className='col-span-12'>رنگ خود را انتخاب کنید</p>
+              {colors.map((item) => (
+                <div className='relative   z-0 w-20 mb-6 group'>
+                  <div
+                    onClick={() => setColor(item.name)}
+                    style={{ background: `${item.color}` }}
+                    className={`border-2  rounded-xl py-2 text-white  cursor-pointer shadow-sm text-center mt-1 ${
+                      color == item.name && `border-gray-light shadow-lg`
+                    } `}
+                  >
+                    {`${item.name}`}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
           {/* L E S S O N S */}
           <div className='grid  col-span-12'>
             <Lessons selectLessenFileF={selectLessenFile} />

@@ -105,13 +105,31 @@ export const CourseContextProvider = ({ children }) => {
       '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
     ) {
       if (name !== '') {
-        if (color !== '') {
+        if (color !== '' && isFree !== 'free') {
           if (price !== 0 && isFree !== false) {
-            AddCourseService(token, data).then((res) => {
-              if (res.status == 200) {
-                toast.success('دوره با موفقیت ساخته شد')
+            if (getLesson.length !== 0) {
+              if (excerpt !== '') {
+                if (description !== '') {
+                  if (
+                    isPin !== true &&
+                    CoursePoster !==
+                      '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
+                  ) {
+                    AddCourseService(token, data).then((res) => {
+                      if (res.status == 200) {
+                        toast.success('دوره با موفقیت ساخته شد')
+                      }
+                    })
+                  }
+                } else {
+                  toast.success('لطفا توضیحات  را بنویسید')
+                }
+              } else {
+                toast.success('لطفا توضیحات کوتاه را بنویسید')
               }
-            })
+            } else {
+              toast.warn('باید حداقل یک درس ایجاد کنید')
+            }
           } else {
             toast.warn('لطفا  قیمت را انتخاب کنید')
           }

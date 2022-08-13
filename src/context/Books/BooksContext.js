@@ -35,11 +35,15 @@ export function BooksContextProvider({ children }) {
     ) {
       if (title !== '') {
         if (url !== '') {
-          AddBookService(token, data).then((res) => {
-            if (res.status == 200) {
-              toast.success('کتاب با موفقیت ثبت شد')
-            }
-          })
+          if (description !== '') {
+            AddBookService(token, data).then((res) => {
+              if (res.status == 200) {
+                toast.success('کتاب با موفقیت ثبت شد')
+              }
+            })
+          } else {
+            toast.warn('توضیحات  کتاب را  بنویسید')
+          }
         } else {
           toast.warn('لطفا فایل کتاب را انتخاب کنید')
         }

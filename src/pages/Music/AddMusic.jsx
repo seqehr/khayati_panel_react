@@ -32,13 +32,20 @@ const AddMusic = (props) => {
       img: musicImage,
     }
     if (name && url !== ' ') {
-      AddAMusicService(token, data).then((res) => {
-        if (res.status == 200) {
-          toast.success('موزیک با موفقیت ثبت شد')
-        }
-      })
+      if (
+        musicImage !==
+        '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
+      ) {
+        AddAMusicService(token, data).then((res) => {
+          if (res.status == 200) {
+            toast.success('موزیک با موفقیت ثبت شد')
+          }
+        })
+      } else {
+        toast.warn('لطفا عکس  را وارد کنید')
+      }
     } else {
-      toast.warn('لطفا تمام مقادیر را وارد کنید')
+      toast.warn('لطفا  نام و لینک  را وارد کنید')
     }
   }
 
