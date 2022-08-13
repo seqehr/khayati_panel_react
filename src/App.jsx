@@ -67,7 +67,7 @@ function App() {
       </Helmet>
       <ToastContainer />
       {/*  */}
-      {token ? (
+      {!token ? (
         <Login />
       ) : (
         <>
