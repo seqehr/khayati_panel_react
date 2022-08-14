@@ -250,7 +250,12 @@ const Sidebar = (props) => {
             ))}
 
             <SidebarSeperatorLine />
-
+            <SidebarOption
+              to='/notifiction'
+              icon={<AiOutlineSetting />}
+              title={` نوتفیکشن`}
+              active={location.pathname === '/notifiction'}
+            />
             <SidebarOption
               to='/settings'
               icon={<AiOutlineSetting />}

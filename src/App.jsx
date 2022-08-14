@@ -43,6 +43,7 @@ import MemberListCourses from './pages/Members/MemberListCourses'
 import ListTags from './pages/Articles/Tags/ListTags'
 import AddMember from './pages/Members/AddMember'
 import AddCategory from './pages/Articles/Categories/AddCategory'
+import Notifiction from './pages/Notifiction/Notifiction'
 function App() {
   const { token, setToken } = useToken()
 
@@ -65,9 +66,9 @@ function App() {
       <Helmet>
         <title>{`khaiati`}</title>
       </Helmet>
-      <ToastContainer />
+      <ToastContainer rtl={true} />
       {/*  */}
-      {token ? (
+      {!token ? (
         <Login />
       ) : (
         <>
@@ -128,6 +129,8 @@ function App() {
                       path='/courses/member/:id'
                       element={<MemberListCourses />}
                     />
+                    //notifoctions
+                    <Route path='/notifiction' element={<Notifiction />} />
                   </Routes>
                 </main>
               </div>

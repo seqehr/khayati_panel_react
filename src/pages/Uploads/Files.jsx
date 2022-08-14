@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { UploadedFiles } from '../../services/CourseServices'
 import TableRow from './TableRow'
 import Skeleton from 'react-loading-skeleton'
+
 // css
 import 'react-loading-skeleton/dist/skeleton.css'
 // hooks
@@ -17,6 +18,7 @@ import {
 } from 'react-icons/ai'
 //images
 import noResultImage from '../../assets/images/no-result.gif'
+import { DeletFileService } from '../../services/UploadServices'
 
 const Files = (props) => {
   const { token } = useToken()
@@ -45,15 +47,17 @@ const Files = (props) => {
       <p dir='rtl'>
         <span className='pl-2'>مجدد تایید کنید</span>
         <span
-          onClick={() => confirmDelete()}
+          onClick={() => confirmDelete(id)}
           className=' p-2 px-3  bg-red-light rounded-lg text-white hover:border-2 text-center ease-in-out duration-300'
         >
           حذف شود!
         </span>
       </p>
     )
-    const confirmDelete = () => {
-      // DeleteArticleService(id);
+    const confirmDelete = (id) => {
+      DeletFileService(token, id).then((res) => {
+        toast.success('با موفقیت حذف شد')
+      })
       setFiles(files.filter((i) => i.id !== id))
     }
   }
