@@ -4,6 +4,7 @@ import { CategoriesContextProvider } from './Categories/CategoriesContext'
 import { CourseContextProvider } from './Courses/CoursesContext'
 import { DashboardContextProvider } from './Dashboard/DashboardContext'
 import { LoginContextProvider } from './login/LoginContext'
+import { SettingContextProvider } from './Settings/SettingsContext'
 import { SidebarContextProvider } from './sidebar/SidebarContext'
 import { ThemeContextProvider } from './theme/ThemeContext'
 import { TokenContextProvider } from './token/TokenContext'
@@ -31,7 +32,10 @@ const ContextProvider = ({ children }) => {
                     <ArticlesContextProvider>
                       {/* D A S H B O A R D*/}
                       <DashboardContextProvider>
-                        {children}
+                        {/* S E T T I N G S */}
+                        <SettingContextProvider>
+                          {children}
+                        </SettingContextProvider>
                       </DashboardContextProvider>
                     </ArticlesContextProvider>
                   </BooksContextProvider>
