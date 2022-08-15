@@ -1,46 +1,30 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { UploadedFiles } from '../../services/BookServices'
 import ImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 
-//icons
-import { BsDashCircleDotted } from 'react-icons/bs'
-// components
-
-import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
 //hookss
-import useBooks from '../../hooks/useBooks'
 import useToken from '../../hooks/useToken'
+import { sendNotifictionService } from '../../services/NotifictionServices'
+import { toast } from 'react-toastify'
 
 const Notifiction = () => {
   const { token } = useToken()
-  const {
-    files,
-    setFiles,
-    uploadModal,
-    setUploadModal,
-    description,
-    setDescription,
-    bookImage,
-    setBookImage,
-    title,
-    setTitle,
-    url,
-    setUrl,
-    handleSubmit,
-  } = useBooks()
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
 
-  useEffect(() => {
-    // get uploaded files
-    UploadedFiles(token).then((res) => {
-      setFiles(res.data.data)
+  const handleSubmit = () => {
+    const data = {
+      title,
+      body: description,
+    }
+    sendNotifictionService(token, data).then((res) => {
+      if (res.data.isDone == true) {
+        toast.success('نوتفیکشن با موفقیت ارسال شد')
+      } else {
+        toast.error('مشکلی از سمت سرور پیش آمده')
+      }
     })
-    // reset states
-    setBookImage(ImageDefault)
-    setUrl('')
-    setTitle('')
-    setDescription('')
-  }, [])
+  }
   return (
     <div className='bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl'>
       <form>
@@ -67,7 +51,7 @@ const Notifiction = () => {
           <div className='relative col-span-9 z-0 w-full mb-6 group'>
             <input
               type='text'
-              onClick={(e) => setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
               value={description}
               name='excrept'
               id='excrept'

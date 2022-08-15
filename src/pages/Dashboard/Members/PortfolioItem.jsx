@@ -7,7 +7,7 @@ const PortfolioItem = ({ name, phone }) => {
             <span className='text-bitcoin-dark'> {' شماره :  '}</span>
             {phone}
           </span>
-          <span dir='rtl'>
+          <span dir='rtl ' className='break-all text-right pl-3'>
             <span className='text-bitcoin-dark'>{' نام :  '}</span>
 
             {name}

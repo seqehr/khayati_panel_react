@@ -50,7 +50,11 @@ const AddProduct = (props) => {
     refresh,
     setRefresh,
     handleSubmit,
+    ProductImages,
+    setProductImages,
+    setProductsImagesHandler,
   } = useProducts()
+
   return (
     <div className='bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl'>
       <form>
@@ -132,6 +136,32 @@ const AddProduct = (props) => {
               <TreeView explorer={catlist} />
             </div>
           </div>
+
+          {/*  I M A G E S */}
+          <div
+            className={` p-5 ${'col-span-12'} grid grid-cols-12 relative items-center z-0 w-full mb-6  border-2 border-background-light shadow-md dark:border-background-dark rounded-2xl gap-4 group`}
+          >
+            <p className='col-span-12 p-2 text-xl dark:text-white'>
+              گالری محصول :
+            </p>
+            <div
+              onClick={() => setUploadModal(2)}
+              className='lg:col-span-3 sm:col-span-6 col-span-12 flex justify-center flex-col items-center'
+            >
+              <img src={productImage} className='w-full rounded-md blur-sm' />
+              <label
+                className='p-5 text-black cursor-pointer dark:text-white block  text-sm font-medium text-gray-900 bg-background-light dark:bg-background-dark opacity-80 rounded-2xl dark:text-gray-300 absolute hover:-translate-y-1 ease-in-out duration-300 hover:shadow-xl'
+                for='user_avatar '
+              >
+                {`افزودن عکس به گالری`}
+              </label>
+            </div>
+            {ProductImages.map((i) => (
+              <div className='lg:col-span-3 sm:col-span-6 col-span-12 flex justify-center flex-col items-center'>
+                <img src={i} className='w-full rounded-md dark:h-64' />
+              </div>
+            ))}
+          </div>
         </div>
         <button
           type='submit'
@@ -146,10 +176,10 @@ const AddProduct = (props) => {
       </form>
 
       {/* Upload Modal*/}
-      {uploadModal && (
+      {uploadModal !== 0 && (
         <div className='w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] '>
           <div
-            onClick={() => setUploadModal(false)}
+            onClick={() => setUploadModal(0)}
             className='mx-auto flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2'
           >
             <span className='text-sm pl-3'> بستن صفحه </span>
@@ -171,7 +201,11 @@ const AddProduct = (props) => {
                 <tr
                   className=''
                   key={item.id}
-                  onClick={() => setProductImage(item.url)}
+                  onClick={() => {
+                    uploadModal == 1
+                      ? setProductImage(item.url)
+                      : uploadModal == 2 && setProductsImagesHandler(item.url)
+                  }}
                 >
                   <TableRow name={item.name} link={item.url} />
                 </tr>

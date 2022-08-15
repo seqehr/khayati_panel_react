@@ -24,3 +24,10 @@ export const AddMemberService = (token, data) => {
     },
   })
 }
+export const userJustify = (token, data) => {
+  return http.get(`${config.baseUrl}/api/admin/user/justify/${data}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

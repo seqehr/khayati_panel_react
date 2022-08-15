@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+
 import { toast } from 'react-toastify'
 //services
 import config from '../../services/config.json'
@@ -15,31 +17,48 @@ import {
 
 const ProductsContext = React.createContext()
 export function ProductsContextProvider({ children }) {
+  const navigate = useNavigate()
   const { token } = useToken()
   const [files, setFiles] = useState([])
   const [categorries, setCategorries] = useState([])
-  const [uploadModal, setUploadModal] = useState(false)
+  const [uploadModal, setUploadModal] = useState(0)
 
   const [price, setPrice] = useState('')
   const [productImage, setProductImage] = useState(ArticleImageDefault)
   const [catId, setCatId] = useState(1)
   const [description, setDescription] = useState('<p></p>')
   const [name, setName] = useState('')
+  const [ProductImages, setProductImages] = useState([])
   //categories states
   const { catlist, setCatlist } = useProductsCategories()
   const [refresh, setRefresh] = useState(false)
 
+  //galery
+  const setProductsImagesHandler = (url) => {
+    const images = [...ProductImages]
+    images.push(url)
+    setProductImages(images)
+  }
   //validate
-  let ProductImage = ''
+  let formatedProductImage = ''
+  let FormatedProductImages = []
   const handleSubmit = () => {
-    ProductImage = productImage.replace(`${config.HttpBaseUrl}/storage/`, '')
-
+    formatedProductImage = productImage.replace(
+      `${config.HttpBaseUrl}/storage/`,
+      ''
+    )
+    ProductImages.map((i) => {
+      FormatedProductImages.push(
+        i.replace(`${config.HttpBaseUrl}/storage/`, '')
+      )
+    })
     const data = {
       name,
       cat_id: catId,
-      img: ProductImage,
+      img: formatedProductImage,
       content: description,
       price,
+      gallery: JSON.stringify(ProductImages),
     }
     if (
       productImage !==
@@ -52,6 +71,15 @@ export function ProductsContextProvider({ children }) {
               AddProductService(token, data).then((res) => {
                 if (res.status == 200) {
                   toast.success('محصول با موفقیت ساخته شد')
+
+                  //reset inputs
+                  setProductImage('')
+                  setName('')
+                  setDescription('')
+                  setProductImages([])
+                  setPrice(0)
+
+                  navigate('/')
                 }
               })
             } else {
@@ -114,6 +142,9 @@ export function ProductsContextProvider({ children }) {
         refresh,
         setRefresh,
         handleSubmit,
+        ProductImages,
+        setProductImages,
+        setProductsImagesHandler,
       }}
     >
       {children}

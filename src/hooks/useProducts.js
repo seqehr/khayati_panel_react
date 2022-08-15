@@ -25,6 +25,9 @@ const useProducts = (props) => {
     refresh,
     setRefresh,
     handleSubmit,
+    ProductImages,
+    setProductImages,
+    setProductsImagesHandler,
   } = useContext(ProductsContext)
   return {
     files,
@@ -48,6 +51,9 @@ const useProducts = (props) => {
     refresh,
     setRefresh,
     handleSubmit,
+    ProductImages,
+    setProductImages,
+    setProductsImagesHandler,
   }
 }
 

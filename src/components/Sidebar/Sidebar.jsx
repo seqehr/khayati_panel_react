@@ -21,7 +21,11 @@ import {
 } from 'react-icons/md'
 import { FiMusic } from 'react-icons/fi'
 import { MdHelpOutline } from 'react-icons/md'
-import { AiOutlineSetting, AiOutlineBook } from 'react-icons/ai'
+import {
+  AiOutlineSetting,
+  AiOutlineBook,
+  AiFillNotification,
+} from 'react-icons/ai'
 import { RiUserSettingsLine } from 'react-icons/ri'
 import { FaChalkboardTeacher } from 'react-icons/fa'
 import { GoFileMedia } from 'react-icons/go'
@@ -256,7 +260,7 @@ const Sidebar = (props) => {
             <SidebarSeperatorLine />
             <SidebarOption
               to='/notifiction'
-              icon={<AiOutlineSetting />}
+              icon={<AiFillNotification />}
               title={` نوتفیکشن`}
               active={location.pathname === '/notifiction'}
             />
