@@ -22,11 +22,8 @@ import useSettings from '../../hooks/useSettings'
 const Settings = () => {
   const {
     imagesSlider,
-    setImagesSlider,
     loading,
-    setLoading,
     files,
-    setFiles,
     uploadModal,
     setUploadModal,
     url,
@@ -217,10 +214,11 @@ const Settings = () => {
               <button
                 onClick={(e) => {
                   e.preventDefault()
+                  handleCreateImage()
                 }}
                 className='text-white items-center flex justify-center sm:col-span-3 col-span-12  text-xs md:text-sm md:mr-3 bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg   px-5 py-1 text-center '
               >
-                <span className='flex ' onClick={() => handleCreateImage()}>
+                <span className='flex '>
                   <span className='text-xl ml-2'>
                     <BsPlusCircleDotted />
                   </span>

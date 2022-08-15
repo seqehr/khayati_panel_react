@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 // hooks
-import useToken from '../../hooks/useToken'
+import useToken from '../../../hooks/useToken'
 import {
   CatListService,
-  CreateCatService,
-} from '../../services/ArticleServices'
+  CreateProductCatService,
+} from '../../../services/ProductServices'
 
-const CategoriesContext = React.createContext()
-export function CategoriesContextProvider({ children }) {
+const ProductsCategoriesContext = React.createContext()
+export function ProductsCategoriesContextProvider({ children }) {
   const { token } = useToken()
   const [checked, setChecked] = useState(0)
   const [name, setName] = useState('')
+  console.log(checked)
   const [catlist, setCatlist] = useState({
     name: 'دسته بندی ها',
     root: true,
@@ -27,9 +28,9 @@ export function CategoriesContextProvider({ children }) {
       toast.warn('اطلاعات ناقص است')
     } else {
       // fetch categories list again after create new category
-      CreateCatService(token, data)
+      CreateProductCatService(token, data)
         .then((res) => {
-          CatListService().then((res) => {
+          CatListService(token).then((res) => {
             const categories = { ...catlist }
             categories.children = res.data.data
             setCatlist(categories)
@@ -45,7 +46,7 @@ export function CategoriesContextProvider({ children }) {
     }
   }
   return (
-    <CategoriesContext.Provider
+    <ProductsCategoriesContext.Provider
       value={{
         checked,
         setChecked,
@@ -57,8 +58,8 @@ export function CategoriesContextProvider({ children }) {
       }}
     >
       {children}
-    </CategoriesContext.Provider>
+    </ProductsCategoriesContext.Provider>
   )
 }
 
-export default CategoriesContext
+export default ProductsCategoriesContext

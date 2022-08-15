@@ -41,15 +41,11 @@ export function ArticlesContextProvider({ children }) {
     ) {
       if (hashtags.length !== 0) {
         if (name !== '') {
-          if (checked !== 0) {
-            AddArticleService(token, data).then((res) => {
-              if (res.status == 200) {
-                toast.success('مقاله با موفقیت ساخته شد')
-              }
-            })
-          } else {
-            toast.warn('لطفا یک دسته بندی انتخاب کنید')
-          }
+          AddArticleService(token, data).then((res) => {
+            if (res.status == 200) {
+              toast.success('مقاله با موفقیت ساخته شد')
+            }
+          })
         } else {
           toast.warn('لطفا عنوان را انتخاب کنید')
         }

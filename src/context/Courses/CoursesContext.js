@@ -28,7 +28,7 @@ export const CourseContextProvider = ({ children }) => {
   const [coursePoster, setCoursePoster] = useState(CourseImageDefault)
   const [color, setColor] = useState('')
   const [isPin, setIsPin] = useState(false)
-  const [isFree, setIsFree] = useState('price')
+  const [isFree, setIsFree] = useState('pricy')
   const [description, setDescription] = useState('<p></p>')
   const [price, setPrice] = useState('')
   const [excerpt, setExcerpt] = useState('')

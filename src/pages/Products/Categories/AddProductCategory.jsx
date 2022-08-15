@@ -4,12 +4,12 @@ import { motion } from 'framer-motion'
 import TreeView from '../TreeViewe'
 //hooks
 import useToken from '../../../hooks/useToken'
-import useProductsCategories from '../../../hooks/useCategories'
+import useProductsCategories from '../../../hooks/useProductsCategories'
+import { CatListService } from '../../../services/ProductServices'
 
 // services
-import { CatListService } from '../../../services/ArticleServices'
 
-const AddCategory = () => {
+const AddProductCategory = () => {
   const { token } = useToken()
 
   const { name, setName, handleSubmit, catlist, setCatlist } =
@@ -19,6 +19,7 @@ const AddCategory = () => {
     CatListService(token).then((res) => {
       const categories = { ...catlist }
       categories.children = res.data.data
+
       setCatlist(categories)
     })
   }, [])
@@ -66,4 +67,4 @@ const AddCategory = () => {
     </div>
   )
 }
-export default AddCategory
+export default AddProductCategory

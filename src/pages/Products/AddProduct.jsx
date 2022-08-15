@@ -25,90 +25,37 @@ import TreeView from './TreeViewe'
 import { ChekLoginUser } from '../../services/UserService'
 //hooks
 import useToken from '../../hooks/useToken'
-
-import useCategories from '../../hooks/useCategories'
+import useProducts from '../../hooks/useProducts'
 
 const AddProduct = (props) => {
-  const { token } = useToken()
-  const [files, setFiles] = useState([])
-  const [categorries, setCategorries] = useState([])
-  const [uploadModal, setUploadModal] = useState(false)
-
-  const [price, setPrice] = useState('')
-  const [productImage, setProductImage] = useState(ArticleImageDefault)
-  const [catId, setCatId] = useState(1)
-  const [description, setDescription] = useState('<p></p>')
-  const [name, setName] = useState('')
-  //categories states
-  const { catlist, setCatlist } = useCategories()
-  const [refresh, setRefresh] = useState(false)
-
-  //validate
-  let ProductImage = ''
-  const handleSubmit = () => {
-    ProductImage = productImage.replace(`${config.HttpBaseUrl}/storage/`, '')
-
-    const data = {
-      name,
-      cat_id: catId,
-      img: ProductImage,
-      content: description,
-      price,
-    }
-    if (
-      productImage !==
-      '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
-    ) {
-      if (catId !== 0) {
-        if (description !== '') {
-          if (name !== '') {
-            if (price !== '') {
-              AddProductService(token, data).then((res) => {
-                if (res.status == 200) {
-                  toast.success('مقاله با موفقیت ساخته شد')
-                }
-              })
-            } else {
-              toast.warn('لطفا قیمت  محصول را وارد کنید')
-            }
-          } else {
-            toast.warn('لطفا نام  محصول را بنویسید')
-          }
-        } else {
-          toast.warn('لطفا توضیحات را  بنویسید')
-        }
-      } else {
-        toast.warn('لطفا دسته بندی را انتخاب کنید')
-      }
-    } else {
-      toast.warn('لطفا عکس مقاله را انتخاب کنید')
-    }
-  }
-  useEffect(() => {
-    // get uploaded files
-    UploadedFiles(token).then((res) => {
-      setFiles(res.data.data)
-    })
-    // get categories
-    CatListService(token).then((res) => {
-      setCategorries(res.data.data)
-    })
-    // cats
-    CatListService(token).then((res) => {
-      const categories = { ...catlist }
-      categories.children = res.data.data
-      setCatlist(categories)
-      setTimeout(() => {
-        setRefresh(!refresh)
-      }, 100)
-    })
-  }, [])
-
+  const {
+    files,
+    setFiles,
+    categorries,
+    setCategorries,
+    uploadModal,
+    setUploadModal,
+    price,
+    setPrice,
+    productImage,
+    setProductImage,
+    catId,
+    setCatId,
+    description,
+    setDescription,
+    name,
+    setName,
+    catlist,
+    setCatlist,
+    refresh,
+    setRefresh,
+    handleSubmit,
+  } = useProducts()
   return (
     <div className='bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl'>
       <form>
         <div className='grid grid-cols-12 xl:gap-6'>
-          {/* A R T I C L E -  I M A G E */}
+          {/*  I M A G E */}
           <div
             className={` ${'col-span-12'} relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
@@ -124,14 +71,9 @@ const AddProduct = (props) => {
               {`انتخاب عکس مصحول`}
             </label>
           </div>
-          {/* A R T I C L E - C A T */}
-          <div
-            className={` ${'col-span-4'}  relative  flex  justify-start bg-background-light p-5 rounded-2xl drop-shadow-md  flex-col  z-0  mb-6 group`}
-          >
-            <TreeView explorer={catlist} />
-          </div>
-          {/* A R T I C L E  - N A M E */}
-          <div className='relative col-span-6 px-1 z-0 w-full mb-6 group'>
+
+          {/*  N A M E */}
+          <div className='relative col-span-8 px-1 z-0 w-full mb-6 group'>
             <input
               type='text'
               onChange={(e) => setName(e.target.value)}
@@ -147,28 +89,9 @@ const AddProduct = (props) => {
               {`عنوان `}
             </label>
           </div>
-          {/* A R T I C L E - C A T */}
-          <div
-            className={` ${'col-span-3'}  relative  flex  justify-center flex-col  z-0 w-full mb-6 group`}
-          >
-            <select
-              id='countries'
-              name='countries'
-              onChange={(e) => {
-                setCatId(e.target.value)
-              }}
-              className='block py-2.5 pr-2 w-full text-sm  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-            >
-              {categorries.map((cat) => (
-                <option value={cat.id}> {cat.name}</option>
-              ))}
-              <option value='' disabled selected hidden>
-                یک دسته بندی انتخاب کنید:
-              </option>
-            </select>
-          </div>
+
           {/* C O U R S E  - P R I C E */}
-          <div className={` relative col-span-3  z-0 w-full mb-6 group`}>
+          <div className={` relative col-span-4  z-0 w-full mb-6 group`}>
             <input
               type='number'
               name='price'
@@ -187,19 +110,27 @@ const AddProduct = (props) => {
             </label>
           </div>
 
-          {/* A R T I C L E  - D E S C R I B T I O N*/}
-          <div className='relative col-span-12 z-0 w-full mb-6 group'>
-            <CKEditor
-              editor={ClassicEditor}
-              className={`text-right right-0`}
-              data='<p>ویرایشگر پیشرفته</p>'
-              // this will we change  =>  {data} has html
+          {/*  D E S C R I B T I O N - C A T*/}
+          <div className=' col-span-12 z-0 w-full  grid grid-cols-12 gap-5'>
+            <div className='lg:col-span-8 col-span-12 relative mb-6 group'>
+              <CKEditor
+                editor={ClassicEditor}
+                className={`text-right right-0 `}
+                data='<p>ویرایشگر پیشرفته</p>'
+                // this will we change  =>  {data} has html
 
-              onChange={(event, editor) => {
-                const data = editor.getData()
-                setDescription(data)
-              }}
-            />
+                onChange={(event, editor) => {
+                  const data = editor.getData()
+                  setDescription(data)
+                }}
+              />
+            </div>
+            {/* A R T I C L E - C A T */}
+            <div
+              className={` lg:col-span-4 col-span-12 relative  flex  justify-start dark:bg-background-dark bg-background-light p-5 rounded-2xl drop-shadow-md  flex-col  z-0  mb-6 group`}
+            >
+              <TreeView explorer={catlist} />
+            </div>
           </div>
         </div>
         <button

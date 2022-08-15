@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Radio } from '@material-tailwind/react'
-import ArticleImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
+import productImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 import { useParams } from 'react-router-dom'
 import './CKEditor.css'
 import style from './TableRow.module.scss'
@@ -27,90 +27,45 @@ import config from '../../services/config.json'
 import TableRow from './ModalTableRow'
 
 import TreeView from './TreeViewe'
+import useProducts from '../../hooks/useProducts'
 
 const UpdateProduct = (props) => {
   const { token } = useToken()
   const { id: courseId } = useParams()
-  const [files, setFiles] = useState([])
-  const [uploadModal, setUploadModal] = useState(false)
-  const [categorries, setCategorries] = useState([])
-
-  const [price, setPrice] = useState('')
-  const [articleImage, setArticleImage] = useState(ArticleImageDefault)
-  const [catId, setCatId] = useState(1)
-  const [description, setDescription] = useState('')
-  const [name, setName] = useState('')
-  const [hashtags, setHashtags] = useState([])
-  const [hashtag, setHashtag] = useState('')
-
-  //categories states
-  const { catlist, setCatlist } = useCategories()
-  const [refresh, setRefresh] = useState(false)
-
-  //validate
-  let productImage = ''
-  const handleSubmit = () => {
-    productImage = articleImage.replace(`${config.HttpBaseUrl}/storage/`, '')
-
-    const data = {
-      name,
-      cat_id: catId,
-      img: productImage,
-      content: description,
-    }
-    if (
-      productImage !==
-      '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
-    ) {
-      if (catId !== 0) {
-        if (description !== '') {
-          if (name !== '') {
-            if (price !== '') {
-              AddProductService(token, data).then((res) => {
-                if (res.status == 200) {
-                  toast.success('مقاله با موفقیت زخیره شد')
-                }
-              })
-            } else {
-              toast.warn('لطفا قیمت  محصول را وارد کنید')
-            }
-          } else {
-            toast.warn('لطفا نام  محصول را بنویسید')
-          }
-        } else {
-          toast.warn('لطفا توضیحات را  بنویسید')
-        }
-      } else {
-        toast.warn('لطفا دسته بندی را انتخاب کنید')
-      }
-    } else {
-      toast.warn('لطفا عکس مقاله را انتخاب کنید')
-    }
-  }
+  const {
+    files,
+    setFiles,
+    categorries,
+    setCategorries,
+    uploadModal,
+    setUploadModal,
+    price,
+    setPrice,
+    productImage,
+    setProductImage,
+    catId,
+    setCatId,
+    description,
+    setDescription,
+    name,
+    setName,
+    catlist,
+    setCatlist,
+    refresh,
+    setRefresh,
+    handleSubmit,
+  } = useProducts()
 
   useEffect(() => {
-    // cats
-    CatListService(token).then((res) => {
-      const categories = { ...catlist }
-      categories.children = res.data.data
-      setCatlist(categories)
-      setTimeout(() => {
-        setRefresh(!refresh)
-      }, 100)
-    })
     //reset inputs
-    setArticleImage('')
+    setProductImage('')
     setName('')
     setDescription('')
     setPrice(0)
 
-    UploadedFiles(token).then((res) => {
-      setFiles(res.data.data)
-    })
-
     SingleProductService(token, courseId).then((res) => {
       const data = res.data.data
-      setArticleImage(data.img)
+      setProductImage(data.img)
       setName(data.name)
       setDescription(data.content)
       setPrice(data.price)
@@ -120,33 +75,17 @@ const UpdateProduct = (props) => {
     })
   }, [])
 
-  const creaeHashagHandler = () => {
-    const arrHashtags = [...hashtags]
-
-    arrHashtags.push(hashtag)
-    setHashtag('')
-    setHashtags(arrHashtags)
-  }
-  const deleteHashagHandler = (index) => {
-    const arrHashtags = [...hashtags]
-
-    const item = arrHashtags[index]
-    const filteredArr = arrHashtags.filter((i) => i !== item)
-
-    setHashtags(filteredArr)
-  }
-
   return (
     <div className='bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl'>
       <form>
         <div className='grid grid-cols-12 xl:gap-6'>
-          {/* A R T I C L E - E I M A G E */}
+          {/* P R O D U C T - E I M A G E */}
           <div
             className={` ${'col-span-12'} relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
             <img
               onClick={() => setUploadModal(true)}
-              src={articleImage}
+              src={productImage}
               className='w-96 rounded-md'
             />
             <label
@@ -156,14 +95,9 @@ const UpdateProduct = (props) => {
               {`انتخاب عکس محصول`}
             </label>
           </div>
-          {/* A R T I C L E - C A T */}
-          <div
-            className={` ${'col-span-4'}  relative  flex  justify-start bg-background-light p-5 rounded-2xl drop-shadow-md  flex-col  z-0  mb-6 group`}
-          >
-            <TreeView explorer={catlist} />
-          </div>
-          {/* A R T I C L E  - N A M E */}
-          <div className='relative col-span-6 px-1 z-0 w-full mb-6 group'>
+
+          {/* P R O D U C T  - N A M E */}
+          <div className='relative col-span-8 px-1 z-0 w-full mb-6 group'>
             <input
               type='text'
               onChange={(e) => setName(e.target.value)}
@@ -180,29 +114,9 @@ const UpdateProduct = (props) => {
               {`عنوان `}
             </label>
           </div>
-          {/* A R T I C L E - C A T */}
-          <div
-            className={` ${'col-span-3'} px-1  relative  flex  justify-center flex-col  z-0 w-full mb-6 group`}
-          >
-            <select
-              id='countries'
-              name='countries'
-              value={catId}
-              onChange={(e) => {
-                setCatId(e.target.value)
-              }}
-              className='block py-2.5 pr-2 w-full text-sm  bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-            >
-              {categorries.map((cat) => (
-                <option value={cat.id}> {cat.name}</option>
-              ))}
-              <option value='' disabled selected hidden>
-                یک دسته بندی انتخاب کنید:
-              </option>
-            </select>
-          </div>
+
           {/* C O U R S E  - P R I C E */}
-          <div className={` relative col-span-3 px-1 z-0 w-full mb-6 group`}>
+          <div className={` relative col-span-4 px-1 z-0 w-full mb-6 group`}>
             <input
               type='number'
               name='price'
@@ -222,17 +136,27 @@ const UpdateProduct = (props) => {
             </label>
           </div>
 
-          {/* A R T I C L E  - D E S C R I B T I O N*/}
-          <div className='relative col-span-12 z-0 w-full mb-6 group'>
-            <CKEditor
-              editor={ClassicEditor}
-              className={`text-right right-0`}
-              data={description}
-              onChange={(event, editor) => {
-                const data = editor.getData()
-                setDescription(data)
-              }}
-            />
+          {/*  D E S C R I B T I O N -  C A T*/}
+          <div className=' col-span-12 z-0 w-full  grid grid-cols-12 gap-5'>
+            <div className='lg:col-span-8 col-span-12 relative mb-6 group'>
+              <CKEditor
+                editor={ClassicEditor}
+                className={`text-right right-0 `}
+                data='<p>ویرایشگر پیشرفته</p>'
+                // this will we change  =>  {data} has html
+
+                onChange={(event, editor) => {
+                  const data = editor.getData()
+                  setDescription(data)
+                }}
+              />
+            </div>
+            {/* P R O D U C T - C A T */}
+            <div
+              className={` lg:col-span-4 col-span-12 relative  flex  justify-start dark:bg-background-dark bg-background-light p-5 rounded-2xl drop-shadow-md  flex-col  z-0  mb-6 group`}
+            >
+              <TreeView explorer={catlist} />
+            </div>
           </div>
         </div>
         <button
@@ -273,7 +197,7 @@ const UpdateProduct = (props) => {
                 <tr
                   className=''
                   key={item.id}
-                  onClick={() => setArticleImage(item.url)}
+                  onClick={() => setProductImage(item.url)}
                 >
                   <TableRow name={item.name} link={item.url} />
                 </tr>

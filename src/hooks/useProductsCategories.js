@@ -1,8 +1,8 @@
 // Context
 import { useContext } from 'react'
-import CategoriesContext from '../context/Articles/Categories/CategoriesContext'
+import ProductsCategoriesContext from '../context/Products/Categories/ProductsCategoriesContext'
 
-const useCategories = (props) => {
+const useProductsCategories = (props) => {
   const {
     checked,
     setChecked,
@@ -11,7 +11,7 @@ const useCategories = (props) => {
     setName,
     catlist,
     setCatlist,
-  } = useContext(CategoriesContext)
+  } = useContext(ProductsCategoriesContext)
   return {
     checked,
     setChecked,
@@ -23,4 +23,4 @@ const useCategories = (props) => {
   }
 }
 
-export default useCategories
+export default useProductsCategories

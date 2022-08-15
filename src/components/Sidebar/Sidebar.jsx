@@ -103,6 +103,10 @@ const Sidebar = (props) => {
           title: 'افزودن محصول',
           to: '/product/add',
         },
+        {
+          title: 'افزودن دسته بندی محصول',
+          to: '/product/category/add',
+        },
       ],
     },
     {

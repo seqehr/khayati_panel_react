@@ -214,10 +214,10 @@ const AddCourse = (props) => {
                     value=''
                     id='isfre'
                     onClick={() => {
-                      if (isFree == 'price') {
+                      if (isFree == 'pricy') {
                         setIsFree('free')
                       } else {
-                        setIsFree('price')
+                        setIsFree('pricy')
                       }
                     }}
                   />
@@ -232,7 +232,7 @@ const AddCourse = (props) => {
             </div>
           </div>
           {/* C O U R S E  - C O L O R S */}
-          {isFree == 'price' && (
+          {isFree == 'pricy' && (
             <div className='grid  col-span-12 sm:col-span-5 '>
               <p className='col-span-12'>رنگ خود را انتخاب کنید</p>
               {colors.map((item) => (

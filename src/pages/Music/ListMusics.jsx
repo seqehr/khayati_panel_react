@@ -123,7 +123,7 @@ const ListMusics = (props) => {
       </table>
       {/*________ Show No Result __________*/}
       {listMusics.length == 0 && loading == false && (
-        <div className='text-center items-center w-full bg-background2-light dark:bg-background2-dark pb-5'>
+        <div className='text-center dark:text-white items-center w-full bg-background2-light dark:bg-background2-dark pb-5'>
           <img src={noResultImage} alt='' className='m-auto w-32 py-5' />
           موردی یافت نشد!
         </div>

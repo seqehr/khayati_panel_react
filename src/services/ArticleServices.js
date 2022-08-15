@@ -82,3 +82,11 @@ export const DeleteTagService = (token, id) => {
     }
   )
 }
+
+export const DeleteArticleCatService = (token, data) => {
+  return httpService.get(`${config.baseUrl}/api/posts/cats/delete/${data}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

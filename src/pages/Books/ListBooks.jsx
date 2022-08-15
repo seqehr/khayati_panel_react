@@ -122,8 +122,8 @@ const ListBooks = () => {
       </table>
       {/*________ Show No Result __________*/}
       {listBooks.length == 0 && loading == false && (
-        <div className='text-center items-center w-full bg-background2-light dark:bg-background2-dark pb-5'>
-          <img src={noResultImage} alt='' className='m-auto w-32 py-5' />
+        <div className='text-center items-center dark:text-white w-full bg-background2-light dark:bg-background2-dark pb-5'>
+          <img src={noResultImage} alt='' className='m-auto w-32 py-5 ' />
           موردی یافت نشد!
         </div>
       )}

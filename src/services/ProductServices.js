@@ -47,7 +47,25 @@ export const SingleProductService = (token, id) => {
 }
 
 export const CatListService = (token) => {
-  return httpService.get(`${config.baseUrl}/api/posts/cats/list`, {
+  return httpService.post(
+    `${config.baseUrl}/api/products/cats/list`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+}
+export const CreateProductCatService = (token, data) => {
+  return httpService.post(`${config.baseUrl}/api/products/cats/create`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}
+export const DeleteProductCatService = (token, data) => {
+  return httpService.get(`${config.baseUrl}/api/products/cats/delete/${data}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

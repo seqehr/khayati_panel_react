@@ -44,6 +44,7 @@ import ListTags from './pages/Articles/Tags/ListTags'
 import AddMember from './pages/Members/AddMember'
 import AddCategory from './pages/Articles/Categories/AddCategory'
 import Notifiction from './pages/Notifiction/Notifiction'
+import AddProductCategory from './pages/Products/Categories/AddProductCategory'
 function App() {
   const { token, setToken } = useToken()
 
@@ -108,6 +109,10 @@ function App() {
                     // Products
                     <Route path='/products' element={<ListProducts />} />
                     <Route path='/product/add' element={<AddProduct />} />
+                    <Route
+                      path='/product/category/add'
+                      element={<AddProductCategory />}
+                    />
                     <Route
                       path='/product/update/:id'
                       element={<UpdateProduct />}

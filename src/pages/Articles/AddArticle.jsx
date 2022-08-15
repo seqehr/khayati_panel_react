@@ -77,7 +77,7 @@ const AddArticle = (props) => {
         <div className='grid grid-cols-12 xl:gap-6'>
           {/* A R T I C L E - E I M A G E */}
           <div
-            className={` ${'col-span-8'} relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
+            className={` ${'col-span-12'} relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
             <img
               onClick={() => setUploadModal(true)}
@@ -91,12 +91,7 @@ const AddArticle = (props) => {
               {`انتخاب عکس مقاله`}
             </label>
           </div>
-          {/* A R T I C L E - C A T */}
-          <div
-            className={` ${'col-span-4'}  relative  flex  justify-start bg-background-light p-5 rounded-2xl drop-shadow-md  flex-col  z-0  mb-6 group`}
-          >
-            <TreeView explorer={catlist} />
-          </div>
+
           {/* A R T I C L E  - N A M E */}
           <div className='relative col-span-6 px-1 z-0 w-full mb-6 group'>
             <input
@@ -161,19 +156,27 @@ const AddArticle = (props) => {
             ))}
           </div>
 
-          {/* A R T I C L E  - D E S C R I B T I O N*/}
-          <div className='relative col-span-12 z-0 w-full mb-6 group'>
-            <CKEditor
-              editor={ClassicEditor}
-              className={`text-right right-0`}
-              data={description}
-              // this will we change  =>  {data} has html
+          {/* A R T I C L E  - D E S C R I B T I O N - C A T S */}
+          <div className=' col-span-12 z-0 w-full  grid grid-cols-12 gap-5'>
+            <div className='lg:col-span-8 col-span-12 relative mb-6 group'>
+              <CKEditor
+                editor={ClassicEditor}
+                className={`text-right right-0`}
+                data={description}
+                // this will we change  =>  {data} has html
 
-              onChange={(event, editor) => {
-                const data = editor.getData()
-                setDescription(data)
-              }}
-            />
+                onChange={(event, editor) => {
+                  const data = editor.getData()
+                  setDescription(data)
+                }}
+              />
+            </div>
+            {/* A R T I C L E - C A T */}
+            <div
+              className={` lg:col-span-4 col-span-12 relative  flex  justify-start dark:bg-background-dark bg-background-light p-5 rounded-2xl drop-shadow-md  flex-col  z-0  mb-6 group`}
+            >
+              <TreeView showRoot={false} explorer={catlist} />
+            </div>
           </div>
         </div>
         <button
@@ -193,7 +196,7 @@ const AddArticle = (props) => {
         <div className='w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] '>
           <div
             onClick={() => setUploadModal(false)}
-            className='mx-auto flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2'
+            className='mx-auto  flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2'
           >
             <span className='text-sm pl-3'> بستن صفحه </span>
 
