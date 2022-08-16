@@ -71,3 +71,11 @@ export const DeleteProductCatService = (token, data) => {
     },
   })
 }
+export const EditProductService = (token, data, id) => {
+  return httpService.post(`${config.baseUrl}/api/products/edit/${id}`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

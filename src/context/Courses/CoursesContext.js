@@ -4,7 +4,10 @@ import { v4 as uuidv4 } from 'uuid'
 // images gifs
 import CourseImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 // services
-import { AddCourseService } from '../../services/CourseServices'
+import {
+  AddCourseService,
+  EditCourseService,
+} from '../../services/CourseServices'
 
 // components
 import config from '../../services/config.json'
@@ -34,23 +37,7 @@ export const CourseContextProvider = ({ children }) => {
   const [excerpt, setExcerpt] = useState('')
   const [name, setName] = useState('')
 
-  const handleDelete = (id) => {
-    const lessons = [...getLesson]
-    const index = lessons.findIndex((t) => t.id == id)
-    const lesson = lessons[index]
-    const filteredTodos = lessons.filter((t) => t.id !== id)
-    setLesson(filteredTodos)
-
-    toast.success(`(${lesson.name}) با موفقیت حذف شد`, {
-      position: 'top-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    })
-  }
+  const [refresh, setRefresh] = useState(false)
 
   const colors = [
     {
@@ -69,41 +56,13 @@ export const CourseContextProvider = ({ children }) => {
   let CourseImage = ''
   let CoursePoster = ''
   let GetLesson = []
-  const handleSubmit = () => {
+
+  const validator = () => {
     CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, '')
 
     CoursePoster = coursePoster
 
-    CoursePoster = coursePoster.replace(
-      '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif',
-      ''
-    )
-    getLesson.map((item) => {
-      GetLesson.push({
-        id: item.id,
-        name: item.name,
-        url: item.url.replace(`${config.HttpBaseUrl}/storage/`, ''),
-        content: item.content,
-      })
-    })
-
-    const data = {
-      excerpt,
-      price: isFree && '0',
-      description,
-      type: isFree,
-      ispin: isPin,
-      gradient: color,
-      img: CourseImage,
-      poster: coursePoster,
-      videos: JSON.stringify(GetLesson),
-      name,
-      teacher: 'مقدم جو',
-    }
-    if (
-      CourseImage !==
-      '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
-    ) {
+    if (CourseImage.includes('/static/media/UF_Infinity_khayati') !== true) {
       if (name !== '') {
         if (color !== '' && isFree !== 'free') {
           if (price !== 0 && isFree !== false) {
@@ -115,11 +74,7 @@ export const CourseContextProvider = ({ children }) => {
                     CoursePoster !==
                       '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
                   ) {
-                    AddCourseService(token, data).then((res) => {
-                      if (res.status == 200) {
-                        toast.success('دوره با موفقیت ساخته شد')
-                      }
-                    })
+                    return true
                   }
                 } else {
                   toast.success('لطفا توضیحات  را بنویسید')
@@ -143,6 +98,69 @@ export const CourseContextProvider = ({ children }) => {
       toast.warn('لطفا عکس دوره را انتخاب کنید')
     }
   }
+
+  const handleSubmit = () => {
+    getLesson.map((item) => {
+      GetLesson.push({
+        id: item.id,
+        name: item.name,
+        url: item.url.replace(`${config.HttpBaseUrl}/storage/`, ''),
+        content: item.content,
+      })
+    })
+    const data = {
+      excerpt,
+      price: isFree && '0',
+      description,
+      type: isFree,
+      ispin: isPin,
+      gradient: color,
+      img: CourseImage,
+      poster: coursePoster,
+      videos: JSON.stringify(GetLesson),
+      name,
+      teacher: 'مقدم جو',
+    }
+    if (validator()) {
+      AddCourseService(token, data).then((res) => {
+        if (res.status == 200) {
+          toast.success('دوره با موفقیت ساخته شد')
+        }
+      })
+    }
+  }
+  const handleEdit = (singleId) => {
+    getLesson.map((item) => {
+      GetLesson.push({
+        id: item.id,
+        name: item.name,
+        url: item.url.replace(`${config.HttpBaseUrl}/storage/`, ''),
+        content: item.content,
+      })
+    })
+    const data = {
+      excerpt,
+      price: isFree && '0',
+      description,
+      type: isFree,
+      ispin: isPin,
+      gradient: color,
+      img: CourseImage,
+      poster: coursePoster,
+      videos: JSON.stringify(GetLesson),
+      name,
+      teacher: 'مقدم جو',
+    }
+    if (validator() == true) {
+      EditCourseService(token, data, singleId).then((res) => {
+        if (res.status == 200) {
+          toast.success('دوره با موفقیت ویرایش شد')
+        }
+      })
+    }
+  }
+
+  //lessons handlers
   const selectLessenFile = () => {
     setUploadModal(3)
   }
@@ -184,6 +202,23 @@ export const CourseContextProvider = ({ children }) => {
         progress: undefined,
       })
     }
+  }
+  const handleDelete = (id) => {
+    const lessons = [...getLesson]
+    const index = lessons.findIndex((t) => t.id == id)
+    const lesson = lessons[index]
+    const filteredTodos = lessons.filter((t) => t.id !== id)
+    setLesson(filteredTodos)
+
+    toast.success(`(${lesson.name}) با موفقیت حذف شد`, {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    })
   }
 
   const setLessons = (lessonsList) => {
@@ -244,6 +279,7 @@ export const CourseContextProvider = ({ children }) => {
         selectLessenFile,
         getContentLesson,
         setContentLesson,
+        handleEdit,
       }}
     >
       {children}

@@ -23,7 +23,7 @@ import useToken from '../../hooks/useToken'
 
 const UpdateCourse = () => {
   const { token } = useToken()
-  const { id: courseId } = useParams()
+  const { id: singleId } = useParams()
   const {
     setLessons,
     handleSubmit,
@@ -52,6 +52,7 @@ const UpdateCourse = () => {
     name,
     setName,
     colors,
+    handleEdit,
   } = useCourse()
 
   useEffect(() => {
@@ -72,7 +73,7 @@ const UpdateCourse = () => {
     setIsFree(false)
     setExcerpt('')
 
-    SingleCourseService(token, courseId).then((res) => {
+    SingleCourseService(token, singleId).then((res) => {
       const data = res.data.data
       setName(data.name)
       setDescription(data.description)
@@ -182,32 +183,9 @@ const UpdateCourse = () => {
               }}
             />
           </div>
-          {/* C O U R S E  - P R I C E */}
-          <div
-            className={`${
-              isFree == 'free' && `hidden`
-            } relative col-span-3  z-0 w-full mb-6 group`}
-          >
-            <input
-              type='number'
-              name='price'
-              id='price'
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-              placeholder=' '
-              required=''
-            />
-            <label
-              for='price'
-              className={`  right-0
-              peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
-            >
-              {`قیمت ثبت نام در دوره`}
-            </label>
-          </div>
+
           {/* C O U R S E  - C H E K B I X E S */}
-          <div className='relative col-span-12 sm:col-span-4  z-0 w-full mb-6 group'>
+          <div className='relative col-span-12 sm:col-span-3 z-0 w-full mb-6 group'>
             <div className='flex'>
               <div>
                 <div>
@@ -235,10 +213,10 @@ const UpdateCourse = () => {
                     id='isfre'
                     checked={isFree == 'free' && true}
                     onClick={() => {
-                      if (isFree == 'price') {
+                      if (isFree == 'pricy') {
                         setIsFree('free')
                       } else {
-                        setIsFree('price')
+                        setIsFree('pricy')
                       }
                     }}
                   />
@@ -252,8 +230,32 @@ const UpdateCourse = () => {
               </div>
             </div>
           </div>
+          {/* C O U R S E  - P R I C E */}
+          <div
+            className={`${
+              isFree == 'free' && `hidden`
+            } relative sm:col-span-4 mt-5 col-span-12 items-center  z-0 w-full mb-6 group`}
+          >
+            <input
+              type='number'
+              value={price}
+              name='price'
+              id='price'
+              onChange={(e) => setPrice(e.target.value)}
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              required=''
+            />
+            <label
+              for='price'
+              className={`  right-0
+              peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
+            >
+              {`قیمت ثبت نام در دوره`}
+            </label>
+          </div>
           {/* C O U R S E  - C O L O R S */}
-          {isFree == 'price' && (
+          {isFree == 'pricy' && (
             <div className='grid  col-span-12 sm:col-span-5'>
               <p className='col-span-12'>رنگ خود را انتخاب کنید</p>
               {colors.map((item) => (
@@ -279,12 +281,12 @@ const UpdateCourse = () => {
         <button
           onClick={(e) => {
             e.preventDefault()
-            handleSubmit()
+            handleEdit(singleId)
           }}
           type='submit'
           className='text-white bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center '
         >
-          {`انتشار دوره`}
+          {`ویرایش دوره`}
         </button>
       </form>
       {/* Upload Modal*/}

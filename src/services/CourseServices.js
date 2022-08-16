@@ -43,3 +43,11 @@ export const SingleCourseService = (token, id) => {
     },
   })
 }
+export const EditCourseService = (token, data, id) => {
+  return httpService.post(`${config.baseUrl}/api/courses/edit/${id}`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

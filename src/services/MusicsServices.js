@@ -45,3 +45,11 @@ export const SingleMusicService = (token, id) => {
     },
   })
 }
+export const EditMusicService = (token, data, id) => {
+  return httpService.post(`${config.baseUrl}/api/musics/edit/${id}`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

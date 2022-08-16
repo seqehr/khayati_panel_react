@@ -16,6 +16,8 @@ import {
   CatListService,
   UploadedFiles,
 } from '../../services/ArticleServices'
+//images
+import ArticleImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 
 //icons
 import { AiFillPlusSquare } from 'react-icons/ai'
@@ -28,7 +30,7 @@ const UpdateArticle = (props) => {
   const { catlist, setCatlist, checked, setChecked } = useCategories()
   const [refresh, setRefresh] = useState(false)
   const { token } = useToken()
-  const { id: courseId } = useParams()
+  const { id: singleId } = useParams()
   const {
     handleSubmit,
     creaeHashagHandler,
@@ -51,6 +53,7 @@ const UpdateArticle = (props) => {
     setCatId,
     description,
     setDescription,
+    handleEdit,
   } = useArticles()
   useEffect(() => {
     // cats
@@ -64,7 +67,7 @@ const UpdateArticle = (props) => {
     })
 
     //reset inputs
-    setArticleImage('')
+    setArticleImage(ArticleImageDefault)
     setName('')
     setHashtags([])
     setDescription('')
@@ -74,7 +77,7 @@ const UpdateArticle = (props) => {
       setFiles(res.data.data)
     })
 
-    SingleArticleService(token, courseId).then((res) => {
+    SingleArticleService(token, singleId).then((res) => {
       const data = res.data.data
       let tags = []
 
@@ -208,11 +211,11 @@ const UpdateArticle = (props) => {
           type='submit'
           onClick={(e) => {
             e.preventDefault()
-            handleSubmit()
+            handleEdit(singleId)
           }}
           className='text-white bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center '
         >
-          {`انتشار مقاله`}
+          {`ویرایش مقاله`}
         </button>
       </form>
 

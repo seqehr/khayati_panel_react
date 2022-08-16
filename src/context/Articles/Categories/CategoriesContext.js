@@ -19,6 +19,16 @@ export function CategoriesContextProvider({ children }) {
     root: true,
     children: [],
   })
+
+  // gett caat list
+  useEffect(() => {
+    CatListService(token).then((res) => {
+      const categories = { ...catlist }
+      categories.children = res.data.data
+      setCatlist(categories)
+    })
+  }, [])
+
   const handleSubmit = () => {
     const data = {
       name,
@@ -30,7 +40,7 @@ export function CategoriesContextProvider({ children }) {
       // fetch categories list again after create new category
       CreateCatService(token, data)
         .then((res) => {
-          CatListService().then((res) => {
+          CatListService(token).then((res) => {
             const categories = { ...catlist }
             categories.children = res.data.data
             setCatlist(categories)

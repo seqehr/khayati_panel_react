@@ -15,42 +15,33 @@ import style from './TableRow.module.scss'
 import { toast } from 'react-toastify'
 //hooks
 import useToken from '../../hooks/useToken'
+import useMusics from '../../hooks/useMusics'
 
 const UpdateMusic = (props) => {
   const { token } = useToken()
-  const { id: musicId } = useParams()
-  const [files, setFiles] = useState([])
-  const [uploadModal, setUploadModal] = useState(0)
-
-  const [musicImage, setMusicImage] = useState(MusicImageDefault)
-  const [url, setUrl] = useState('')
-  const [name, setName] = useState('')
-
-  let Url = ''
-  let MusicImage = ''
-  const handleSubmit = () => {
-    MusicImage = musicImage.replace(`${config.HttpBaseUrl}/storage/`, '')
-    Url = url.replace(`${config.HttpBaseUrl}/storage/`, '')
-
-    const data = {
-      name: name,
-      url: url,
-      img: musicImage,
-    }
-    AddAMusicService(token, data).then((res) => {
-      if (res.status == 200) {
-        toast.success('موزیک با موفقیت ثبت شد')
-      }
-    })
-  }
+  const { id: singleId } = useParams()
+  const {
+    files,
+    setFiles,
+    uploadModal,
+    setUploadModal,
+    musicImage,
+    setMusicImage,
+    url,
+    setUrl,
+    name,
+    setName,
+    handleSubmit,
+    handleEdit,
+  } = useMusics()
 
   useEffect(() => {
     //reset inputs
     setUrl('')
-    setMusicImage('')
+    setMusicImage(MusicImageDefault)
     setName('')
 
-    SingleMusicService(token, musicId).then((res) => {
+    SingleMusicService(token, singleId).then((res) => {
       const data = res.data.data
 
       setUrl(data.url)
@@ -129,11 +120,11 @@ const UpdateMusic = (props) => {
           type='submit'
           onClick={(e) => {
             e.preventDefault()
-            handleSubmit()
+            handleEdit(singleId)
           }}
           className='text-white bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center '
         >
-          {`انتشار `}
+          {`ویرایش `}
         </button>
       </form>
 

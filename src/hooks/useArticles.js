@@ -21,9 +21,9 @@ const useArticles = (props) => {
     setHashtags,
     hashtag,
     setHashtag,
-
     description,
     setDescription,
+    handleEdit,
   } = useContext(ArticlesContext)
   return {
     handleSubmit,
@@ -43,9 +43,9 @@ const useArticles = (props) => {
     setHashtags,
     hashtag,
     setHashtag,
-
     description,
     setDescription,
+    handleEdit,
   }
 }
 

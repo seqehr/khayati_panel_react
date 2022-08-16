@@ -90,3 +90,11 @@ export const DeleteArticleCatService = (token, data) => {
     },
   })
 }
+export const EditArticleService = (token, data, id) => {
+  return httpService.post(`${config.baseUrl}/api/posts/edit/${id}`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

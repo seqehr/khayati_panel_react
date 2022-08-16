@@ -64,14 +64,15 @@ const AddCourse = (props) => {
     setCoursePoster(CourseImageDefault)
     setPrice('')
     setLessons([])
-
+    setIsPin(false)
+    setIsFree('pricy')
     setExcerpt('')
   }, [])
 
   return (
     <div className='bg-white dark:bg-background2-dark p-10  shadow-md rounded-xl '>
       <form>
-        <div className='grid grid-cols-12 xl:gap-6 gap-4 w-full '>
+        <div className='grid grid-cols-12 xl:gap-6 gap-5 w-full '>
           {/* C O U R S E - I M A G E */}
           <div
             className={` ${
@@ -162,32 +163,8 @@ const AddCourse = (props) => {
               }}
             />
           </div>
-          {/* C O U R S E  - P R I C E */}
-          <div
-            className={`${
-              isFree == 'free' && `hidden`
-            } relative sm:col-span-3 col-span-12  z-0 w-full mb-6 group`}
-          >
-            <input
-              type='number'
-              value={price}
-              name='price'
-              id='price'
-              onChange={(e) => setPrice(e.target.value)}
-              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-              placeholder=' '
-              required=''
-            />
-            <label
-              for='price'
-              className={`  right-0
-              peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
-            >
-              {`قیمت ثبت نام در دوره`}
-            </label>
-          </div>
           {/* C O U R S E  - C H E K B I X E S */}
-          <div className='relative col-span-12 sm:col-span-4  z-0 w-full  mb-6 group'>
+          <div className='relative col-span-12 sm:col-span-3  z-0 w-full  mb-6 group'>
             <div className='flex '>
               <div>
                 <div>
@@ -231,6 +208,31 @@ const AddCourse = (props) => {
               </div>
             </div>
           </div>
+          {/* C O U R S E  - P R I C E */}
+          <div
+            className={`${
+              isFree == 'free' && `hidden`
+            } relative sm:col-span-4 mt-5 col-span-12 items-center  z-0 w-full mb-6 group`}
+          >
+            <input
+              type='number'
+              value={price}
+              name='price'
+              id='price'
+              onChange={(e) => setPrice(e.target.value)}
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              required=''
+            />
+            <label
+              for='price'
+              className={`  right-0
+              peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
+            >
+              {`قیمت ثبت نام در دوره`}
+            </label>
+          </div>
+
           {/* C O U R S E  - C O L O R S */}
           {isFree == 'pricy' && (
             <div className='grid  col-span-12 sm:col-span-5 '>

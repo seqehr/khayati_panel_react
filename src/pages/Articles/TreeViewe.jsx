@@ -11,11 +11,13 @@ import {
   CatListService,
   DeleteArticleCatService,
 } from '../../services/ArticleServices'
+import { Link } from 'react-router-dom'
 
 const TreeView = ({ explorer, showRoot }) => {
   const [expand, setExpand] = useState()
   const { checked, setChecked, catlist, setCatlist } = useCategories()
   const { token } = useToken()
+
   useEffect(() => {
     if (explorer.root == true) {
       setExpand(true)
@@ -49,18 +51,21 @@ const TreeView = ({ explorer, showRoot }) => {
       })
     }
   }
+  console.log(showRoot)
   return (
     <div>
       <div className={` pb-1 `}>
         {explorer.root !== true ? (
           <>
-            <button
-              onClick={() => deleteHandler(explorer.id)}
-              className='ml-2 shadow-md cursor-pointer text-red-light dark:text-red-dark '
-              type={'checkbox'}
-            >
-              <RiDeleteBin6Line />
-            </button>
+            {showRoot == true && (
+              <button
+                onClick={() => deleteHandler(explorer.id)}
+                className='ml-2 shadow-md cursor-pointer text-red-light dark:text-red-dark '
+                type={'checkbox'}
+              >
+                <RiDeleteBin6Line />
+              </button>
+            )}
             <input
               checked={checked == explorer.id}
               onClick={() => {
@@ -86,7 +91,22 @@ const TreeView = ({ explorer, showRoot }) => {
           className='cursor-context-menu hover:animate-pulse  text-black dark:text-white'
           onClick={() => setExpand(!expand)}
         >
-          {explorer.name}
+          {explorer.children.length == 0 &&
+          showRoot == false &&
+          explorer.root ? (
+            <div className='flex flex-col justify-center text-center items-center'>
+              <p className='py-5  text-bitcoin-light'>دسته بندی وجود ندارد</p>
+              <Link
+                className='bg-bitcoin-light text-white p-2 px-5 rounded-xl'
+                to={'/article/category/add'}
+                target={'_blank'}
+              >
+                از اینجا یک دسته بندی ایجاد کنید
+              </Link>
+            </div>
+          ) : (
+            explorer.name
+          )}
         </span>
         {explorer.children.length !== 0 ? (
           expand ? (
@@ -101,7 +121,11 @@ const TreeView = ({ explorer, showRoot }) => {
         <br />
         <div style={{ display: expand ? 'block' : 'none', paddingRight: 15 }}>
           {explorer.children.map((explore) => (
-            <TreeView key={explore.name} explorer={explore} />
+            <TreeView
+              showRoot={showRoot}
+              key={explore.name}
+              explorer={explore}
+            />
           ))}
         </div>
       </div>

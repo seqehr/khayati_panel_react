@@ -113,9 +113,9 @@ const Lessons = ({ selectLessenFileF }) => {
                 data={lesson.content}
                 // this will we change  =>  {data} has html
 
-                onChange={(event, editor) => {
-                  const data = editor.getData()
-                  setContentLesson(data)
+                onReady={(editor) => {
+                  editor.enableReadOnlyMode('my-feature-id')
+                  console.log(editor.isReadOnly)
                 }}
               />
             </div>

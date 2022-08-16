@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import config from '../../services/config.json'
-import { AddBookService, UploadedFiles } from '../../services/BookServices'
+import {
+  AddBookService,
+  EditBookService,
+  UploadedFiles,
+} from '../../services/BookServices'
 import ImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 import { toast } from 'react-toastify'
 //hooks
@@ -19,28 +23,12 @@ export function BooksContextProvider({ children }) {
 
   let BookImage = ''
   let Url = ''
-  const handleSubmit = () => {
-    BookImage = bookImage.replace(`${config.HttpBaseUrl}/storage/`, '')
-
-    Url = url.replace(`${config.HttpBaseUrl}/storage/`, '')
-
-    const data = {
-      name: title,
-      img: BookImage,
-      link: Url,
-      description,
-    }
-    if (
-      BookImage !== '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
-    ) {
+  const validator = () => {
+    if (BookImage.includes('/static/media/UF_Infinity_khayati') !== true) {
       if (title !== '') {
         if (url !== '') {
           if (description !== '') {
-            AddBookService(token, data).then((res) => {
-              if (res.status == 200) {
-                toast.success('کتاب با موفقیت ثبت شد')
-              }
-            })
+            return true
           } else {
             toast.warn('توضیحات  کتاب را  بنویسید')
           }
@@ -52,6 +40,41 @@ export function BooksContextProvider({ children }) {
       }
     } else {
       toast.warn('لطفا عکس کتاب را انتخاب کنید')
+    }
+  }
+
+  const handleEdit = (singleId) => {
+    BookImage = bookImage.replace(`${config.HttpBaseUrl}/storage/`, '')
+    Url = url.replace(`${config.HttpBaseUrl}/storage/`, '')
+    const data = {
+      name: title,
+      img: BookImage,
+      link: Url,
+      description,
+    }
+    if (validator() == true) {
+      EditBookService(token, data, singleId).then((res) => {
+        if (res.status == 200) {
+          toast.success('کتاب با موفقیت ویرایش شد')
+        }
+      })
+    }
+  }
+  const handleSubmit = () => {
+    BookImage = bookImage.replace(`${config.HttpBaseUrl}/storage/`, '')
+    Url = url.replace(`${config.HttpBaseUrl}/storage/`, '')
+    const data = {
+      name: title,
+      img: BookImage,
+      link: Url,
+      description,
+    }
+    if (validator() == true) {
+      AddBookService(token, data).then((res) => {
+        if (res.status == 200) {
+          toast.success('کتاب با موفقیت ایجاد شد')
+        }
+      })
     }
   }
   return (
@@ -70,6 +93,7 @@ export function BooksContextProvider({ children }) {
         url,
         setUrl,
         handleSubmit,
+        handleEdit,
       }}
     >
       {children}

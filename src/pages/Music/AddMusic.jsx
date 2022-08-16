@@ -10,44 +10,23 @@ import style from './TableRow.module.scss'
 import { toast } from 'react-toastify'
 //hooks
 import useToken from '../../hooks/useToken'
+import useMusics from '../../hooks/useMusics'
 
 const AddMusic = (props) => {
   const { token } = useToken()
-  const [files, setFiles] = useState([])
-  const [uploadModal, setUploadModal] = useState(0)
-
-  const [musicImage, setMusicImage] = useState(MusicImageDefault)
-  const [url, setUrl] = useState('')
-  const [name, setName] = useState('')
-
-  let Url = ''
-  let MusicImage = ''
-  const handleSubmit = () => {
-    MusicImage = musicImage.replace(`${config.HttpBaseUrl}/storage/`, '')
-    Url = url.replace(`${config.HttpBaseUrl}/storage/`, '')
-
-    const data = {
-      name: name,
-      url: url,
-      img: musicImage,
-    }
-    if (name && url !== ' ') {
-      if (
-        musicImage !==
-        '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
-      ) {
-        AddAMusicService(token, data).then((res) => {
-          if (res.status == 200) {
-            toast.success('موزیک با موفقیت ثبت شد')
-          }
-        })
-      } else {
-        toast.warn('لطفا عکس  را وارد کنید')
-      }
-    } else {
-      toast.warn('لطفا  نام و لینک  را وارد کنید')
-    }
-  }
+  const {
+    files,
+    setFiles,
+    uploadModal,
+    setUploadModal,
+    musicImage,
+    setMusicImage,
+    url,
+    setUrl,
+    name,
+    setName,
+    handleSubmit,
+  } = useMusics()
 
   useEffect(() => {
     // get uploaded files

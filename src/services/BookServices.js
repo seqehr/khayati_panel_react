@@ -46,3 +46,11 @@ export const SingleBookService = (token, id) => {
     },
   })
 }
+export const EditBookService = (token, data, id) => {
+  return httpService.post(`${config.baseUrl}/api/books/edit/${id}`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

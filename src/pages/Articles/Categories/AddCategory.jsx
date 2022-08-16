@@ -14,14 +14,6 @@ const AddCategory = () => {
 
   const { name, setName, handleSubmit, catlist, setCatlist } =
     useProductsCategories()
-  // gett caat list
-  useEffect(() => {
-    CatListService(token).then((res) => {
-      const categories = { ...catlist }
-      categories.children = res.data.data
-      setCatlist(categories)
-    })
-  }, [])
 
   return (
     <div initial='hidden' animate='visible' className='grid grid-cols-12'>

@@ -17,7 +17,7 @@ import useToken from '../../hooks/useToken'
 
 const UpdateBook = (props) => {
   const { token } = useToken()
-  const { id: courseId } = useParams()
+  const { id: singleId } = useParams()
   const {
     files,
     setFiles,
@@ -32,6 +32,7 @@ const UpdateBook = (props) => {
     url,
     setUrl,
     handleSubmit,
+    handleEdit,
   } = useBooks()
 
   useEffect(() => {
@@ -41,7 +42,7 @@ const UpdateBook = (props) => {
     setTitle('')
     setDescription('')
 
-    SingleBookService(token, courseId).then((res) => {
+    SingleBookService(token, singleId).then((res) => {
       const data = res.data.data
       setBookImage(data.img)
       setUrl(data.link)
@@ -128,11 +129,11 @@ const UpdateBook = (props) => {
           type='submit'
           onClick={(e) => {
             e.preventDefault()
-            handleSubmit()
+            handleEdit(singleId)
           }}
           className='text-white bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center '
         >
-          {`انتشار `}
+          {`ویرایش `}
         </button>
       </form>
       {/* Upload Modal*/}

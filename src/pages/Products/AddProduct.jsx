@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Radio } from '@material-tailwind/react'
-import ArticleImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
 import { toast } from 'react-toastify'
+//images
+import ArticleImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 // css
 import './CKEditor.css'
 import style from './TableRow.module.scss'
@@ -55,6 +56,14 @@ const AddProduct = (props) => {
     setProductsImagesHandler,
   } = useProducts()
 
+  useEffect(() => {
+    //reset inputs
+    setProductImage(ArticleImageDefault)
+    setName('')
+    setDescription('')
+    setProductImages([])
+    setPrice(0)
+  }, [])
   return (
     <div className='bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl'>
       <form>
@@ -64,7 +73,7 @@ const AddProduct = (props) => {
             className={` ${'col-span-12'} relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
             <img
-              onClick={() => setUploadModal(true)}
+              onClick={() => setUploadModal(1)}
               src={productImage}
               className='w-96 rounded-md'
             />
@@ -148,7 +157,10 @@ const AddProduct = (props) => {
               onClick={() => setUploadModal(2)}
               className='lg:col-span-3 sm:col-span-6 col-span-12 flex justify-center flex-col items-center'
             >
-              <img src={productImage} className='w-full rounded-md blur-sm' />
+              <img
+                src={ArticleImageDefault}
+                className='w-full rounded-md blur-sm'
+              />
               <label
                 className='p-5 text-black cursor-pointer dark:text-white block  text-sm font-medium text-gray-900 bg-background-light dark:bg-background-dark opacity-80 rounded-2xl dark:text-gray-300 absolute hover:-translate-y-1 ease-in-out duration-300 hover:shadow-xl'
                 for='user_avatar '

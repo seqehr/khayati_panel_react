@@ -28,6 +28,7 @@ const useProducts = (props) => {
     ProductImages,
     setProductImages,
     setProductsImagesHandler,
+    handleEdit,
   } = useContext(ProductsContext)
   return {
     files,
@@ -54,6 +55,7 @@ const useProducts = (props) => {
     ProductImages,
     setProductImages,
     setProductsImagesHandler,
+    handleEdit,
   }
 }
 

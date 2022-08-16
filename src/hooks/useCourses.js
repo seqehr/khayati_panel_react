@@ -39,6 +39,7 @@ const useCourses = (props) => {
     getContentLesson,
     setContentLesson,
     selectLessenFile,
+    handleEdit,
   } = useContext(CoursesContext)
 
   return {
@@ -77,6 +78,7 @@ const useCourses = (props) => {
     selectLessenFile,
     getContentLesson,
     setContentLesson,
+    handleEdit,
   }
 }
 

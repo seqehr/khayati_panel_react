@@ -1,6 +1,6 @@
 // Context
-import { useContext } from "react";
-import BooksContext from "../context/Books/BooksContext";
+import { useContext } from 'react'
+import BooksContext from '../context/Books/BooksContext'
 
 const useBooks = (props) => {
   const {
@@ -17,7 +17,8 @@ const useBooks = (props) => {
     url,
     setUrl,
     handleSubmit,
-  } = useContext(BooksContext);
+    handleEdit,
+  } = useContext(BooksContext)
   return {
     files,
     setFiles,
@@ -32,7 +33,8 @@ const useBooks = (props) => {
     url,
     setUrl,
     handleSubmit,
-  };
-};
+    handleEdit,
+  }
+}
 
-export default useBooks;
+export default useBooks

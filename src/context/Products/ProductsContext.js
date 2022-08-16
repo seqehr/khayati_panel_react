@@ -12,6 +12,7 @@ import useProductsCategories from '../../hooks/useProductsCategories'
 import {
   AddProductService,
   CatListService,
+  EditProductService,
   UploadedFiles,
 } from '../../services/ProductServices'
 
@@ -42,6 +43,32 @@ export function ProductsContextProvider({ children }) {
   //validate
   let formatedProductImage = ''
   let FormatedProductImages = []
+  const validator = () => {
+    if (
+      formatedProductImage.includes('/static/media/UF_Infinity_khayati') !==
+      true
+    ) {
+      if (catId !== 0) {
+        if (description !== '') {
+          if (name !== '') {
+            if (price !== '') {
+              return true
+            } else {
+              toast.warn('لطفا قیمت  محصول را وارد کنید')
+            }
+          } else {
+            toast.warn('لطفا نام  محصول را بنویسید')
+          }
+        } else {
+          toast.warn('لطفا توضیحات را  بنویسید')
+        }
+      } else {
+        toast.warn('لطفا دسته بندی را انتخاب کنید')
+      }
+    } else {
+      toast.warn('لطفا عکس مقاله را انتخاب کنید')
+    }
+  }
   const handleSubmit = () => {
     formatedProductImage = productImage.replace(
       `${config.HttpBaseUrl}/storage/`,
@@ -58,44 +85,42 @@ export function ProductsContextProvider({ children }) {
       img: formatedProductImage,
       content: description,
       price,
-      gallery: JSON.stringify(ProductImages),
+      gallery: JSON.stringify(FormatedProductImages),
     }
-    if (
-      productImage !==
-      '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
-    ) {
-      if (catId !== 0) {
-        if (description !== '') {
-          if (name !== '') {
-            if (price !== '') {
-              AddProductService(token, data).then((res) => {
-                if (res.status == 200) {
-                  toast.success('محصول با موفقیت ساخته شد')
 
-                  //reset inputs
-                  setProductImage('')
-                  setName('')
-                  setDescription('')
-                  setProductImages([])
-                  setPrice(0)
-
-                  navigate('/')
-                }
-              })
-            } else {
-              toast.warn('لطفا قیمت  محصول را وارد کنید')
-            }
-          } else {
-            toast.warn('لطفا نام  محصول را بنویسید')
-          }
-        } else {
-          toast.warn('لطفا توضیحات را  بنویسید')
+    if (validator() == true) {
+      AddProductService(token, data).then((res) => {
+        if (res.status == 200) {
+          toast.success('محصول با موفقیت ساخته شد')
         }
-      } else {
-        toast.warn('لطفا دسته بندی را انتخاب کنید')
-      }
-    } else {
-      toast.warn('لطفا عکس مقاله را انتخاب کنید')
+      })
+    }
+  }
+  const handleEdit = (singleId) => {
+    formatedProductImage = productImage.replace(
+      `${config.HttpBaseUrl}/storage/`,
+      ''
+    )
+    ProductImages.map((i) => {
+      FormatedProductImages.push(
+        i.replace(`${config.HttpBaseUrl}/storage/`, '')
+      )
+    })
+    const data = {
+      name,
+      cat_id: catId,
+      img: formatedProductImage,
+      content: description,
+      price,
+      gallery: JSON.stringify(FormatedProductImages),
+    }
+
+    if (validator() == true) {
+      EditProductService(token, data, singleId).then((res) => {
+        if (res.status == 200) {
+          toast.success('محصول با موفقیت ویرایش شد')
+        }
+      })
     }
   }
   useEffect(() => {
@@ -145,6 +170,7 @@ export function ProductsContextProvider({ children }) {
         ProductImages,
         setProductImages,
         setProductsImagesHandler,
+        handleEdit,
       }}
     >
       {children}

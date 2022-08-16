@@ -33,7 +33,7 @@ import useProducts from '../../hooks/useProducts'
 
 const UpdateProduct = (props) => {
   const { token } = useToken()
-  const { id: courseId } = useParams()
+  const { id: singleId } = useParams()
   const {
     files,
     setFiles,
@@ -59,16 +59,24 @@ const UpdateProduct = (props) => {
     ProductImages,
     setProductImages,
     setProductsImagesHandler,
+    handleEdit,
   } = useProducts()
 
   useEffect(() => {
-    SingleProductService(token, courseId).then((res) => {
+    //reset inputs
+    setProductImage('')
+    setName('')
+    setDescription('')
+    setProductImages([])
+    setPrice(0)
+
+    SingleProductService(token, singleId).then((res) => {
       const data = res.data.data
       setProductImage(data.img)
       setName(data.name)
       setDescription(data.content)
       setPrice(data.price)
-      setProductImages(data.gallery)
+      setProductImages(data.gallery.map((i) => i.url))
     })
     CatListService(token).then((res) => {
       setCategorries(res.data.data)
@@ -192,11 +200,11 @@ const UpdateProduct = (props) => {
           type='submit'
           onClick={(e) => {
             e.preventDefault()
-            handleSubmit()
+            handleEdit(singleId)
           }}
           className='text-white bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center '
         >
-          {`انتشار محصول`}
+          {`ویرایش محصول`}
         </button>
       </form>
 

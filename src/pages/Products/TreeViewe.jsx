@@ -53,13 +53,15 @@ const TreeView = ({ explorer, showRoot }) => {
       <div className={` pb-1 `}>
         {explorer.root !== true ? (
           <>
-            <button
-              onClick={() => deleteHandler(explorer.id)}
-              className='ml-2 shadow-md cursor-pointer text-red-light dark:text-red-dark '
-              type={'checkbox'}
-            >
-              <RiDeleteBin6Line />
-            </button>
+            {showRoot == true && (
+              <button
+                onClick={() => deleteHandler(explorer.id)}
+                className='ml-2 shadow-md cursor-pointer text-red-light dark:text-red-dark '
+                type={'checkbox'}
+              >
+                <RiDeleteBin6Line />
+              </button>
+            )}
             <input
               checked={checked == explorer.id}
               onClick={() => {
@@ -100,7 +102,11 @@ const TreeView = ({ explorer, showRoot }) => {
         <br />
         <div style={{ display: expand ? 'block' : 'none', paddingRight: 15 }}>
           {explorer.children.map((explore) => (
-            <TreeView key={explore.name} explorer={explore} />
+            <TreeView
+              showRoot={showRoot}
+              key={explore.name}
+              explorer={explore}
+            />
           ))}
         </div>
       </div>

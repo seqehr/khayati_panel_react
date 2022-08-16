@@ -11,6 +11,7 @@ import { TokenContextProvider } from './token/TokenContext'
 import { UploadContextProvider } from './Upload/UploadContext'
 import { ProductsCategoriesContextProvider } from './Products/Categories/ProductsCategoriesContext'
 import { ProductsContextProvider } from './Products/ProductsContext'
+import { MusicContextProvider } from './Musics/MusicContext'
 
 const ContextProvider = ({ children }) => {
   return (
@@ -40,7 +41,10 @@ const ContextProvider = ({ children }) => {
                           <SettingContextProvider>
                             {/* P R O D U C T S */}
                             <ProductsContextProvider>
-                              {children}
+                              {/* M U S I C S*/}
+                              <MusicContextProvider>
+                                {children}
+                              </MusicContextProvider>
                             </ProductsContextProvider>
                           </SettingContextProvider>
                         </DashboardContextProvider>
