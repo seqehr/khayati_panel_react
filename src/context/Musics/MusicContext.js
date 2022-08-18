@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import MusicImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 
@@ -13,6 +14,7 @@ import {
 
 const MusicContext = React.createContext()
 export function MusicContextProvider({ children }) {
+  const navigate = useNavigate()
   const { token } = useToken()
   const [files, setFiles] = useState([])
   const [uploadModal, setUploadModal] = useState(0)
@@ -47,6 +49,7 @@ export function MusicContextProvider({ children }) {
       AddAMusicService(token, data).then((res) => {
         if (res.status == 200) {
           toast.success('موزیک با موفقیت ثبت شد')
+          navigate('/musics')
         }
       })
     }

@@ -13,9 +13,12 @@ import {
 import config from '../../services/config.json'
 //hooks
 import useToken from '../../hooks/useToken'
+import { useNavigate } from 'react-router-dom'
 
 const CourseContext = React.createContext()
 export const CourseContextProvider = ({ children }) => {
+  const navigate = useNavigate()
+
   const { token } = useToken()
   const [getLesson, setLesson] = useState([])
   const [getLinkLesson, setLinkLesson] = useState('')
@@ -125,6 +128,7 @@ export const CourseContextProvider = ({ children }) => {
       AddCourseService(token, data).then((res) => {
         if (res.status == 200) {
           toast.success('دوره با موفقیت ساخته شد')
+          navigate('/courses')
         }
       })
     }

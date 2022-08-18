@@ -9,9 +9,11 @@ import ImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 import { toast } from 'react-toastify'
 //hooks
 import useToken from '../../hooks/useToken'
+import { useNavigate } from 'react-router-dom'
 
 const BooksContext = React.createContext()
 export function BooksContextProvider({ children }) {
+  const navigate = useNavigate()
   const { token } = useToken()
   const [files, setFiles] = useState([])
   const [uploadModal, setUploadModal] = useState(0)
@@ -73,6 +75,7 @@ export function BooksContextProvider({ children }) {
       AddBookService(token, data).then((res) => {
         if (res.status == 200) {
           toast.success('کتاب با موفقیت ایجاد شد')
+          navigate('/books')
         }
       })
     }

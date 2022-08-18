@@ -92,6 +92,7 @@ export function ProductsContextProvider({ children }) {
       AddProductService(token, data).then((res) => {
         if (res.status == 200) {
           toast.success('محصول با موفقیت ساخته شد')
+          navigate('/products')
         }
       })
     }

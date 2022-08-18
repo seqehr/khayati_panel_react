@@ -11,9 +11,11 @@ import ArticleImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 // hooks
 import useToken from '../../hooks/useToken'
 import useCategories from '../../hooks/useCategories'
+import { useNavigate } from 'react-router-dom'
 
 const ArticlesContext = React.createContext()
 export function ArticlesContextProvider({ children }) {
+  const navigate = useNavigate()
   const { token } = useToken()
   const [files, setFiles] = useState([])
   const [categorries, setCategorries] = useState([])
@@ -78,6 +80,7 @@ export function ArticlesContextProvider({ children }) {
       EditArticleService(token, data, singleId).then((res) => {
         if (res.status == 200) {
           toast.success('مقاله با موفقیت ساخته شد')
+          navigate('/articles')
         }
       })
     }
