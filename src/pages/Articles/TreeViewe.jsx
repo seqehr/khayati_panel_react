@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import { Navigate, useNavigate } from 'react-router-dom'
+
 // hooks
 import useCategories from '../../hooks/useCategories'
 import useToken from '../../hooks/useToken'
@@ -11,17 +13,21 @@ import {
   CatListService,
   DeleteArticleCatService,
 } from '../../services/ArticleServices'
-import { Link } from 'react-router-dom'
 
 const TreeView = ({ explorer, showRoot }) => {
   const [expand, setExpand] = useState()
+  const navigate = useNavigate()
   const { checked, setChecked, catlist, setCatlist } = useCategories()
   const { token } = useToken()
-
+  const [loaded, setLoaded] = useState(false)
   useEffect(() => {
     if (explorer.root == true) {
       setExpand(true)
     }
+
+    setTimeout(() => {
+      setLoaded(true)
+    }, 2000)
   }, [])
 
   const deleteHandler = (id) => {
@@ -93,16 +99,28 @@ const TreeView = ({ explorer, showRoot }) => {
         >
           {explorer.children.length == 0 &&
           showRoot == false &&
+          loaded == true &&
           explorer.root ? (
             <div className='flex flex-col justify-center text-center items-center'>
               <p className='py-5  text-bitcoin-light'>دسته بندی وجود ندارد</p>
-              <Link
-                className='bg-bitcoin-light text-white p-2 px-5 rounded-xl'
-                to={'/article/category/add'}
-                target={'_blank'}
+              <p
+                onClick={() => {
+                  toast.error(
+                    <p dir='rtl' className='flext'>
+                      <span className='pl-2'>اطلاعات ذخیر نشدند</span>
+                      <span
+                        onClick={() => navigate('/article/category/add')}
+                        className=' p-2 px-3 z-50  bg-red-light rounded-lg text-white hover:border-2 text-center ease-in-out duration-300'
+                      >
+                        خروج !
+                      </span>
+                    </p>
+                  )
+                }}
+                className='bg-bitcoin-light text-white p-2 px-5 rounded-xl cursor-pointer'
               >
                 از اینجا یک دسته بندی ایجاد کنید
-              </Link>
+              </p>
             </div>
           ) : (
             explorer.name

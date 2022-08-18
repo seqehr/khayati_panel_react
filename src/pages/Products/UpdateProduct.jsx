@@ -163,7 +163,7 @@ const UpdateProduct = (props) => {
             <div
               className={` lg:col-span-4 col-span-12 relative  flex  justify-start dark:bg-background-dark bg-background-light p-5 rounded-2xl drop-shadow-md  flex-col  z-0  mb-6 group`}
             >
-              <TreeView explorer={catlist} />
+              <TreeView showRoot={false} explorer={catlist} />
             </div>
           </div>
 

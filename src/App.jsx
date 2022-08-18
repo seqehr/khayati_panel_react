@@ -45,6 +45,7 @@ import AddMember from './pages/Members/AddMember'
 import AddCategory from './pages/Articles/Categories/AddCategory'
 import Notifiction from './pages/Notifiction/Notifiction'
 import AddProductCategory from './pages/Products/Categories/AddProductCategory'
+import JustifyMember from './pages/Members/JustifyMember'
 function App() {
   const { token, setToken } = useToken()
 
@@ -133,6 +134,10 @@ function App() {
                     <Route
                       path='/courses/member/:id'
                       element={<MemberListCourses />}
+                    />{' '}
+                    <Route
+                      path='/permission/member/:id'
+                      element={<JustifyMember />}
                     />
                     //notifoctions
                     <Route path='/notifiction' element={<Notifiction />} />

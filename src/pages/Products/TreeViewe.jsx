@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import { Link, useNavigate } from 'react-router-dom'
 // hooks
 import useProductsCategories from '../../hooks/useProductsCategories'
 // icons
@@ -13,12 +14,17 @@ import useToken from '../../hooks/useToken'
 
 const TreeView = ({ explorer, showRoot }) => {
   const [expand, setExpand] = useState(false)
+  const navigate = useNavigate()
   const { checked, setChecked, setCatlist, catlist } = useProductsCategories()
   const { token } = useToken()
+  const [loaded, setLoaded] = useState(false)
   useEffect(() => {
     if (explorer.root == true) {
       setExpand(true)
     }
+    setTimeout(() => {
+      setLoaded(true)
+    }, 2000)
   }, [])
 
   const deleteHandler = (id) => {
@@ -87,7 +93,34 @@ const TreeView = ({ explorer, showRoot }) => {
           className='cursor-context-menu hover:animate-pulse  text-black dark:text-white'
           onClick={() => setExpand(!expand)}
         >
-          {explorer.name}
+          {explorer.children.length == 0 &&
+          showRoot == false &&
+          loaded == true &&
+          explorer.root ? (
+            <div className='flex flex-col justify-center text-center items-center'>
+              <p className='py-5  text-bitcoin-light'>دسته بندی وجود ندارد</p>
+              <p
+                onClick={() => {
+                  toast.error(
+                    <p dir='rtl' className='flext'>
+                      <span className='pl-2'>اطلاعات ذخیر نشدند</span>
+                      <span
+                        onClick={() => navigate('/product/category/add')}
+                        className=' p-2 px-3 z-50  bg-red-light rounded-lg text-white hover:border-2 text-center ease-in-out duration-300'
+                      >
+                        خروج !
+                      </span>
+                    </p>
+                  )
+                }}
+                className='bg-bitcoin-light text-white p-2 px-5 rounded-xl cursor-pointer'
+              >
+                از اینجا یک دسته بندی ایجاد کنید
+              </p>
+            </div>
+          ) : (
+            explorer.name
+          )}
         </span>
         {explorer.children.length !== 0 ? (
           expand ? (

@@ -24,10 +24,24 @@ export const AddMemberService = (token, data) => {
     },
   })
 }
-export const userJustify = (token, data) => {
-  return http.get(`${config.baseUrl}/api/admin/user/justify/${data}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+export const setUserJustify = (token, userId, courseId) => {
+  return http.get(
+    `${config.baseUrl}/api/admin/user/justify/${userId}/${courseId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+}
+export const UserJustifyListCourses = (token, userId) => {
+  return http.get(
+    `${config.baseUrl}/api/admin/courses/isJustified/${userId}`,
+
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
 }

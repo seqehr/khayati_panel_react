@@ -27,6 +27,7 @@ import { ChekLoginUser } from '../../services/UserService'
 //hooks
 import useToken from '../../hooks/useToken'
 import useProducts from '../../hooks/useProducts'
+import useProductsCategories from '../../hooks/useProductsCategories'
 
 const AddProduct = (props) => {
   const {
@@ -46,15 +47,13 @@ const AddProduct = (props) => {
     setDescription,
     name,
     setName,
-    catlist,
-    setCatlist,
-    refresh,
-    setRefresh,
     handleSubmit,
     ProductImages,
     setProductImages,
     setProductsImagesHandler,
   } = useProducts()
+
+  const { catlist, setCatlist } = useProductsCategories()
 
   useEffect(() => {
     //reset inputs
@@ -142,7 +141,7 @@ const AddProduct = (props) => {
             <div
               className={` lg:col-span-4 col-span-12 relative  flex  justify-start dark:bg-background-dark bg-background-light p-5 rounded-2xl drop-shadow-md  flex-col  z-0  mb-6 group`}
             >
-              <TreeView explorer={catlist} />
+              <TreeView showRoot={false} explorer={catlist} />
             </div>
           </div>
 

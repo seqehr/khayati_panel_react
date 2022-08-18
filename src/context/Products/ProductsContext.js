@@ -123,6 +123,7 @@ export function ProductsContextProvider({ children }) {
       })
     }
   }
+
   useEffect(() => {
     // get uploaded files
     UploadedFiles(token).then((res) => {
@@ -137,9 +138,6 @@ export function ProductsContextProvider({ children }) {
       const categories = { ...catlist }
       categories.children = res.data.data
       setCatlist(categories)
-      setTimeout(() => {
-        setRefresh(!refresh)
-      }, 100)
     })
   }, [])
 
