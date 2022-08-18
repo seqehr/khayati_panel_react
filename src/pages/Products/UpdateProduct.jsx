@@ -30,6 +30,7 @@ import TableRow from './ModalTableRow'
 
 import TreeView from './TreeViewe'
 import useProducts from '../../hooks/useProducts'
+import UploadModal from '../../components/UploadModal/UploadModal'
 
 const UpdateProduct = (props) => {
   const { token } = useToken()
@@ -62,6 +63,19 @@ const UpdateProduct = (props) => {
     handleEdit,
   } = useProducts()
 
+  // modal states
+  const [isOpenImageModal, setIsOpenImageModal] = useState(false)
+  const [isOpenImagesModal, setIsOpenImagesModal] = useState(false)
+  // get modal files
+  const getModalImage = (file) => {
+    toast.success('با موفقیت انتخاب شد')
+    setProductImage(file)
+  }
+  const getModalImages = (file) => {
+    toast.success('با موفقیت انتخاب شد')
+    setProductsImagesHandler(file)
+  }
+
   useEffect(() => {
     //reset inputs
     setProductImage('')
@@ -92,7 +106,7 @@ const UpdateProduct = (props) => {
             className={` ${'col-span-12'} relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
             <img
-              onClick={() => setUploadModal(true)}
+              onClick={() => setIsOpenImageModal(true)}
               src={productImage}
               className='w-96 rounded-md'
             />
@@ -107,6 +121,7 @@ const UpdateProduct = (props) => {
           {/* P R O D U C T  - N A M E */}
           <div className='relative col-span-8 px-1 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               type='text'
               onChange={(e) => setName(e.target.value)}
               name='courseName'
@@ -126,6 +141,7 @@ const UpdateProduct = (props) => {
           {/* C O U R S E  - P R I C E */}
           <div className={` relative col-span-4 px-1 z-0 w-full mb-6 group`}>
             <input
+              autoComplete='off'
               type='number'
               name='price'
               id='price'
@@ -175,7 +191,7 @@ const UpdateProduct = (props) => {
               گالری محصول :
             </p>
             <div
-              onClick={() => setUploadModal(2)}
+              onClick={() => setIsOpenImagesModal(true)}
               className='lg:col-span-3 sm:col-span-6 col-span-12 flex justify-center flex-col items-center'
             >
               <img
@@ -209,43 +225,18 @@ const UpdateProduct = (props) => {
       </form>
 
       {/* Upload Modal*/}
-      {uploadModal !== 0 && (
-        <div className='w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] '>
-          <div
-            onClick={() => setUploadModal(0)}
-            className='mx-auto flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2'
-          >
-            <span className='text-sm pl-3'> بستن صفحه </span>
 
-            <BsDashCircleDotted />
-          </div>
-          <table className='max-w-fit mx-auto  overflow-hidden rounded-2xl'>
-            <thead
-              className={`${'text-right'} bg-white text-black dark:text-white `}
-            >
-              <th className='px-2 py-2 pr-4'>{`نام فایل`}</th>
-
-              <th></th>
-            </thead>
-            <div
-              className={`bg-background2-light max-h-96  overflow-x-scroll ml-[-3px] dark:bg-background2-dark overflow-y-scroll ${style.myLink}`}
-            >
-              {files.map((item) => (
-                <tr
-                  className=''
-                  key={item.id}
-                  onClick={() => {
-                    uploadModal == 1
-                      ? setProductImage(item.url)
-                      : uploadModal == 2 && setProductsImagesHandler(item.url)
-                  }}
-                >
-                  <TableRow name={item.name} link={item.url} />
-                </tr>
-              ))}
-            </div>
-          </table>
-        </div>
+      {isOpenImageModal && (
+        <UploadModal
+          getImage={getModalImage}
+          setIsOpenModal={setIsOpenImageModal}
+        />
+      )}
+      {isOpenImagesModal && (
+        <UploadModal
+          getImage={getModalImages}
+          setIsOpenModal={setIsOpenImagesModal}
+        />
       )}
     </div>
   )

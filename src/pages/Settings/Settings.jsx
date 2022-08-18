@@ -52,6 +52,7 @@ const Settings = () => {
             {/* site title */}
             <div className='relative col-span-12 lg:col-span-3 z-0 w-full mb-6 group'>
               <input
+                autoComplete='off'
                 onChange={(e) => setSiteTitle(e.target.value)}
                 value={siteTitle}
                 type='text'
@@ -71,6 +72,7 @@ const Settings = () => {
             {/* site biography */}
             <div className='relative col-span-12 lg:col-span-9 z-0 w-full mb-6 group'>
               <input
+                autoComplete='off'
                 onChange={(e) => setSiteDes(e.target.value)}
                 value={siteDes}
                 type='text'
@@ -90,6 +92,7 @@ const Settings = () => {
             {/* keywords */}
             <div className='relative col-span-12  z-0 w-full mb-6 group'>
               <input
+                autoComplete='off'
                 onChange={(e) => setSiteKeywords(e.target.value)}
                 value={siteKeywords}
                 type='text'
@@ -179,10 +182,10 @@ const Settings = () => {
 
             <div className=' grid grid-cols-12 col-span-12 h-10 gap-4'>
               <input
+                autoComplete='off'
                 onChange={(e) => setName(e.target.value)}
                 value={name}
                 type='text'
-                autoComplete='off'
                 name='lessonLink'
                 id='lessonLink'
                 className='block py-2.5 px-2  sm:col-span-3 col-span-12  text-sm dark:bg-background2-dark dark:placeholder:text-white border-2 rounded-md border-gray-light placeholder:text-black appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
@@ -190,10 +193,10 @@ const Settings = () => {
                 required=''
               />
               <input
+                autoComplete='off'
                 onChange={(e) => setLink(e.target.value)}
                 value={link}
                 type='text'
-                autoComplete='off'
                 name='lessonLink'
                 id='lessonLink'
                 className='block py-2.5 px-2  sm:col-span-3 col-span-12  text-sm dark:bg-background2-dark dark:placeholder:text-white border-2 rounded-md border-gray-light placeholder:text-black appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
@@ -201,10 +204,10 @@ const Settings = () => {
                 required=''
               />
               <input
+                autoComplete='off'
                 onClick={() => setUploadModal(1)}
                 value={url !== '' ? 'انتخاب شد!' : ''}
                 type='text'
-                autoComplete='off'
                 name='lessonLink'
                 id='lessonLink'
                 className='block py-2.5 px-2  sm:col-span-3 col-span-12  text-sm dark:bg-background2-dark dark:placeholder:text-white border-2 rounded-md border-gray-light placeholder:text-black appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'

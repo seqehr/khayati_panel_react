@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { UploadedFiles } from '../../services/BookServices'
 import ImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
-
+import { toast } from 'react-toastify'
 // css
 import style from './TableRow.module.scss'
 //icons
@@ -13,6 +13,7 @@ import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
 //hookss
 import useBooks from '../../hooks/useBooks'
 import useToken from '../../hooks/useToken'
+import UploadModal from '../../components/UploadModal/UploadModal'
 
 const AddBook = () => {
   const { token } = useToken()
@@ -31,6 +32,19 @@ const AddBook = () => {
     setUrl,
     handleSubmit,
   } = useBooks()
+  // modal states
+  const [isOpenImageModal, setIsOpenImageModal] = useState(false)
+  const [isOpenUrlModal, setIsOpenUrlModal] = useState(false)
+  // get modal files
+  const getModalImage = (img) => {
+    toast.success('با موفقیت انتخاب شد')
+    setBookImage(img)
+  }
+  const getModalUrl = (url) => {
+    toast.success('با موفقیت انتخاب شد')
+    setUrl(url)
+  }
+  console.log(url)
 
   useEffect(() => {
     // get uploaded files
@@ -43,6 +57,7 @@ const AddBook = () => {
     setTitle('')
     setDescription('')
   }, [])
+
   return (
     <div className='bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl'>
       <form>
@@ -55,7 +70,7 @@ const AddBook = () => {
               src={bookImage}
               className='w-96 rounded-md'
               onClick={() => {
-                setUploadModal(2)
+                setIsOpenImageModal(true)
               }}
             />
             <label
@@ -68,6 +83,7 @@ const AddBook = () => {
           {/* B O O K  - N A M E */}
           <div className='relative col-span-3 pl-2 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               onChange={(e) => setTitle(e.target.value)}
               type='text'
               value={title}
@@ -86,8 +102,11 @@ const AddBook = () => {
           {/* B O O K  - U R L */}
           <div className='relative col-span-9 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               type='text'
-              onClick={() => setUploadModal(1)}
+              onClick={() => {
+                setIsOpenUrlModal(true)
+              }}
               value={url}
               name='excrept'
               id='excrept'
@@ -130,46 +149,18 @@ const AddBook = () => {
         </button>
       </form>
       {/* Upload Modal*/}
-      {uploadModal !== 0 && (
-        <div className='w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] '>
-          <div
-            onClick={() => setUploadModal(0)}
-            className='mx-auto flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2'
-          >
-            <span className='text-sm pl-3'> بستن صفحه </span>
 
-            <BsDashCircleDotted />
-          </div>
-          <table className='max-w-fit mx-auto  overflow-hidden rounded-2xl'>
-            <thead
-              className={`${'text-right'} bg-white text-black dark:text-white `}
-            >
-              <th className='px-2 py-2 pr-4'>{`نام فایل`}</th>
-
-              <th></th>
-            </thead>
-            <div
-              className={`bg-background2-light max-h-96  overflow-x-scroll ml-[-3px] dark:bg-background2-dark overflow-y-scroll ${style.myLink}`}
-            >
-              {files.map((item) => (
-                <tr
-                  className=''
-                  key={item.id}
-                  onClick={() => {
-                    if (uploadModal == 1) {
-                      setUrl(item.url)
-                    }
-                    if (uploadModal == 2) {
-                      setBookImage(item.url)
-                    }
-                  }}
-                >
-                  <TableRow name={item.name} link={item.url} />
-                </tr>
-              ))}
-            </div>
-          </table>
-        </div>
+      {isOpenImageModal && (
+        <UploadModal
+          getImage={getModalImage}
+          setIsOpenModal={setIsOpenImageModal}
+        />
+      )}
+      {isOpenUrlModal && (
+        <UploadModal
+          getImage={getModalUrl}
+          setIsOpenModal={setIsOpenUrlModal}
+        />
       )}
     </div>
   )

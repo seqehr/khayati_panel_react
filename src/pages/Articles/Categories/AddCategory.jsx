@@ -21,6 +21,7 @@ const AddCategory = () => {
       <div className='col-span-9 max-h-36  bg-background2-light dark:bg-background2-dark rounded-xl p-5 mr-4'>
         <div className='relative  z-0 w-full mb-6 group'>
           <input
+            autoComplete='off'
             type='text'
             name='Name'
             className='block py-2.5 px-3 w-full text-sm text-gray-900 bg-transparent border-2 rounded-xl shadow-md  border-gray-light appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'

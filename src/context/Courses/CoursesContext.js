@@ -61,10 +61,33 @@ export const CourseContextProvider = ({ children }) => {
   let GetLesson = []
 
   const validator = () => {
+    let showColorError = true
+    let showPriceError = true
+    // color validation
+    if (color == '') {
+      if (isPin == false) {
+        showColorError = false
+      } else {
+        if (isFree == 'free') {
+          showColorError = false
+        }
+      }
+    } else {
+      showColorError = false
+    }
+    //price validation
+    if (price == '') {
+      if (isFree == 'free') {
+        showPriceError = false
+      }
+    } else {
+      showPriceError = false
+    }
+    //----------------------- others
     if (CourseImage.includes('/static/media/UF_Infinity_khayati') !== true) {
       if (name !== '') {
-        if (color !== '' && isFree !== 'free') {
-          if (price !== 0 && isFree !== false) {
+        if (showColorError !== true) {
+          if (showPriceError !== true) {
             if (getLesson.length !== 0) {
               if (excerpt !== '') {
                 if (description !== '') {
@@ -75,6 +98,8 @@ export const CourseContextProvider = ({ children }) => {
                     ) !== true
                   ) {
                     return true
+                  } else {
+                    toast.warn('لطفا پوستر دوره را انتخاب کنید')
                   }
                 } else {
                   toast.success('لطفا توضیحات  را بنویسید')
@@ -86,7 +111,7 @@ export const CourseContextProvider = ({ children }) => {
               toast.warn('باید حداقل یک درس ایجاد کنید')
             }
           } else {
-            toast.warn('لطفا  قیمت را انتخاب کنید')
+            toast.warn('لطفا  قیمت را وارد کنید')
           }
         } else {
           toast.warn('لطفا  رنگ را انتخاب کنید')
@@ -169,7 +194,7 @@ export const CourseContextProvider = ({ children }) => {
 
   //lessons handlers
   const selectLessenFile = () => {
-    setUploadModal(3)
+    // this method is useless i will delete this later
   }
   const handleCreate = () => {
     const lessons = [...getLesson]

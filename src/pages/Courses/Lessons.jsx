@@ -6,7 +6,7 @@ import useCourses from '../../hooks/useCourses'
 //icons
 import { BsPlusCircleDotted } from 'react-icons/bs'
 import { BsDashCircleDotted } from 'react-icons/bs'
-const Lessons = ({ selectLessenFileF }) => {
+const Lessons = ({ setIsOpenUrlLessonModal }) => {
   const {
     getLesson,
     getLinkLesson,
@@ -25,6 +25,7 @@ const Lessons = ({ selectLessenFileF }) => {
         <div className=' grid grid-cols-12 '>
           {' '}
           <input
+            autoComplete='off'
             onChange={(e) => setTitleLesson(e.target.value)}
             type='text'
             value={getTitleLesson}
@@ -35,7 +36,8 @@ const Lessons = ({ selectLessenFileF }) => {
             required=''
           />
           <input
-            onClick={() => selectLessenFileF()}
+            autoComplete='off'
+            onClick={() => setIsOpenUrlLessonModal(true)}
             value={getLinkLesson}
             type='text'
             name='lessonLink'
@@ -77,6 +79,7 @@ const Lessons = ({ selectLessenFileF }) => {
           <div key={lesson.key} className='mt-8  grid grid-cols-12'>
             {' '}
             <input
+              autoComplete='off'
               type='text'
               name='lessonName'
               id='lessonName'
@@ -85,6 +88,7 @@ const Lessons = ({ selectLessenFileF }) => {
               disabled
             />
             <input
+              autoComplete='off'
               type='text'
               name='lessonLink'
               id='lessonLink'

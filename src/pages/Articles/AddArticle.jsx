@@ -20,6 +20,8 @@ import TreeView from './TreeViewe'
 // hooks
 import useToken from '../../hooks/useToken'
 import useCategories from '../../hooks/useCategories'
+import UploadModal from '../../components/UploadModal/UploadModal'
+import { toast } from 'react-toastify'
 
 const AddArticle = (props) => {
   const { token } = useToken()
@@ -46,6 +48,15 @@ const AddArticle = (props) => {
   } = useArticles()
   const { catlist, setCatlist } = useCategories()
   const [refresh, setRefresh] = useState(false)
+
+  // modal states
+  const [isOpenImageModal, setIsOpenImageModal] = useState(false)
+  // get modal files
+  const getModalImage = (file) => {
+    toast.success('با موفقیت انتخاب شد')
+    setArticleImage(file)
+  }
+
   useEffect(() => {
     // cats
     CatListService(token).then((res) => {
@@ -75,12 +86,12 @@ const AddArticle = (props) => {
     <div className='bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl container'>
       <form>
         <div className='grid grid-cols-12 xl:gap-6'>
-          {/* A R T I C L E - E I M A G E */}
+          {/* A R T I C L E -  I M A G E */}
           <div
             className={` ${'col-span-12'} relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
             <img
-              onClick={() => setUploadModal(true)}
+              onClick={() => setIsOpenImageModal(true)}
               src={articleImage}
               className='w-96 rounded-md'
             />
@@ -95,6 +106,7 @@ const AddArticle = (props) => {
           {/* A R T I C L E  - N A M E */}
           <div className='relative col-span-6 px-1 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               type='text'
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -114,6 +126,7 @@ const AddArticle = (props) => {
           {/* A R T I C L E  - H A S H T A G */}
           <div className='relative flex col-span-6 z-0 px-1 w-full mb-6 group'>
             <input
+              autoComplete='off'
               type='text'
               name='courseName'
               className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
@@ -192,39 +205,12 @@ const AddArticle = (props) => {
       </form>
 
       {/* Upload Modal*/}
-      {uploadModal && (
-        <div className='w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] '>
-          <div
-            onClick={() => setUploadModal(false)}
-            className='mx-auto  flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2'
-          >
-            <span className='text-sm pl-3'> بستن صفحه </span>
 
-            <BsDashCircleDotted />
-          </div>
-          <table className='max-w-fit mx-auto  overflow-hidden rounded-2xl'>
-            <thead
-              className={`${'text-right'} bg-white text-black dark:text-white `}
-            >
-              <th className='px-2 py-2 pr-4'>{`نام فایل`}</th>
-
-              <th></th>
-            </thead>
-            <div
-              className={`bg-background2-light max-h-96  overflow-x-scroll ml-[-3px] dark:bg-background2-dark overflow-y-scroll ${style.myLink}`}
-            >
-              {files.map((item) => (
-                <tr
-                  className=''
-                  key={item.id}
-                  onClick={() => setArticleImage(item.url)}
-                >
-                  <TableRow name={item.name} link={item.url} />
-                </tr>
-              ))}
-            </div>
-          </table>
-        </div>
+      {isOpenImageModal && (
+        <UploadModal
+          getImage={getModalImage}
+          setIsOpenModal={setIsOpenImageModal}
+        />
       )}
     </div>
   )

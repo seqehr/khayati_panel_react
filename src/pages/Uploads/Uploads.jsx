@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import config from '../../services/config.json'
+import { toast } from 'react-toastify'
 import Resumable from 'resumablejs'
 import $ from 'jquery'
 
-import { toast } from 'react-toastify'
 //icons
 import { FiUploadCloud } from 'react-icons/fi'
 
@@ -21,7 +21,7 @@ import useUpload from '../../hooks/useUpload'
 import useToken from '../../hooks/useToken'
 const Uploads = () => {
   const { token } = useToken()
-  const { progress, setProgress, setFiles } = useUpload()
+  const { progress, setProgress, setFiles, files } = useUpload()
   useEffect(() => {
     const browseFile = document.querySelector('#browseFile')
 

@@ -20,6 +20,8 @@ import {
 } from '../../services/CourseServices'
 //hooks
 import useToken from '../../hooks/useToken'
+import UploadModal from '../../components/UploadModal/UploadModal'
+import { toast } from 'react-toastify'
 
 const UpdateCourse = () => {
   const { token } = useToken()
@@ -54,6 +56,25 @@ const UpdateCourse = () => {
     colors,
     handleEdit,
   } = useCourse()
+
+  // modal states
+  const [isOpenImageModal, setIsOpenImageModal] = useState(false)
+  const [isOpenPostermodal, setIsOpenPostermodal] = useState(false)
+  const [isOpenUrlLessonModal, setIsOpenUrlLessonModal] = useState(false)
+  // get modal files
+  const getModalImage = (file) => {
+    toast.success('با موفقیت انتخاب شد')
+    setCourseImage(file)
+  }
+  const getModalPoster = (file) => {
+    toast.success('با موفقیت انتخاب شد')
+    setCoursePoster(file)
+  }
+
+  const getModalLesson = (file) => {
+    toast.success('با موفقیت انتخاب شد')
+    setLinkLesson(file)
+  }
 
   useEffect(() => {
     // get uploaded files
@@ -105,7 +126,7 @@ const UpdateCourse = () => {
               src={courseImage}
               className='w-96 rounded-md'
               onClick={() => {
-                setUploadModal(1)
+                setIsOpenImageModal(true)
               }}
             />
             <label
@@ -122,7 +143,7 @@ const UpdateCourse = () => {
                 src={coursePoster}
                 className='w-96 rounded-md'
                 onClick={() => {
-                  setUploadModal(2)
+                  setIsOpenPostermodal(true)
                 }}
               />
               <label
@@ -136,6 +157,7 @@ const UpdateCourse = () => {
           {/* C O U R S E - N A M E */}
           <div className='relative col-span-3 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               type='text'
               name='courseName'
               className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
@@ -154,6 +176,7 @@ const UpdateCourse = () => {
           {/* C O U R S E - E X C R E P T */}
           <div className='relative col-span-9 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               type='text'
               name='excrept'
               value={excerpt}
@@ -190,6 +213,7 @@ const UpdateCourse = () => {
               <div>
                 <div>
                   <input
+                    autoComplete='off'
                     className='form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white '
                     type='checkbox'
                     id='ispin'
@@ -207,6 +231,7 @@ const UpdateCourse = () => {
                 </div>
                 <div className='mt-3'>
                   <input
+                    autoComplete='off'
                     className='form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white '
                     type='checkbox'
                     value={isFree}
@@ -237,6 +262,7 @@ const UpdateCourse = () => {
             } relative sm:col-span-4 mt-5 col-span-12 items-center  z-0 w-full mb-6 group`}
           >
             <input
+              autoComplete='off'
               type='number'
               value={price}
               name='price'
@@ -275,7 +301,7 @@ const UpdateCourse = () => {
           )}
           {/* L E S S O N S */}
           <div className='grid  col-span-12'>
-            <Lessons selectLessenFileF={selectLessenFile} />
+            <Lessons setIsOpenUrlLessonModal={setIsOpenUrlLessonModal} />
           </div>
         </div>
         <button
@@ -290,49 +316,24 @@ const UpdateCourse = () => {
         </button>
       </form>
       {/* Upload Modal*/}
-      {uploadModal !== 0 && (
-        <div className='w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] '>
-          <div
-            onClick={() => setUploadModal(0)}
-            className='mx-auto flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2'
-          >
-            <span className='text-sm pl-3'> بستن صفحه </span>
 
-            <BsDashCircleDotted />
-          </div>
-          <table className='max-w-fit mx-auto  overflow-hidden rounded-2xl'>
-            <thead
-              className={`${'text-right'} bg-white text-black dark:text-white `}
-            >
-              <th className='px-2 py-2 pr-4'>{`نام فایل`}</th>
-
-              <th></th>
-            </thead>
-            <div
-              className={`bg-background2-light max-h-96  overflow-x-scroll ml-[-3px] dark:bg-background2-dark overflow-y-scroll ${style.myLink}`}
-            >
-              {files.map((item) => (
-                <tr
-                  className=''
-                  key={item.id}
-                  onClick={() => {
-                    if (uploadModal == 1) {
-                      setCourseImage(item.url)
-                    }
-                    if (uploadModal == 2) {
-                      setCoursePoster(item.url)
-                    }
-                    if (uploadModal == 3) {
-                      setLinkLesson(item.url)
-                    }
-                  }}
-                >
-                  <TableRow name={item.name} link={item.url} />
-                </tr>
-              ))}
-            </div>
-          </table>
-        </div>
+      {isOpenImageModal && (
+        <UploadModal
+          getImage={getModalImage}
+          setIsOpenModal={setIsOpenImageModal}
+        />
+      )}
+      {isOpenPostermodal && (
+        <UploadModal
+          getImage={getModalPoster}
+          setIsOpenModal={setIsOpenPostermodal}
+        />
+      )}
+      {isOpenUrlLessonModal && (
+        <UploadModal
+          getImage={getModalLesson}
+          setIsOpenModal={setIsOpenUrlLessonModal}
+        />
       )}
     </div>
   )

@@ -46,6 +46,7 @@ import AddCategory from './pages/Articles/Categories/AddCategory'
 import Notifiction from './pages/Notifiction/Notifiction'
 import AddProductCategory from './pages/Products/Categories/AddProductCategory'
 import JustifyMember from './pages/Members/JustifyMember'
+import UploadModal from './components/UploadModal/UploadModal'
 function App() {
   const { token, setToken } = useToken()
 
@@ -126,8 +127,12 @@ function App() {
                       path='/transactions'
                       element={<ListTransactions />}
                     />
+                    {/* settings */}
                     <Route path='/settings' element={<Settings />} />
-                    <Route path='/uploads' element={<Uploads />} />
+                    <Route
+                      path='/uploads'
+                      element={<UploadModal pageMode={true} />}
+                    />
                     // users
                     <Route path='/member/add' element={<AddMember />} />
                     <Route path='/members' element={<ListMembers />} />

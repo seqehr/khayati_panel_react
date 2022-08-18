@@ -32,6 +32,7 @@ const Notifiction = () => {
           {/* B O O K  - N A M E */}
           <div className='relative col-span-3 pl-2 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               onChange={(e) => setTitle(e.target.value)}
               type='text'
               value={title}
@@ -50,6 +51,7 @@ const Notifiction = () => {
           {/* B O O K  - des */}
           <div className='relative col-span-9 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               type='text'
               onChange={(e) => setDescription(e.target.value)}
               value={description}

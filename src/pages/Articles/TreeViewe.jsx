@@ -63,7 +63,7 @@ const TreeView = ({ explorer, showRoot }) => {
       <div className={` pb-1 `}>
         {explorer.root !== true ? (
           <>
-            {showRoot == true && (
+            {showRoot == true && explorer.name !== 'news' ? (
               <button
                 onClick={() => deleteHandler(explorer.id)}
                 className='ml-2 shadow-md cursor-pointer text-red-light dark:text-red-dark '
@@ -71,6 +71,8 @@ const TreeView = ({ explorer, showRoot }) => {
               >
                 <RiDeleteBin6Line />
               </button>
+            ) : (
+              <></>
             )}
             <input
               checked={checked == explorer.id}

@@ -70,6 +70,7 @@ const AddMember = (props) => {
           {/* M E M B E R  - N A M E */}
           <div className='relative col-span-12 lg:col-span-4 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               type='text'
               name='courseName'
               className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-light appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
@@ -88,6 +89,7 @@ const AddMember = (props) => {
           {/* M E M B E R  - N U M B E R */}
           <div className='relative col-span-12 lg:col-span-4 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               type='number'
               name='excrept'
               id='excrept'
@@ -108,6 +110,7 @@ const AddMember = (props) => {
           {/* M E M B E R  - P O S T A L  C O D E */}
           <div className='relative col-span-12 lg:col-span-4 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               type='number'
               name='excrept'
               id='excrept'
@@ -128,6 +131,7 @@ const AddMember = (props) => {
           {/* M E M B E R  - C I T Y */}
           <div className='relative col-span-12 lg:col-span-4 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               type='text'
               name='excrept'
               id='excrept'
@@ -148,6 +152,7 @@ const AddMember = (props) => {
           {/* M E M B E R  - A D D R E S S */}
           <div className='relative col-span-12 lg:col-span-8 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               type='text'
               name='excrept'
               id='excrept'
@@ -168,6 +173,7 @@ const AddMember = (props) => {
           {/* M E M B E R  - G E N D E R */}
           <div className='relative col-span-12 lg:col-span-4 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               type='text'
               name='excrept'
               id='excrept'

@@ -11,6 +11,7 @@ import { toast } from 'react-toastify'
 //hooks
 import useToken from '../../hooks/useToken'
 import useMusics from '../../hooks/useMusics'
+import UploadModal from '../../components/UploadModal/UploadModal'
 
 const AddMusic = (props) => {
   const { token } = useToken()
@@ -27,6 +28,19 @@ const AddMusic = (props) => {
     setName,
     handleSubmit,
   } = useMusics()
+
+  // modal states
+  const [isOpenImageModal, setIsOpenImageModal] = useState(false)
+  const [isOpenUrlModal, setIsOpenUrlModal] = useState(false)
+  // get modal files
+  const getModalImage = (file) => {
+    toast.success('با موفقیت انتخاب شد')
+    setMusicImage(file)
+  }
+  const getModalUrl = (file) => {
+    toast.success('با موفقیت انتخاب شد')
+    setUrl(file)
+  }
 
   useEffect(() => {
     // get uploaded files
@@ -48,7 +62,7 @@ const AddMusic = (props) => {
               src={musicImage}
               className='w-96 rounded-md'
               onClick={() => {
-                setUploadModal(2)
+                setIsOpenImageModal(true)
               }}
             />
             <label
@@ -61,6 +75,7 @@ const AddMusic = (props) => {
           {/* M U S I C  - N A M E */}
           <div className='relative col-span-3 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               type='text'
               name='courseName'
               className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
@@ -79,6 +94,7 @@ const AddMusic = (props) => {
           {/* M U S I C  - U R L */}
           <div className='relative col-span-9 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               type='text'
               name='excrept'
               id='excrept'
@@ -86,7 +102,7 @@ const AddMusic = (props) => {
               placeholder=' '
               required=''
               value={url}
-              onClick={() => setUploadModal(1)}
+              onClick={() => setIsOpenUrlModal(true)}
             />
             <label
               for='excrept'
@@ -110,46 +126,18 @@ const AddMusic = (props) => {
       </form>
 
       {/* Upload Modal*/}
-      {uploadModal !== 0 && (
-        <div className='w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] '>
-          <div
-            onClick={() => setUploadModal(0)}
-            className='mx-auto flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2'
-          >
-            <span className='text-sm pl-3'> بستن صفحه </span>
 
-            <BsDashCircleDotted />
-          </div>
-          <table className='max-w-fit mx-auto  overflow-hidden rounded-2xl'>
-            <thead
-              className={`${'text-right'} bg-white text-black dark:text-white `}
-            >
-              <th className='px-2 py-2 pr-4'>{`نام فایل`}</th>
-
-              <th></th>
-            </thead>
-            <div
-              className={`bg-background2-light max-h-96  overflow-x-scroll ml-[-3px] dark:bg-background2-dark overflow-y-scroll ${style.myLink}`}
-            >
-              {files.map((item) => (
-                <tr
-                  className=''
-                  key={item.id}
-                  onClick={() => {
-                    if (uploadModal == 1) {
-                      setUrl(item.url)
-                    }
-                    if (uploadModal == 2) {
-                      setMusicImage(item.url)
-                    }
-                  }}
-                >
-                  <TableRow name={item.name} />
-                </tr>
-              ))}
-            </div>
-          </table>
-        </div>
+      {isOpenImageModal && (
+        <UploadModal
+          getImage={getModalImage}
+          setIsOpenModal={setIsOpenImageModal}
+        />
+      )}
+      {isOpenUrlModal && (
+        <UploadModal
+          getImage={getModalUrl}
+          setIsOpenModal={setIsOpenUrlModal}
+        />
       )}
     </div>
   )

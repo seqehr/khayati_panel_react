@@ -1,0 +1,29 @@
+.rotation:hover .rotationTarget {
+  transform: rotateZ(180deg);
+}
+.rotation:hover p {
+  text-shadow: 1px 4px 4px rgba(95, 95, 95, 0.653);
+}
+
+.myLink {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  &::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 0, 0, 0.9);
+  }
+  scrollbar-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.2);
+  scrollbar-width: thin;
+}

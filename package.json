@@ -10,7 +10,7 @@
     "@mui/material": "^5.8.1",
     "autoprefixer": "^10.4.7",
     "axios": "^0.27.2",
-    "framer-motion": "^6.3.11",
+    "framer-motion": "^6.5.1",
     "jquery": "^3.6.0",
     "persian-build-ckeditor5-nowinflow": "file:ckeditor5",
     "postcss": "^8.4.14",

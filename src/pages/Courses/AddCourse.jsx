@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './CKEditor.css'
 import style from './TableRow.module.scss'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
@@ -14,6 +14,8 @@ import { BsDashCircleDotted } from 'react-icons/bs'
 import Lessons from './Lessons'
 import { UploadedFiles } from '../../services/CourseServices'
 import TableRow from './ModalTableRow'
+import UploadModal from '../../components/UploadModal/UploadModal'
+import { toast } from 'react-toastify'
 
 const AddCourse = (props) => {
   const { token } = useToken()
@@ -48,6 +50,24 @@ const AddCourse = (props) => {
     colors,
     selectLessenFile,
   } = useCourse()
+  // modal states
+  const [isOpenImageModal, setIsOpenImageModal] = useState(false)
+  const [isOpenPostermodal, setIsOpenPostermodal] = useState(false)
+  const [isOpenUrlLessonModal, setIsOpenUrlLessonModal] = useState(false)
+  // get modal files
+  const getModalImage = (file) => {
+    toast.success('با موفقیت انتخاب شد')
+    setCourseImage(file)
+  }
+  const getModalPoster = (file) => {
+    toast.success('با موفقیت انتخاب شد')
+    setCoursePoster(file)
+  }
+
+  const getModalLesson = (file) => {
+    toast.success('با موفقیت انتخاب شد')
+    setLinkLesson(file)
+  }
 
   useEffect(() => {
     // get uploaded files
@@ -83,7 +103,7 @@ const AddCourse = (props) => {
               src={courseImage}
               className='w-96 rounded-md'
               onClick={() => {
-                setUploadModal(1)
+                setIsOpenImageModal(true)
               }}
             />
             <label
@@ -100,7 +120,7 @@ const AddCourse = (props) => {
                 src={coursePoster}
                 className='w-96 rounded-md'
                 onClick={() => {
-                  setUploadModal(2)
+                  setIsOpenPostermodal(true)
                 }}
               />
               <label
@@ -114,6 +134,7 @@ const AddCourse = (props) => {
           {/* C O U R S E - N A M E */}
           <div className='relative col-span-3 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               value={name}
               type='text'
               name='courseName'
@@ -132,6 +153,7 @@ const AddCourse = (props) => {
           {/* C O U R S E - E X C R E P T */}
           <div className='relative col-span-9 z-0 w-full mb-6 group'>
             <input
+              autoComplete='off'
               value={excerpt}
               type='text'
               name='excrept'
@@ -169,6 +191,7 @@ const AddCourse = (props) => {
               <div>
                 <div>
                   <input
+                    autoComplete='off'
                     className='form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white '
                     type='checkbox'
                     value=''
@@ -186,6 +209,7 @@ const AddCourse = (props) => {
                 </div>
                 <div className='mt-3'>
                   <input
+                    autoComplete='off'
                     className='form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white '
                     type='checkbox'
                     value=''
@@ -215,6 +239,7 @@ const AddCourse = (props) => {
             } relative sm:col-span-4 mt-5 col-span-12 items-center  z-0 w-full mb-6 group`}
           >
             <input
+              autoComplete='off'
               type='number'
               value={price}
               name='price'
@@ -234,7 +259,7 @@ const AddCourse = (props) => {
           </div>
 
           {/* C O U R S E  - C O L O R S */}
-          {isFree == 'pricy' && (
+          {isFree == 'pricy' && isPin == true && (
             <div className='grid  col-span-12 sm:col-span-5 '>
               <p className='col-span-12'>رنگ خود را انتخاب کنید</p>
               {colors.map((item) => (
@@ -254,7 +279,7 @@ const AddCourse = (props) => {
           )}
           {/* L E S S O N S */}
           <div className='grid  col-span-12'>
-            <Lessons selectLessenFileF={selectLessenFile} />
+            <Lessons setIsOpenUrlLessonModal={setIsOpenUrlLessonModal} />
           </div>
         </div>
         <button
@@ -269,49 +294,24 @@ const AddCourse = (props) => {
         </button>
       </form>
       {/* Upload Modal*/}
-      {uploadModal !== 0 && (
-        <div className='w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] '>
-          <div
-            onClick={() => setUploadModal(0)}
-            className='mx-auto flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2'
-          >
-            <span className='text-sm pl-3'> بستن صفحه </span>
 
-            <BsDashCircleDotted />
-          </div>
-          <table className='max-w-fit mx-auto  overflow-hidden rounded-2xl'>
-            <thead
-              className={`${'text-right'} bg-white text-black dark:text-white `}
-            >
-              <th className='px-2 py-2 pr-4'>{`نام فایل`}</th>
-
-              <th></th>
-            </thead>
-            <div
-              className={`bg-background2-light max-h-96  overflow-x-scroll ml-[-3px] dark:bg-background2-dark overflow-y-scroll ${style.myLink}`}
-            >
-              {files.map((item) => (
-                <tr
-                  className=''
-                  key={item.id}
-                  onClick={() => {
-                    if (uploadModal == 1) {
-                      setCourseImage(item.url)
-                    }
-                    if (uploadModal == 2) {
-                      setCoursePoster(item.url)
-                    }
-                    if (uploadModal == 3) {
-                      setLinkLesson(item.url)
-                    }
-                  }}
-                >
-                  <TableRow name={item.name} link={item.url} />
-                </tr>
-              ))}
-            </div>
-          </table>
-        </div>
+      {isOpenImageModal && (
+        <UploadModal
+          getImage={getModalImage}
+          setIsOpenModal={setIsOpenImageModal}
+        />
+      )}
+      {isOpenPostermodal && (
+        <UploadModal
+          getImage={getModalPoster}
+          setIsOpenModal={setIsOpenPostermodal}
+        />
+      )}
+      {isOpenUrlLessonModal && (
+        <UploadModal
+          getImage={getModalLesson}
+          setIsOpenModal={setIsOpenUrlLessonModal}
+        />
       )}
     </div>
   )
