@@ -58,10 +58,6 @@ export const CourseContextProvider = ({ children }) => {
   let GetLesson = []
 
   const validator = () => {
-    CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, '')
-
-    CoursePoster = coursePoster
-
     if (CourseImage.includes('/static/media/UF_Infinity_khayati') !== true) {
       if (name !== '') {
         if (color !== '' && isFree !== 'free') {
@@ -71,8 +67,9 @@ export const CourseContextProvider = ({ children }) => {
                 if (description !== '') {
                   if (
                     isPin !== true &&
-                    CoursePoster !==
-                      '/static/media/UF_Infinity_khayati.2cb6b144dade70ede5a5.gif'
+                    CourseImage.includes(
+                      '/static/media/UF_Infinity_khayati'
+                    ) !== true
                   ) {
                     return true
                   }
@@ -100,6 +97,9 @@ export const CourseContextProvider = ({ children }) => {
   }
 
   const handleSubmit = () => {
+    CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, '')
+
+    CoursePoster = coursePoster.replace(`${config.HttpBaseUrl}/storage/`, '')
     getLesson.map((item) => {
       GetLesson.push({
         id: item.id,
@@ -130,6 +130,9 @@ export const CourseContextProvider = ({ children }) => {
     }
   }
   const handleEdit = (singleId) => {
+    CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, '')
+
+    CoursePoster = coursePoster.replace(`${config.HttpBaseUrl}/storage/`, '')
     getLesson.map((item) => {
       GetLesson.push({
         id: item.id,
