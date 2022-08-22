@@ -61,7 +61,6 @@ const Filters = ({ setRefresh }) => {
           <input
             class='switch'
             type='checkbox'
-            checked
             className={`${styles.switch} my-auto  mr-3`}
           />
           <p className='p-3'> نمایش تمام فایل ها</p>
