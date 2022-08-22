@@ -13,7 +13,7 @@ export function ProductsCategoriesContextProvider({ children }) {
   const { token } = useToken()
   const [checked, setChecked] = useState(0)
   const [name, setName] = useState('')
-  console.log(checked)
+
   const [catlist, setCatlist] = useState({
     name: 'دسته بندی ها',
     root: true,

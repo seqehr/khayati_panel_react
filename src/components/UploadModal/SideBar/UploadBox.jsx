@@ -11,10 +11,23 @@ import { FiUploadCloud } from 'react-icons/fi'
 import useToken from '../../../hooks/useToken'
 import useUpload from '../../../hooks/useUpload'
 import { UploadedFiles } from '../../../services/ProductServices'
+import TreeView from './TreeViewe'
+import { AiFillFolderAdd } from 'react-icons/ai'
 
 const UploadBox = () => {
   const { token } = useToken()
-  const { progress, setProgress, setFiles, files } = useUpload()
+  const {
+    progress,
+    setProgress,
+    setFiles,
+    files,
+    dirlist,
+    setDirlist,
+    handleSubmit,
+    name,
+    setName,
+  } = useUpload()
+
   useEffect(() => {
     const browseFile = document.querySelector('#browseFile')
 
@@ -97,6 +110,28 @@ const UploadBox = () => {
           </div>
         </div>
       )}
+      {/* folders */}
+      <div className='bg-background-light p-3 rounded-xl mt-5'>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleSubmit()
+          }}
+          className='m-2 mb-4 relative'
+        >
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            type='text'
+            className='w-full p-2 rounded-xl pl-12'
+            placeholder=' نام پوشه جدید را وارد کنید...'
+          />
+          <button type='submit'>
+            <AiFillFolderAdd className='absolute text-3xl hover:drop-shadow-lg hover:-translate-y-1 ease-in-out duration-500 cursor-pointer  text-blue-light rounded-l-xl left-3 top-1' />
+          </button>
+        </form>
+        <TreeView explorer={dirlist} showRoot={true} />
+      </div>
     </>
   )
 }

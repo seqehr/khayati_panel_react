@@ -18,6 +18,8 @@ import Skeleton from 'react-loading-skeleton'
 import TableRow from './TableRow'
 //hooks
 import useSettings from '../../hooks/useSettings'
+import UploadModal from '../../components/UploadModal/UploadModal'
+import { toast } from 'react-toastify'
 
 const Settings = () => {
   const {
@@ -43,6 +45,15 @@ const Settings = () => {
     handleCreateImage,
     settings,
   } = useSettings()
+
+  // modal states
+  const [isOpenImageModal, setIsOpenImageModal] = useState(false)
+
+  // get modal files
+  const getModalImage = (file) => {
+    toast.success('با موفقیت انتخاب شد')
+    setUrl(file)
+  }
   return (
     <>
       {/* set description and keywords */}
@@ -205,7 +216,7 @@ const Settings = () => {
               />
               <input
                 autoComplete='off'
-                onClick={() => setUploadModal(1)}
+                onClick={() => setIsOpenImageModal(true)}
                 value={url !== '' ? 'انتخاب شد!' : ''}
                 type='text'
                 name='lessonLink'
@@ -232,43 +243,12 @@ const Settings = () => {
           </div>
         </form>
         {/* Upload Modal*/}
-        {uploadModal !== 0 && (
-          <div className='w-screen p-24  h-screen bg-[#212121a1] fixed top-0 left-0 z-[999999] '>
-            <div
-              onClick={() => setUploadModal(0)}
-              className='mx-auto flex flex-row text-xl text-red-light cursor-pointer bg-white w-max rounded p-3 mb-2'
-            >
-              <span className='text-sm pl-3'> بستن صفحه </span>
 
-              <BsDashCircleDotted />
-            </div>
-            <table className='max-w-fit mx-auto  overflow-hidden rounded-2xl'>
-              <thead
-                className={`${'text-right'} bg-white text-black dark:text-white `}
-              >
-                <th className='px-2 py-2 pr-4'>{`نام فایل`}</th>
-
-                <th></th>
-              </thead>
-              <div
-                className={`bg-background2-light max-h-96  overflow-x-scroll ml-[-3px] dark:bg-background2-dark overflow-y-scroll ${style.myLink}`}
-              >
-                {files.map((item) => (
-                  <tr
-                    className=''
-                    key={item.id}
-                    onClick={() => {
-                      if (uploadModal == 1) {
-                        setUrl(item.url)
-                      }
-                    }}
-                  >
-                    <TableRow name={item.name} />
-                  </tr>
-                ))}
-              </div>
-            </table>
-          </div>
+        {isOpenImageModal && (
+          <UploadModal
+            getImage={getModalImage}
+            setIsOpenModal={setIsOpenImageModal}
+          />
         )}
       </div>
     </>

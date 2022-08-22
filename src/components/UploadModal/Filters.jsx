@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import framerConfig from '../../utils/framerConfig.json'
 import { motion } from 'framer-motion'
+//css
+import styles from './UploadModal.module.scss'
 // icons
 import { BiSortDown } from 'react-icons/bi'
 import { RiFindReplaceLine } from 'react-icons/ri'
@@ -11,9 +13,9 @@ import useUpload from '../../hooks/useUpload'
 const Filters = ({ setRefresh }) => {
   const { filter, setFilter } = useUpload()
   return (
-    <div className='col-span-12 grid grid-cols-12  '>
+    <div className='col-span-12 '>
       {/* time filter */}
-      <div className='lg:col-span-6 col-span-12 '>
+      <div className=' flex gap-5 '>
         <p
           className='p-3  rounded-lg bg-background-light w-full lg:w-max  flex cursor-pointer hover:shadow-md ease-in-out duration-500'
           onClick={() => {
@@ -55,6 +57,15 @@ const Filters = ({ setRefresh }) => {
             </motion.div>
           )}
         </p>
+        <div className='justify-end  rounded-lg bg-background-light w-full lg:w-max  flex cursor-pointer hover:shadow-md ease-in-out duration-500'>
+          <input
+            class='switch'
+            type='checkbox'
+            checked
+            className={`${styles.switch} my-auto  mr-3`}
+          />
+          <p className='p-3'> نمایش تمام فایل ها</p>
+        </div>
       </div>
     </div>
   )

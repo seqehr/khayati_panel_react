@@ -19,10 +19,10 @@ const ContextProvider = ({ children }) => {
     <ThemeContextProvider>
       {/* S I D E B A R */}
       <SidebarContextProvider>
-        {/* U P L O A D*/}
-        <UploadContextProvider>
-          {/* T O K E N*/}
-          <TokenContextProvider>
+        {/* T O K E N*/}
+        <TokenContextProvider>
+          {/* U P L O A D*/}
+          <UploadContextProvider>
             {/* L O G I N*/}
             <LoginContextProvider>
               {/* P O S T - C A T*/}
@@ -54,8 +54,8 @@ const ContextProvider = ({ children }) => {
                 </ProductsCategoriesContextProvider>
               </CategoriesContextProvider>
             </LoginContextProvider>
-          </TokenContextProvider>
-        </UploadContextProvider>
+          </UploadContextProvider>
+        </TokenContextProvider>
       </SidebarContextProvider>
     </ThemeContextProvider>
   )

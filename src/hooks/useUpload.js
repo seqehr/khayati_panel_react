@@ -3,8 +3,21 @@ import { useContext } from 'react'
 import UploadContext from '../context/Upload/UploadContext'
 
 const useUpload = (props) => {
-  const { progress, setProgress, files, setFiles, filter, setFilter } =
-    useContext(UploadContext)
+  const {
+    progress,
+    setProgress,
+    files,
+    setFiles,
+    filter,
+    setFilter,
+    checked,
+    setChecked,
+    handleSubmit,
+    dirlist,
+    setDirlist,
+    name,
+    setName,
+  } = useContext(UploadContext)
 
   return {
     progress,
@@ -13,6 +26,13 @@ const useUpload = (props) => {
     setFiles,
     filter,
     setFilter,
+    checked,
+    setChecked,
+    handleSubmit,
+    dirlist,
+    setDirlist,
+    name,
+    setName,
   }
 }
 

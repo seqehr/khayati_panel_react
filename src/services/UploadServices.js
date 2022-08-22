@@ -8,3 +8,22 @@ export const DeletFileService = (token, data) => {
     },
   })
 }
+export const Directories = (token) => {
+  return http.post(
+    `${config.baseUrl}/api/upload/directories`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+}
+
+export const CreateDirectory = (token, data) => {
+  return http.post(`${config.baseUrl}/api/upload/createDirectory`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}
