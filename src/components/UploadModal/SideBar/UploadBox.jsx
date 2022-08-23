@@ -97,7 +97,7 @@ const UploadBox = () => {
               uploadHandler(e.target.files[0])
             }}
           />
-          فایلتان از اینجا انتخاب کنید
+          فایلتان رااز اینجا انتخاب کنید
         </button>
       </div>
       {progress !== '' && (
