@@ -17,6 +17,10 @@ const useUpload = (props) => {
     setDirlist,
     name,
     setName,
+    dirFiles,
+    setDirFiles,
+    showDirFiles,
+    setShowDirFiles,
   } = useContext(UploadContext)
 
   return {
@@ -33,6 +37,10 @@ const useUpload = (props) => {
     setDirlist,
     name,
     setName,
+    dirFiles,
+    setDirFiles,
+    showDirFiles,
+    setShowDirFiles,
   }
 }
 

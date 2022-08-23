@@ -26,14 +26,27 @@ const UploadBox = () => {
     handleSubmit,
     name,
     setName,
+    checked,
   } = useUpload()
+  const [file, setFile] = useState({})
 
-  useEffect(() => {
-    const browseFile = document.querySelector('#browseFile')
+  if (progress == '100') {
+    setTimeout(() => {
+      UploadedFiles(token).then((res) => {
+        setFiles(res.data.data)
+        setProgress('')
+      })
+    }, 2000)
+  }
 
+  const uploadHandler = (file) => {
+    if (checked == null) {
+      toast.warn(' ابتدا پوشه را انتخاب کنید')
+      return
+    }
     let resumable = new Resumable({
       target: `${config.baseUrl}/api/upload/new`,
-      query: { _token: '{{ csrf_token() }}' }, // CSRF token
+      query: { dir_id: checked },
       fileType: ['mp4', 'jpg', 'png', 'mp3', 'zip', 'rar', 'pdf'],
       headers: {
         Authorization: `Bearer ${token}`,
@@ -42,12 +55,9 @@ const UploadBox = () => {
       testChunks: false,
       throttleProgressCallbacks: 1,
     })
-
-    resumable.assignDrop(browseFile)
-    resumable.assignBrowse(browseFile)
+    resumable.addFile(file)
+    console.log(file)
     resumable.on('fileAdded', function (file) {
-      // trigger when file picked
-
       resumable.upload() // to actually start uploading.
     })
 
@@ -68,28 +78,26 @@ const UploadBox = () => {
     function updateProgress(value) {
       setProgress(value)
     }
-  }, [])
-
-  if (progress == '100') {
-    setTimeout(() => {
-      UploadedFiles(token).then((res) => {
-        setFiles(res.data.data)
-        setProgress('')
-      })
-    }, 2000)
   }
-
   return (
     <>
       <div id='upload-container' className=' w-full flex justify-center'>
         <button
           id='browseFile'
-          className='text-gray-light  flex border-2 text-center justify-center w-full dark:border-gray-light border-gray-dark lg:text-lg text-sm dark:text-white  border-dashed p-5 cursor-pointer rounded-lg'
+          className='text-gray-light  flex border-2 text-center justify-center w-full dark:border-gray-light border-gray-dark lg:text-lg text-sm dark:text-white  border-dashed p-5 cursor-pointer rounded-lg relative'
         >
           <span className='lg:text-3xl text-xl  ml-2 '>
             <FiUploadCloud />
           </span>
-          فایلتان را در این قسمت رها کنید
+          <input
+            type='file'
+            className='absolute w-full h-full opacity-0 cursor-pointer'
+            onChange={(e) => {
+              setFile(e.target.files[0])
+              uploadHandler(e.target.files[0])
+            }}
+          />
+          فایلتان از اینجا انتخاب کنید
         </button>
       </div>
       {progress !== '' && (

@@ -7,6 +7,8 @@ const UploadContext = React.createContext()
 export const UploadContextProvider = ({ children }) => {
   const [progress, setProgress] = useState('')
   const [files, setFiles] = useState([])
+  const [dirFiles, setDirFiles] = useState([])
+  const [showDirFiles, setShowDirFiles] = useState(false)
   //filter
   const [filter, setFilter] = useState('DateAs')
 
@@ -18,6 +20,7 @@ export const UploadContextProvider = ({ children }) => {
     root: true,
     children: [],
     id: null,
+    files: [],
   })
 
   useEffect(() => {
@@ -69,6 +72,10 @@ export const UploadContextProvider = ({ children }) => {
         setDirlist,
         name,
         setName,
+        dirFiles,
+        setDirFiles,
+        showDirFiles,
+        setShowDirFiles,
       }}
     >
       {children}

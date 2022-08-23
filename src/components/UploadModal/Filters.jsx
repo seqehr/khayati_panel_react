@@ -11,9 +11,9 @@ import { BsSortDown, BsSortUp } from 'react-icons/bs'
 import useUpload from '../../hooks/useUpload'
 
 const Filters = ({ setRefresh }) => {
-  const { filter, setFilter } = useUpload()
+  const { filter, setFilter, showDirFiles, setShowDirFiles } = useUpload()
   return (
-    <div className='col-span-12 '>
+    <div className='col-span-12  h-max pb-10'>
       {/* time filter */}
       <div className=' flex gap-5 '>
         <p
@@ -60,10 +60,12 @@ const Filters = ({ setRefresh }) => {
         <div className='justify-end  rounded-lg bg-background-light w-full lg:w-max  flex cursor-pointer hover:shadow-md ease-in-out duration-500'>
           <input
             class='switch'
+            checked={!showDirFiles}
+            onClick={() => setShowDirFiles(!showDirFiles)}
             type='checkbox'
             className={`${styles.switch} my-auto  mr-3`}
           />
-          <p className='p-3'> نمایش تمام فایل ها</p>
+          <p className='p-3'> نمایش فایل های تمام پوشه ها </p>
         </div>
       </div>
     </div>
