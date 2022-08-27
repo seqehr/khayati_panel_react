@@ -16,7 +16,18 @@ import { AiFillFolder, AiFillFolderOpen } from 'react-icons/ai'
 const TreeView = ({ explorer, showRoot }) => {
   const [expand, setExpand] = useState()
   const navigate = useNavigate()
-  const { checked, setChecked, dirFiles, setDirFiles } = useUpload()
+  const {
+    checked,
+    setChecked,
+    dirFiles,
+    setDirFiles,
+    perpageD,
+    setPerpageD,
+    pageD,
+    setPageD,
+    totalPagesD,
+    settotalPagesD,
+  } = useUpload()
   const { token } = useToken()
   const [loaded, setLoaded] = useState(false)
   useEffect(() => {
@@ -59,6 +70,12 @@ const TreeView = ({ explorer, showRoot }) => {
 
   const dirFilesHandler = () => {
     setDirFiles(explorer.files)
+    // pagination
+    settotalPagesD(
+      Math.ceil(
+        explorer.files.length >= perpageD ? explorer.files.length / perpageD : 0
+      )
+    )
   }
 
   return (

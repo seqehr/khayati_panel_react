@@ -31,6 +31,7 @@ import TableRow from './ModalTableRow'
 import TreeView from './TreeViewe'
 import useProducts from '../../hooks/useProducts'
 import UploadModal from '../../components/UploadModal/UploadModal'
+import useProductsCategories from '../../hooks/useProductsCategories'
 
 const UpdateProduct = (props) => {
   const { token } = useToken()
@@ -62,7 +63,7 @@ const UpdateProduct = (props) => {
     setProductsImagesHandler,
     handleEdit,
   } = useProducts()
-
+  const { checked, setChecked } = useProductsCategories()
   // modal states
   const [isOpenImageModal, setIsOpenImageModal] = useState(false)
   const [isOpenImagesModal, setIsOpenImagesModal] = useState(false)
@@ -83,6 +84,7 @@ const UpdateProduct = (props) => {
     setDescription('')
     setProductImages([])
     setPrice(0)
+    setChecked(null)
 
     SingleProductService(token, singleId).then((res) => {
       const data = res.data.data
@@ -91,6 +93,7 @@ const UpdateProduct = (props) => {
       setDescription(data.content)
       setPrice(data.price)
       setProductImages(data.gallery.map((i) => i.url))
+      setChecked(data.cat_id)
     })
     CatListService(token).then((res) => {
       setCategorries(res.data.data)
@@ -166,7 +169,7 @@ const UpdateProduct = (props) => {
               <CKEditor
                 editor={ClassicEditor}
                 className={`text-right right-0 `}
-                data='<p>ویرایشگر پیشرفته</p>'
+                data={description}
                 // this will we change  =>  {data} has html
 
                 onChange={(event, editor) => {

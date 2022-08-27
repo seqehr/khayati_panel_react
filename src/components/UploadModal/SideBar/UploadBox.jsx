@@ -13,6 +13,7 @@ import useUpload from '../../../hooks/useUpload'
 import { UploadedFiles } from '../../../services/ProductServices'
 import TreeView from './TreeViewe'
 import { AiFillFolderAdd } from 'react-icons/ai'
+import { Directories } from '../../../services/UploadServices'
 
 const UploadBox = () => {
   const { token } = useToken()
@@ -41,8 +42,7 @@ const UploadBox = () => {
 
   const uploadHandler = (file) => {
     if (checked == null) {
-      toast.warn(' ابتدا پوشه را انتخاب کنید')
-      return
+      return toast.warn(' ابتدا پوشه را انتخاب کنید')
     }
     let resumable = new Resumable({
       target: `${config.baseUrl}/api/upload/new`,
@@ -68,6 +68,11 @@ const UploadBox = () => {
 
     resumable.on('fileSuccess', function (file, response) {
       toast.success('با موفقیت اپلود شد')
+      Directories(token, { dir: 'uploads ' }).then((res) => {
+        const directories = { ...dirlist }
+        directories.children = res.data.data
+        setDirlist(directories)
+      })
     })
 
     resumable.on('fileError', function (file, response) {

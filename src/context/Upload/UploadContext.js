@@ -9,6 +9,11 @@ export const UploadContextProvider = ({ children }) => {
   const [files, setFiles] = useState([])
   const [dirFiles, setDirFiles] = useState([])
   const [showDirFiles, setShowDirFiles] = useState(false)
+
+  //paginattion
+  const [perpageD, setPerpageD] = useState(12)
+  const [pageD, setPageD] = useState(0)
+  const [totalPagesD, settotalPagesD] = useState(0)
   //filter
   const [filter, setFilter] = useState('DateAs')
 
@@ -76,6 +81,12 @@ export const UploadContextProvider = ({ children }) => {
         setDirFiles,
         showDirFiles,
         setShowDirFiles,
+        perpageD,
+        setPerpageD,
+        pageD,
+        setPageD,
+        totalPagesD,
+        settotalPagesD,
       }}
     >
       {children}

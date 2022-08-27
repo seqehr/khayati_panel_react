@@ -129,16 +129,33 @@ const ListMembers = (props) => {
                   : 'text-bitcoin-light'
               } text-2xl drop-shadow-md mx-1`}
             />
-          </button>{' '}
-          {[...Array(totalPages)].map((item, i) => (
-            <p
-              className={`${
-                i !== page ? 'text-gray-light' : 'text-bitcoin-light'
-              } text-md drop-shadow-md mx-1 `}
-            >
-              {i + 1}
-            </p>
-          ))}
+          </button>
+          {[...Array(totalPages)].map(
+            (item, i) =>
+              i <= page &&
+              i > page - 3 && (
+                <p
+                  className={`${
+                    i !== page ? 'text-gray-light' : 'text-bitcoin-light'
+                  } text-md drop-shadow-md mx-1 `}
+                >
+                  {i + 1}
+                </p>
+              )
+          )}
+          {'  '} . . . {'  '}
+          {[...Array(totalPages)].map(
+            (item, i) =>
+              i >= totalPages - 2 && (
+                <p
+                  className={`${
+                    i !== page ? 'text-gray-light' : 'text-bitcoin-light'
+                  } text-md drop-shadow-md mx-1 `}
+                >
+                  {i + 1}
+                </p>
+              )
+          )}
           <button
             disabled={page == totalPages - 1 || totalPages == 0}
             onClick={() => {

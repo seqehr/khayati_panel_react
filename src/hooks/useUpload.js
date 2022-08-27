@@ -21,6 +21,12 @@ const useUpload = (props) => {
     setDirFiles,
     showDirFiles,
     setShowDirFiles,
+    perpageD,
+    setPerpageD,
+    pageD,
+    setPageD,
+    totalPagesD,
+    settotalPagesD,
   } = useContext(UploadContext)
 
   return {
@@ -41,6 +47,12 @@ const useUpload = (props) => {
     setDirFiles,
     showDirFiles,
     setShowDirFiles,
+    perpageD,
+    setPerpageD,
+    pageD,
+    setPageD,
+    totalPagesD,
+    settotalPagesD,
   }
 }
 

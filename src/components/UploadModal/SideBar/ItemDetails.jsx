@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 import useToken from '../../../hooks/useToken'
-import { DeletFileService } from '../../../services/UploadServices'
+import useUpload from '../../../hooks/useUpload'
+import { DeletFileService, Directories } from '../../../services/UploadServices'
 // css
 import styles from '../UploadModal.module.scss'
-const ItemDetails = ({ getImage, details, setFiles, files, pageMode }) => {
+const ItemDetails = ({ getImage, details, pageMode }) => {
   const { token } = useToken()
+  const { setFiles, files, dirlist, setDirlist } = useUpload()
   const handleDelete = (id) => {
     toast.error(
       <p dir='rtl'>
@@ -21,6 +23,12 @@ const ItemDetails = ({ getImage, details, setFiles, files, pageMode }) => {
     const confirmDelete = (id) => {
       DeletFileService(token, id).then((res) => {
         toast.success('با موفقیت حذف شد')
+        // get directories again
+        Directories(token, { dir: 'uploads ' }).then((res) => {
+          const directories = { ...dirlist }
+          directories.children = res.data.data
+          setDirlist(directories)
+        })
       })
       setFiles(files.filter((i) => i.id !== id))
     }

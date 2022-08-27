@@ -90,6 +90,14 @@ const UpdateArticle = (props) => {
 
     SingleArticleService(token, singleId).then((res) => {
       const data = res.data.data
+
+      console.log(data)
+      setArticleImage(data.img)
+      setName(data.name)
+      setChecked(data.cat_id)
+
+      setDescription(data.content)
+
       let tags = []
 
       data.tag.map((item, index) => {
@@ -98,12 +106,6 @@ const UpdateArticle = (props) => {
           setHashtags(tags)
         }
       })
-
-      setArticleImage(data.img)
-      setName(data.name)
-      setChecked(data.cat_id)
-      console.log(data)
-      setDescription(data.content)
     })
     CatListService(token).then((res) => {
       setCategorries(res.data.data)
