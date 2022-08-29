@@ -1,7 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import useToken from '../../hooks/useToken'
-import { CreateDirectory, Directories } from '../../services/UploadServices'
+import {
+  CreateDirectory,
+  Directories,
+  SerchFiles,
+} from '../../services/UploadServices'
 
 const UploadContext = React.createContext()
 export const UploadContextProvider = ({ children }) => {
@@ -9,7 +13,9 @@ export const UploadContextProvider = ({ children }) => {
   const [files, setFiles] = useState([])
   const [dirFiles, setDirFiles] = useState([])
   const [showDirFiles, setShowDirFiles] = useState(false)
-
+  //serch
+  const [serchWord, setSerchWord] = useState('')
+  const [serchResult, setserchResult] = useState([])
   //paginattion
   const [perpageD, setPerpageD] = useState(12)
   const [pageD, setPageD] = useState(0)
@@ -35,6 +41,25 @@ export const UploadContextProvider = ({ children }) => {
       setDirlist(directories)
     })
   }, [])
+  let data = {}
+  const serchHandler = (name) => {
+    if (serchWord == '') {
+      data = {
+        name,
+      }
+    } else {
+      data = {
+        name: serchWord,
+      }
+    }
+
+    SerchFiles(token, data)
+      .then((res) => {
+        setserchResult(res.data.data)
+      })
+      .catch((ex) => {})
+  }
+
   const handleSubmit = () => {
     const data = {
       name,
@@ -87,6 +112,11 @@ export const UploadContextProvider = ({ children }) => {
         setPageD,
         totalPagesD,
         settotalPagesD,
+        serchWord,
+        setSerchWord,
+        serchResult,
+        setserchResult,
+        serchHandler,
       }}
     >
       {children}

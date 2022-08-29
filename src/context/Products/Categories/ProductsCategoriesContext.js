@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-
+//images
+import ArticleImageDefault from '../../../assets/images/UF_Infinity_khayati.gif'
 // hooks
 import useToken from '../../../hooks/useToken'
 import {
@@ -13,6 +14,7 @@ export function ProductsCategoriesContextProvider({ children }) {
   const { token } = useToken()
   const [checked, setChecked] = useState(0)
   const [name, setName] = useState('')
+  const [img, setImg] = useState(ArticleImageDefault)
 
   const [catlist, setCatlist] = useState({
     name: 'دسته بندی ها',
@@ -23,6 +25,7 @@ export function ProductsCategoriesContextProvider({ children }) {
     const data = {
       name,
       parent_id: checked,
+      img,
     }
     if (name == '' || checked == 0) {
       toast.warn('اطلاعات ناقص است')
@@ -55,6 +58,8 @@ export function ProductsCategoriesContextProvider({ children }) {
         setName,
         catlist,
         setCatlist,
+        img,
+        setImg,
       }}
     >
       {children}

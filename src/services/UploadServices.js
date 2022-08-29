@@ -27,3 +27,11 @@ export const CreateDirectory = (token, data) => {
     },
   })
 }
+export const SerchFiles = (token, data) => {
+  console.log(data)
+  return http.get(`${config.baseUrl}/api/upload/search/${data.name}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

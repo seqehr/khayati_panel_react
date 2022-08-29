@@ -31,14 +31,13 @@ const ListItems = ({
     files,
     dirFiles,
     showDirFiles,
-    perpageD,
-    setPerpageD,
-    pageD,
-    setPageD,
-    totalPagesD,
-    settotalPagesD,
+    serchResult,
+    serchWord,
   } = useUpload()
 
+  if (serchWord) {
+    setPage(0)
+  }
   return (
     <div
       className={` md:col-span-8 md:mr-4  md:mt-0 col-span-12 bg-background2-light dark:bg-background2-dark rounded-lg p-4 grid grid-cols-12 h-max mt-5`}
@@ -47,48 +46,94 @@ const ListItems = ({
       <Filters setFilter={setFilter} filter={filter} />
 
       {loading == false ? (
-        showDirFiles ? (
-          [...dirFiles]
-            .sort((x, y) => {
-              if (filter == 'DateAs') {
-                return y.id - x.id
-              }
-              if (filter == 'DateDes') {
-                return x.id - y.id
-              }
-            })
-            .slice(page * perpage, page * perpage + perpage)
-            .map((item) => (
-              <div
-                key={item.id}
-                className={` xl:col-span-3 sm:col-span-4 col-span-12 p-2 items-center flex justify-center  `}
-              >
+        serchWord == '' ? (
+          showDirFiles ? (
+            [...dirFiles]
+              .sort((x, y) => {
+                if (filter == 'DateAs') {
+                  return y.id - x.id
+                }
+                if (filter == 'DateDes') {
+                  return x.id - y.id
+                }
+              })
+              .slice(page * perpage, page * perpage + perpage)
+              .map((item) => (
                 <div
-                  data-title={item.name}
-                  className={`${styles.itemHover} relative items-center m-auto`}
-                  onClick={() =>
-                    getDetails({
-                      name: item.name,
-                      type: item.name.split('.').pop(),
-                      link: item.url,
-                      itemId: item.id,
-                    })
-                  }
+                  key={item.id}
+                  className={` xl:col-span-3 sm:col-span-4 col-span-12 p-2 items-center flex justify-center  `}
                 >
-                  <img
-                    src={
-                      item.name.split('.').pop() == 'jpg' ||
-                      item.name.split('.').pop() == 'png'
-                        ? item.url
-                        : defaulImagMedia
+                  <div
+                    data-title={item.name}
+                    className={`${styles.itemHover} relative items-center m-auto`}
+                    onClick={() =>
+                      getDetails({
+                        name: item.name,
+                        type: item.name.split('.').pop(),
+                        link: item.url,
+                        itemId: item.id,
+                      })
                     }
-                    className={` p-2 hover:p-1  ease-in-out duration-500 cursor-pointer shadow-lg rounded-lg  `}
-                  />
+                  >
+                    <img
+                      src={
+                        item.name.split('.').pop() == 'jpg' ||
+                        item.name.split('.').pop() == 'png'
+                          ? item.url
+                          : defaulImagMedia
+                      }
+                      className={` p-2 hover:p-1  ease-in-out duration-500 cursor-pointer shadow-lg rounded-lg  `}
+                    />
+                  </div>
                 </div>
-              </div>
-            ))
+              ))
+          ) : (
+            [...files]
+              .sort((x, y) => {
+                if (filter == 'DateAs') {
+                  return y.id - x.id
+                }
+                if (filter == 'DateDes') {
+                  return x.id - y.id
+                }
+              })
+              .slice(page * perpage, page * perpage + perpage)
+              .map((item) => (
+                <div
+                  key={item.id}
+                  className={` xl:col-span-3 sm:col-span-4 col-span-12 p-2 items-center flex justify-center  `}
+                >
+                  <div
+                    data-title={item.name}
+                    className={`${styles.itemHover} relative items-center m-auto`}
+                    onClick={() =>
+                      getDetails({
+                        name: item.name,
+                        type: item.name.split('.').pop(),
+                        link: item.url,
+                        itemId: item.id,
+                      })
+                    }
+                  >
+                    <img
+                      src={
+                        item.name.split('.').pop() == 'jpg' ||
+                        item.name.split('.').pop() == 'png'
+                          ? item.url
+                          : defaulImagMedia
+                      }
+                      className={` p-2 hover:p-1  ease-in-out duration-500 cursor-pointer shadow-lg rounded-lg  `}
+                    />
+                  </div>
+                </div>
+              ))
+          )
+        ) : serchResult.length == 0 ? (
+          <p className='col-span-12 text-center text-bitcoin-light font-bold animate-pulse'>
+            چیزی یافت نشد
+          </p>
         ) : (
-          [...files]
+          [...serchResult]
             .sort((x, y) => {
               if (filter == 'DateAs') {
                 return y.id - x.id
@@ -97,7 +142,7 @@ const ListItems = ({
                 return x.id - y.id
               }
             })
-            .slice(page * perpage, page * perpage + perpage)
+
             .map((item) => (
               <div
                 key={item.id}
@@ -192,7 +237,7 @@ const ListItems = ({
         </div>
       )}
       {/*________ Pagination buttons __________*/}
-      {totalPages !== 0 && (
+      {serchWord == '' && totalPages !== 0 && (
         <div className='p-4 justify-center flex w-full col-span-12'>
           <button
             disabled={page == 0 || totalPages == 0}

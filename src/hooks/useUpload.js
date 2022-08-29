@@ -27,6 +27,11 @@ const useUpload = (props) => {
     setPageD,
     totalPagesD,
     settotalPagesD,
+    serchWord,
+    setSerchWord,
+    serchResult,
+    setserchResult,
+    serchHandler,
   } = useContext(UploadContext)
 
   return {
@@ -53,6 +58,11 @@ const useUpload = (props) => {
     setPageD,
     totalPagesD,
     settotalPagesD,
+    serchWord,
+    setSerchWord,
+    serchResult,
+    setserchResult,
+    serchHandler,
   }
 }
 

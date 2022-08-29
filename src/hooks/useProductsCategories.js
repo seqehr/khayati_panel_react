@@ -11,6 +11,8 @@ const useProductsCategories = (props) => {
     setName,
     catlist,
     setCatlist,
+    img,
+    setImg,
   } = useContext(ProductsCategoriesContext)
   return {
     checked,
@@ -20,6 +22,8 @@ const useProductsCategories = (props) => {
     setName,
     catlist,
     setCatlist,
+    img,
+    setImg,
   }
 }
 

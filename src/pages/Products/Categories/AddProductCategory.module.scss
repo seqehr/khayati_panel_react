@@ -1,0 +1,22 @@
+.hoverParent:hover .hoverChildBlure {
+  --tw-blur: blur(3.5px);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast)
+    var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate)
+    var(--tw-sepia) var(--tw-drop-shadow);
+
+  transform: scale(1.1);
+}
+.hoverParent:hover .hoverChild {
+  opacity: 1;
+  margin-top: 0px;
+}
+.hoverChild {
+  --tw-drop-shadow: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.466))
+    drop-shadow(0 3px 4px rgba(0, 0, 0, 0.548));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast)
+    var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate)
+    var(--tw-sepia) var(--tw-drop-shadow);
+  transition: ease-in-out 0.7s;
+  opacity: 0;
+  margin-top: 200px;
+}

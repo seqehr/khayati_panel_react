@@ -2,19 +2,31 @@ import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 //components
 import TreeView from '../TreeViewe'
+//images
+import ArticleImageDefault from '../../../assets/images/UF_Infinity_khayati.gif'
 //hooks
 import useToken from '../../../hooks/useToken'
 import useProductsCategories from '../../../hooks/useProductsCategories'
 import { CatListService } from '../../../services/ProductServices'
-
-// services
-
+// css
+import styles from './AddProductCategory.module.scss'
+import { toast } from 'react-toastify'
+import UploadModal from '../../../components/UploadModal/UploadModal'
 const AddProductCategory = () => {
   const { token } = useToken()
 
-  const { name, setName, handleSubmit, catlist, setCatlist } =
+  const { name, setName, handleSubmit, catlist, setCatlist, img, setImg } =
     useProductsCategories()
-  // gett caat list
+
+  // modal states
+  const [isOpenImageModal, setIsOpenImageModal] = useState(false)
+
+  // get modal files
+  const getModalImage = (file) => {
+    toast.success('با موفقیت انتخاب شد')
+    setImg(file)
+  }
+  // get cat list
   useEffect(() => {
     CatListService(token).then((res) => {
       const categories = { ...catlist }
@@ -60,10 +72,35 @@ const AddProductCategory = () => {
           >
             {`ثبت دسته بندی `}
           </button>
+          {/* image */}
+          <div
+            onClick={() => setIsOpenImageModal(true)}
+            className={`${styles.hoverParent} mt-5 w-full relative flex justify-center items-center overflow-hidden`}
+          >
+            <img
+              src={img == ArticleImageDefault ? ArticleImageDefault : img}
+              alt=''
+              className={`${styles.hoverChildBlure} ease-in-out duration-500 rounded-xl `}
+            />
+            <label
+              className={`${styles.hoverChild}  absolute cursor-pointer  text-white  `}
+              htmlFor='file'
+            >
+              انتخاب عکس
+            </label>
+          </div>
         </div>
 
         <TreeView showRoot={true} explorer={catlist} />
       </div>
+      {/* Upload Modal*/}
+
+      {isOpenImageModal && (
+        <UploadModal
+          getImage={getModalImage}
+          setIsOpenModal={setIsOpenImageModal}
+        />
+      )}
     </div>
   )
 }
