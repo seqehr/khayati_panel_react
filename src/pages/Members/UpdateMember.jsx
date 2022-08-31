@@ -85,7 +85,7 @@ const UpdateMember = () => {
 
           <div className='col-span-12 flex justify-center items-center flex-col gap-3'>
             <p className='lg:absolute lg:right-0 lg:top-0 text-lg text-bitcoin-light animate-pulse font-bold cursor-default'>
-              افزودن کاربر جدید
+              ویرایش کاربر
             </p>
             <img src={userImage} alt='' className='w-24 mb-10' />
           </div>
