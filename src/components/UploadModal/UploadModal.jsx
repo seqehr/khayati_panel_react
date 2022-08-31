@@ -100,6 +100,7 @@ const UploadModal = ({ setIsOpenModal, getImage, pageMode }) => {
         >
           <UploadBox />
           <ItemDetails
+            setIsOpenModal={setIsOpenModal}
             getImage={getImage}
             details={{ type, name, link, itemId }}
             setFiles={setFiles}

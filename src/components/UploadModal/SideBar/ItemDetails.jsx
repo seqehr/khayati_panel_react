@@ -5,7 +5,7 @@ import useUpload from '../../../hooks/useUpload'
 import { DeletFileService, Directories } from '../../../services/UploadServices'
 // css
 import styles from '../UploadModal.module.scss'
-const ItemDetails = ({ getImage, details, pageMode }) => {
+const ItemDetails = ({ getImage, details, pageMode, setIsOpenModal }) => {
   const { token } = useToken()
   const { setFiles, files, dirlist, setDirlist } = useUpload()
   const handleDelete = (id) => {
@@ -68,7 +68,14 @@ const ItemDetails = ({ getImage, details, pageMode }) => {
         </p>
         {pageMode !== true && (
           <p
-            onClick={() => getImage(details.link)}
+            onClick={() => {
+              if (details.link == '') {
+                toast.warn('شما عکسی انتخاب نکردید')
+              } else {
+                getImage(details.link)
+                setIsOpenModal(false)
+              }
+            }}
             className='my-2  w-full xl:w-max mt-5 cursor-pointer bg-background-light p-2 px-5 rounded-lg  ease-in-out duration-500 hover:shadow-lg  dark:text-white dark:bg-background-dark'
           >
             انتخاب کردن فایل
