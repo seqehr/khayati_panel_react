@@ -233,7 +233,7 @@ const UpdateMember = () => {
           }}
           className='text-white mt-20 lg:mt-0 bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center '
         >
-          {`ایجاد حساب `}
+          {`ویرایش حساب `}
         </button>
       </form>
     </div>
