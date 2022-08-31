@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 //images
 import userImage from '../../assets/images/user.png'
 // date picker
@@ -20,6 +20,7 @@ import {
 
 const UpdateMember = () => {
   const { id: singleId } = useParams()
+  const navigate = useNavigate()
 
   const { token } = useToken()
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -238,8 +239,7 @@ const UpdateMember = () => {
         <button
           type='submit'
           onClick={(e) => {
-            e.preventDefault()
-            handleSubmit()
+            navigate('/members')
           }}
           className='text-white mt-20 lg:mt-0 bg-red-dark ring-2 mr-5 ring-red-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center '
         >
