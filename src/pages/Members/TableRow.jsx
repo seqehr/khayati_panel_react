@@ -11,6 +11,8 @@ import { userJustify } from '../../services/MemberServices'
 import style from './TableRow.module.scss'
 import UserModal from './UserModal'
 import { ListCoursesService } from '../../services/CourseServices'
+import { BsEye } from 'react-icons/bs'
+import { BiEdit } from 'react-icons/bi'
 const TableRow = ({ name, phone, id, key, fullDetails }) => {
   const { token } = useToken()
   const [isOpeModal, setIsOpeModal] = useState(false)
@@ -58,6 +60,7 @@ const TableRow = ({ name, phone, id, key, fullDetails }) => {
             </Link>
           </div>
         </td>
+
         <td className='px-1 py-3 sm:py-2 sm:px-1'>
           <div
             className='flex flex-col justify-end gap-2 sm:flex-row'
@@ -66,6 +69,19 @@ const TableRow = ({ name, phone, id, key, fullDetails }) => {
             <p className='cursor-pointer px-2 sm:px-5 py-1 text-sm text-white sm:text-base bg-bitcoin-light dark:bg-bitcoin-dark rounded-lg  flex justify-center items-center gap-2'>
               نمایش <AiFillEye className='text-xl' />
             </p>
+          </div>
+        </td>
+        <td className='px-1 py-3 sm:py-2 sm:px-1'>
+          <div
+            className='flex flex-col justify-end gap-2 sm:flex-row'
+            onClick={() => setIsOpeModal(!isOpeModal)}
+          >
+            <Link
+              to={`/member/edit/${fullDetails.id}`}
+              className='cursor-pointer px-2 sm:px-5 py-1 text-sm text-white sm:text-base bg-bitcoin-light dark:bg-bitcoin-dark rounded-lg  flex justify-center items-center gap-2'
+            >
+              ویرایش <BiEdit className='text-xl' />
+            </Link>
           </div>
         </td>
       </div>

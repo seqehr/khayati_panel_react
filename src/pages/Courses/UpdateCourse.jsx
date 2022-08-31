@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import TableRow from './ModalTableRow'
 import './CKEditor.css'
 import { useParams } from 'react-router-dom'
-
+import PreviewDefaultImage from '../../assets/images/video-file-icon-20.png'
 // css
 import style from './TableRow.module.scss'
 // hooks
@@ -55,16 +55,23 @@ const UpdateCourse = () => {
     setName,
     colors,
     handleEdit,
+    preview,
+    setPreview,
   } = useCourse()
 
   // modal states
   const [isOpenImageModal, setIsOpenImageModal] = useState(false)
   const [isOpenPostermodal, setIsOpenPostermodal] = useState(false)
   const [isOpenUrlLessonModal, setIsOpenUrlLessonModal] = useState(false)
+  const [isOpenPreviewModal, setIsOpenPreviewModal] = useState(false)
   // get modal files
   const getModalImage = (file) => {
     toast.success('با موفقیت انتخاب شد')
     setCourseImage(file)
+  }
+  const getModalPreview = (file) => {
+    toast.success('با موفقیت انتخاب شد')
+    setPreview(file)
   }
   const getModalPoster = (file) => {
     toast.success('با موفقیت انتخاب شد')
@@ -93,6 +100,7 @@ const UpdateCourse = () => {
     setIsPin(false)
     setIsFree(false)
     setExcerpt('')
+    setPreview(PreviewDefaultImage)
 
     SingleCourseService(token, singleId).then((res) => {
       const data = res.data.data
@@ -110,6 +118,7 @@ const UpdateCourse = () => {
       }
       setIsFree(data.type)
       setExcerpt(data.excerpt)
+      setPreview(data.demo)
     })
   }, [])
   return (
@@ -119,7 +128,13 @@ const UpdateCourse = () => {
           {/* C O U R S E - I M A G E */}
           <div
             className={` ${
-              isPin ? 'col-span-6' : 'col-span-12'
+              isPin
+                ? isFree == 'free'
+                  ? 'col-span-6'
+                  : 'col-span-4'
+                : isFree == 'free'
+                ? 'col-span-12'
+                : 'col-span-6'
             } relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
             <img
@@ -136,9 +151,47 @@ const UpdateCourse = () => {
               {`انتخاب عکس دوره`}
             </label>
           </div>
+          {/* C O U R S E - P R E V I E W */}
+          {isFree !== 'free' && (
+            <div
+              className={` ${
+                isPin ? 'col-span-4' : 'col-span-6'
+              } relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
+            >
+              <img
+                src={PreviewDefaultImage}
+                className={`p-20  rounded-md w-96`}
+                onClick={() => {
+                  setIsOpenPreviewModal(true)
+                }}
+              />
+              <label
+                className='p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                for='user_avatar'
+              >
+                {preview !== PreviewDefaultImage ? (
+                  <p className='text-green-light animate-pulse flex flex-col text-center w-48 break-words'>
+                    ویدیو انتخاب شده
+                    <span dir='ltr' className='text-left'>
+                      {preview.replace(
+                        'https://seeuland.com/storage/uploads//',
+                        ''
+                      )}
+                    </span>
+                  </p>
+                ) : (
+                  `انتخاب ویدیو دموی دوره`
+                )}
+              </label>
+            </div>
+          )}
           {/* C O U R S E - P O S T E R */}
           {isPin == 1 && (
-            <div className='relative col-span-6 flex justify-center flex-col items-center z-0 w-full mb-6 group'>
+            <div
+              className={` relative ${
+                isFree == 'free' ? 'col-span-6' : 'col-span-4'
+              } flex justify-center flex-col items-center z-0 w-full mb-6 group`}
+            >
               <img
                 src={coursePoster}
                 className='w-96 rounded-md'
@@ -316,6 +369,7 @@ const UpdateCourse = () => {
         </button>
       </form>
       {/* Upload Modal*/}
+      {/* Upload Modal*/}
 
       {isOpenImageModal && (
         <UploadModal
@@ -333,6 +387,12 @@ const UpdateCourse = () => {
         <UploadModal
           getImage={getModalLesson}
           setIsOpenModal={setIsOpenUrlLessonModal}
+        />
+      )}
+      {isOpenPreviewModal && (
+        <UploadModal
+          getImage={getModalPreview}
+          setIsOpenModal={setIsOpenPreviewModal}
         />
       )}
     </div>

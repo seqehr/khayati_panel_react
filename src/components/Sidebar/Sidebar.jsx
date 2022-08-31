@@ -26,7 +26,7 @@ import {
   AiOutlineBook,
   AiFillNotification,
 } from 'react-icons/ai'
-import { RiUserSettingsLine } from 'react-icons/ri'
+import { RiListOrdered, RiUserSettingsLine } from 'react-icons/ri'
 import { FaChalkboardTeacher } from 'react-icons/fa'
 import { GoFileMedia } from 'react-icons/go'
 import { BiTransfer } from 'react-icons/bi'
@@ -256,7 +256,12 @@ const Sidebar = (props) => {
                 </div>
               </div>
             ))}
-
+            <SidebarOption
+              to='/orders'
+              icon={<RiListOrdered />}
+              title={` سفارشات`}
+              active={location.pathname === '/orders'}
+            />
             <SidebarSeperatorLine />
             <SidebarOption
               to='/notifiction'

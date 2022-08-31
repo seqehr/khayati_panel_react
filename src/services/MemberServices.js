@@ -45,3 +45,17 @@ export const UserJustifyListCourses = (token, userId) => {
     }
   )
 }
+export const UpdteMember = (token, data, userId) => {
+  return http.post(`${config.baseUrl}/api/admin/user/edit/${userId}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}
+export const ProfileDetail = (token, userId) => {
+  return http.get(`${config.baseUrl}/api/admin/user/profile/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

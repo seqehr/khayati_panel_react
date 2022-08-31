@@ -3,6 +3,8 @@ import { toast } from 'react-toastify'
 import { v4 as uuidv4 } from 'uuid'
 // images gifs
 import CourseImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
+
+import PreviewDefaultImage from '../../assets/images/video-file-icon-20.png'
 // services
 import {
   AddCourseService,
@@ -31,6 +33,7 @@ export const CourseContextProvider = ({ children }) => {
 
   // Form States
   const [courseImage, setCourseImage] = useState(CourseImageDefault)
+  const [preview, setPreview] = useState(PreviewDefaultImage)
   const [coursePoster, setCoursePoster] = useState(CourseImageDefault)
   const [color, setColor] = useState('')
   const [isPin, setIsPin] = useState(false)
@@ -57,12 +60,33 @@ export const CourseContextProvider = ({ children }) => {
     },
   ]
   let CourseImage = ''
+  let CoursePreview = ''
   let CoursePoster = ''
   let GetLesson = []
 
   const validator = () => {
     let showColorError = true
     let showPriceError = true
+    let showPosterError = true
+    let showPreviewError = true
+    // Course Preview validation
+    if (isFree == 'pricy') {
+      if (preview.includes('/static/media/video-file-icon-20') == true) {
+      } else {
+        showPreviewError = false
+      }
+    } else {
+      showPreviewError = false
+    }
+    // Course Poster validation
+    if (isPin) {
+      if (CoursePoster.includes('/static/media/UF_Infinity_khayati') == true) {
+      } else {
+        showPosterError = false
+      }
+    } else {
+      showPosterError = false
+    }
     // color validation
     if (color == '') {
       if (isPin == false) {
@@ -91,13 +115,12 @@ export const CourseContextProvider = ({ children }) => {
             if (getLesson.length !== 0) {
               if (excerpt !== '') {
                 if (description !== '') {
-                  if (
-                    isPin !== true &&
-                    CourseImage.includes(
-                      '/static/media/UF_Infinity_khayati'
-                    ) !== true
-                  ) {
-                    return true
+                  if (showPosterError !== true) {
+                    if (showPreviewError !== true) {
+                      return true
+                    } else {
+                      toast.warn('لطفا ویدیوی دمو را انتخاب کنید')
+                    }
                   } else {
                     toast.warn('لطفا پوستر دوره را انتخاب کنید')
                   }
@@ -126,7 +149,7 @@ export const CourseContextProvider = ({ children }) => {
 
   const handleSubmit = () => {
     CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, '')
-
+    CoursePreview = preview.replace(`${config.HttpBaseUrl}/storage/`, '')
     CoursePoster = coursePoster.replace(`${config.HttpBaseUrl}/storage/`, '')
     getLesson.map((item) => {
       GetLesson.push({
@@ -144,6 +167,7 @@ export const CourseContextProvider = ({ children }) => {
       ispin: isPin,
       gradient: color,
       img: CourseImage,
+      demo: CoursePreview,
       poster: coursePoster,
       videos: JSON.stringify(GetLesson),
       name,
@@ -160,7 +184,7 @@ export const CourseContextProvider = ({ children }) => {
   }
   const handleEdit = (singleId) => {
     CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, '')
-
+    CoursePreview = preview.replace(`${config.HttpBaseUrl}/storage/`, '')
     CoursePoster = coursePoster.replace(`${config.HttpBaseUrl}/storage/`, '')
     getLesson.map((item) => {
       GetLesson.push({
@@ -175,6 +199,7 @@ export const CourseContextProvider = ({ children }) => {
       price: isFree && '0',
       description,
       type: isFree,
+      demo: CoursePreview,
       ispin: isPin,
       gradient: color,
       img: CourseImage,
@@ -312,6 +337,8 @@ export const CourseContextProvider = ({ children }) => {
         getContentLesson,
         setContentLesson,
         handleEdit,
+        preview,
+        setPreview,
       }}
     >
       {children}

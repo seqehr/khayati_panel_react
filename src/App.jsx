@@ -20,7 +20,7 @@ import { ToastContainer } from 'react-toastify'
 import ListCourses from './pages/Courses/ListCourses'
 import ListMusics from './pages/Music/ListMusics'
 import ListMembers from './pages/Members/ListMembers'
-
+import UpdateMember from './pages/Members/UpdateMember'
 import ListTransactions from './pages/Transactions/ListTransactions'
 import ListArticles from './pages/Articles/ListArticles'
 import AddArticle from './pages/Articles/AddArticle'
@@ -47,6 +47,7 @@ import Notifiction from './pages/Notifiction/Notifiction'
 import AddProductCategory from './pages/Products/Categories/AddProductCategory'
 import JustifyMember from './pages/Members/JustifyMember'
 import UploadModal from './components/UploadModal/UploadModal'
+import ListOrders from './pages/Orders/ListOrders'
 function App() {
   const { token, setToken } = useToken()
 
@@ -85,18 +86,18 @@ function App() {
                 <main className={`flex-1`}>
                   <Routes>
                     <Route path='/' element={<Dashboard />} />
-                    // Courses
+                    {/*Courses*/}
                     <Route path='/course/add' element={<AddCourse />} />
                     <Route path='/courses' element={<ListCourses />} />
                     <Route
                       path='/course/update/:id'
                       element={<UpdateCourse />}
                     />
-                    // Musics
+                    {/* Musics*/}
                     <Route path='/musics' element={<ListMusics />} />
                     <Route path='/music/add' element={<AddMusic />} />
                     <Route path='/music/update/:id' element={<UpdateMusic />} />
-                    // Articles
+                    {/* Articles*/}
                     <Route path='/articles' element={<ListArticles />} />
                     <Route path='/article/add' element={<AddArticle />} />
                     <Route
@@ -108,7 +109,7 @@ function App() {
                       element={<AddCategory />}
                     />
                     <Route path='/tags' element={<ListTags />} />
-                    // Products
+                    {/*Products*/}
                     <Route path='/products' element={<ListProducts />} />
                     <Route path='/product/add' element={<AddProduct />} />
                     <Route
@@ -119,7 +120,7 @@ function App() {
                       path='/product/update/:id'
                       element={<UpdateProduct />}
                     />
-                    // Books
+                    {/*Books*/}
                     <Route path='/books' element={<ListBooks />} />
                     <Route path='/book/add' element={<AddBook />} />
                     <Route path='/book/update/:id' element={<UpdateBook />} />
@@ -133,19 +134,22 @@ function App() {
                       path='/uploads'
                       element={<UploadModal pageMode={true} />}
                     />
-                    // users
+                    {/*users*/}
                     <Route path='/member/add' element={<AddMember />} />
                     <Route path='/members' element={<ListMembers />} />
                     <Route
                       path='/courses/member/:id'
                       element={<MemberListCourses />}
-                    />{' '}
+                    />
+                    <Route path='/member/edit/:id' element={<UpdateMember />} />
                     <Route
                       path='/permission/member/:id'
                       element={<JustifyMember />}
                     />
-                    //notifoctions
+                    {/*notifoctions*/}
                     <Route path='/notifiction' element={<Notifiction />} />
+                    {/*orders*/}
+                    <Route path='/orders' element={<ListOrders />} />
                   </Routes>
                 </main>
               </div>
