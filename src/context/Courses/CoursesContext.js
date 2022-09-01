@@ -68,16 +68,7 @@ export const CourseContextProvider = ({ children }) => {
     let showColorError = true
     let showPriceError = true
     let showPosterError = true
-    let showPreviewError = true
-    // Course Preview validation
-    if (isFree == 'pricy') {
-      if (preview.includes('/static/media/video-file-icon-20') == true) {
-      } else {
-        showPreviewError = false
-      }
-    } else {
-      showPreviewError = false
-    }
+
     // Course Poster validation
     if (isPin) {
       if (CoursePoster.includes('/static/media/UF_Infinity_khayati') == true) {
@@ -116,11 +107,7 @@ export const CourseContextProvider = ({ children }) => {
               if (excerpt !== '') {
                 if (description !== '') {
                   if (showPosterError !== true) {
-                    if (showPreviewError !== true) {
-                      return true
-                    } else {
-                      toast.warn('لطفا ویدیوی دمو را انتخاب کنید')
-                    }
+                    return true
                   } else {
                     toast.warn('لطفا پوستر دوره را انتخاب کنید')
                   }
@@ -149,7 +136,7 @@ export const CourseContextProvider = ({ children }) => {
 
   const handleSubmit = () => {
     CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, '')
-    CoursePreview = preview.replace(`${config.HttpBaseUrl}/storage/`, '')
+
     CoursePoster = coursePoster.replace(`${config.HttpBaseUrl}/storage/`, '')
     getLesson.map((item) => {
       GetLesson.push({
@@ -157,6 +144,7 @@ export const CourseContextProvider = ({ children }) => {
         name: item.name,
         url: item.url.replace(`${config.HttpBaseUrl}/storage/`, ''),
         content: item.content,
+        demo: item.demo,
       })
     })
     const data = {
@@ -167,7 +155,7 @@ export const CourseContextProvider = ({ children }) => {
       ispin: isPin,
       gradient: color,
       img: CourseImage,
-      demo: CoursePreview,
+
       poster: coursePoster,
       videos: JSON.stringify(GetLesson),
       name,
@@ -184,7 +172,7 @@ export const CourseContextProvider = ({ children }) => {
   }
   const handleEdit = (singleId) => {
     CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, '')
-    CoursePreview = preview.replace(`${config.HttpBaseUrl}/storage/`, '')
+
     CoursePoster = coursePoster.replace(`${config.HttpBaseUrl}/storage/`, '')
     getLesson.map((item) => {
       GetLesson.push({
@@ -192,6 +180,7 @@ export const CourseContextProvider = ({ children }) => {
         name: item.name,
         url: item.url.replace(`${config.HttpBaseUrl}/storage/`, ''),
         content: item.content,
+        demo: item.demo,
       })
     })
     const data = {
@@ -199,7 +188,7 @@ export const CourseContextProvider = ({ children }) => {
       price: isFree && '0',
       description,
       type: isFree,
-      demo: CoursePreview,
+
       ispin: isPin,
       gradient: color,
       img: CourseImage,
@@ -222,42 +211,52 @@ export const CourseContextProvider = ({ children }) => {
     // this method is useless i will delete this later
   }
   const handleCreate = () => {
+    let showPreviewError = true
+    // Course Preview validation
+    if (isFree == 'pricy') {
+      if (preview.includes('/static/media/video-file-icon-20') == true) {
+      } else {
+        showPreviewError = false
+      }
+    } else {
+      showPreviewError = false
+    }
+    CoursePreview = preview.replace(`${config.HttpBaseUrl}/storage/`, '')
+
     const lessons = [...getLesson]
     const lesson = {
       id: uuidv4(),
       name: getTitleLesson,
       url: getLinkLesson,
       content: getContentLesson,
+      demo: isFree == 'pricy' ? CoursePreview : getLinkLesson,
     }
     if (
       getTitleLesson !== '' &&
       getTitleLesson !== ' ' &&
       getTitleLesson !== null
     ) {
-      lessons.push(lesson)
-      setLesson(lessons)
-      setTitleLesson('')
-      setLinkLesson('')
-      setContentLesson('')
-      toast.success(`(${lesson.name}) با موفقیت اضافه شد`, {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
+      if (showPreviewError !== true) {
+        lessons.push(lesson)
+        setLesson(lessons)
+        setTitleLesson('')
+        setLinkLesson('')
+        setPreview(PreviewDefaultImage)
+        setContentLesson('')
+        toast.success(`(${lesson.name}) با موفقیت اضافه شد`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      } else {
+        toast.warn('لطفا ویدیوی دمو را انتخاب کنید')
+      }
     } else {
-      toast.warn(`لطفا نام درس را وارد کنید`, {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
+      toast.warn(`لطفا نام درس را وارد کنید`)
     }
   }
   const handleDelete = (id) => {
@@ -289,6 +288,7 @@ export const CourseContextProvider = ({ children }) => {
           name: item.name,
           url: item.url,
           content: item.content,
+          demo: item.demo,
         }
 
         lessons.push(lesson)

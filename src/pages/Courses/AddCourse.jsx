@@ -105,13 +105,7 @@ const AddCourse = (props) => {
           {/* C O U R S E - I M A G E */}
           <div
             className={` ${
-              isPin
-                ? isFree == 'free'
-                  ? 'col-span-6'
-                  : 'col-span-4'
-                : isFree == 'free'
-                ? 'col-span-12'
-                : 'col-span-6'
+              isPin ? 'col-span-6' : 'col-span-12'
             } relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
             <img
@@ -128,46 +122,11 @@ const AddCourse = (props) => {
               {`انتخاب عکس دوره`}
             </label>
           </div>
-          {/* C O U R S E - P R E V I E W */}
-          {isFree !== 'free' && (
-            <div
-              className={` ${
-                isPin ? 'col-span-4' : 'col-span-6'
-              } relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
-            >
-              <img
-                src={PreviewDefaultImage}
-                className={`p-20  rounded-md w-96`}
-                onClick={() => {
-                  setIsOpenPreviewModal(true)
-                }}
-              />
-              <label
-                className='p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
-                for='user_avatar'
-              >
-                {preview !== PreviewDefaultImage ? (
-                  <p className='text-green-light animate-pulse flex flex-col text-center w-48 break-words'>
-                    ویدیو انتخاب شده
-                    <span dir='ltr' className='text-left'>
-                      {preview.replace(
-                        'https://seeuland.com/storage/uploads//',
-                        ''
-                      )}
-                    </span>
-                  </p>
-                ) : (
-                  `انتخاب ویدیو دموی دوره`
-                )}
-              </label>
-            </div>
-          )}
+
           {/* C O U R S E - P O S T E R */}
           {isPin == 1 && (
             <div
-              className={` relative ${
-                isFree == 'free' ? 'col-span-6' : 'col-span-4'
-              } flex justify-center flex-col items-center z-0 w-full mb-6 group`}
+              className={` relative ${'col-span-6'} flex justify-center flex-col items-center z-0 w-full mb-6 group`}
             >
               <img
                 src={coursePoster}
@@ -332,7 +291,11 @@ const AddCourse = (props) => {
           )}
           {/* L E S S O N S */}
           <div className='grid  col-span-12'>
-            <Lessons setIsOpenUrlLessonModal={setIsOpenUrlLessonModal} />
+            <Lessons
+              isFree={isFree}
+              setIsOpenPreviewModal={setIsOpenPreviewModal}
+              setIsOpenUrlLessonModal={setIsOpenUrlLessonModal}
+            />
           </div>
         </div>
         <button

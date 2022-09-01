@@ -1,12 +1,18 @@
 import React from 'react'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
+//images
+import PreviewDefaultImage from '../../assets/images/video-file-icon-20.png'
 //hooks
 import useCourses from '../../hooks/useCourses'
 //icons
 import { BsPlusCircleDotted } from 'react-icons/bs'
 import { BsDashCircleDotted } from 'react-icons/bs'
-const Lessons = ({ setIsOpenUrlLessonModal }) => {
+const Lessons = ({
+  setIsOpenUrlLessonModal,
+  isFree,
+  setIsOpenPreviewModal,
+}) => {
   const {
     getLesson,
     getLinkLesson,
@@ -17,6 +23,7 @@ const Lessons = ({ setIsOpenUrlLessonModal }) => {
     setTitleLesson,
     setContentLesson,
     getContentLesson,
+    preview,
   } = useCourses()
   return (
     <>
@@ -60,7 +67,11 @@ const Lessons = ({ setIsOpenUrlLessonModal }) => {
               افزودن درس
             </span>
           </button>
-          <div className='relative col-span-12 z-0 w-full my-5  group '>
+          <div
+            className={`${
+              isFree == 'free' ? 'col-span-12' : 'col-span-8'
+            } relative  z-0 w-full my-5  group `}
+          >
             <CKEditor
               editor={ClassicEditor}
               className={`text-right right-0`}
@@ -73,6 +84,38 @@ const Lessons = ({ setIsOpenUrlLessonModal }) => {
               }}
             />
           </div>
+          {/* C O U R S E - P R E V I E W */}
+          {isFree !== 'free' && (
+            <div
+              className={`cursor-pointer col-span-4 relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
+            >
+              <img
+                src={PreviewDefaultImage}
+                className={`p-5 mt-5 rounded-md w-60`}
+                onClick={() => {
+                  setIsOpenPreviewModal(true)
+                }}
+              />
+              <label
+                className='p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                for='user_avatar'
+              >
+                {preview !== PreviewDefaultImage ? (
+                  <p className='text-green-light animate-pulse flex flex-col text-center w-48 break-words'>
+                    ویدیو انتخاب شده
+                    <span dir='ltr' className='text-center'>
+                      {preview.replace(
+                        'https://seeuland.com/storage/uploads//',
+                        ''
+                      )}
+                    </span>
+                  </p>
+                ) : (
+                  `انتخاب ویدیو دموی دوره`
+                )}
+              </label>
+            </div>
+          )}
         </div>
         {/* show lessons */}
         {getLesson.map((lesson) => (
@@ -110,7 +153,11 @@ const Lessons = ({ setIsOpenUrlLessonModal }) => {
                 حذف درس
               </span>
             </button>
-            <div className='relative col-span-12 z-0 w-full my-5  group '>
+            <div
+              className={`${
+                lesson.demo == lesson.url ? 'col-span-12' : 'col-span-8'
+              } relative  z-0 w-full my-5  group `}
+            >
               <CKEditor
                 editor={ClassicEditor}
                 className={`text-right right-0`}
@@ -119,10 +166,29 @@ const Lessons = ({ setIsOpenUrlLessonModal }) => {
 
                 onReady={(editor) => {
                   editor.enableReadOnlyMode('my-feature-id')
-                  console.log(editor.isReadOnly)
                 }}
               />
             </div>
+            {lesson.demo !== lesson.url && (
+              <div
+                className={` col-span-4 relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
+              >
+                <img
+                  src={PreviewDefaultImage}
+                  className={`p-5 mt-5 rounded-md w-60`}
+                />
+                <label
+                  className='p-5 text-black  dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                  for='user_avatar'
+                >
+                  <p className='  flex flex-col text-center w-48 break-words'>
+                    <span dir='ltr' className='text-center'>
+                      {lesson.demo.replace('uploads//', '')}
+                    </span>
+                  </p>
+                </label>
+              </div>
+            )}
           </div>
         ))}
       </div>
