@@ -243,7 +243,7 @@ export const CourseContextProvider = ({ children }) => {
         setLinkLesson('')
         setPreview(PreviewDefaultImage)
         setContentLesson('')
-        toast.success(`(${lesson.name}) با موفقیت اضافه شد`, {
+        toast.success(`کلاس با موفقیت اضافه شد`, {
           position: 'top-right',
           autoClose: 5000,
           hideProgressBar: false,
