@@ -20,8 +20,7 @@ const AddMusic = (props) => {
     setFiles,
     uploadModal,
     setUploadModal,
-    musicImage,
-    setMusicImage,
+
     url,
     setUrl,
     name,
@@ -30,13 +29,10 @@ const AddMusic = (props) => {
   } = useMusics()
 
   // modal states
-  const [isOpenImageModal, setIsOpenImageModal] = useState(false)
+
   const [isOpenUrlModal, setIsOpenUrlModal] = useState(false)
   // get modal files
-  const getModalImage = (file) => {
-    toast.success('با موفقیت انتخاب شد')
-    setMusicImage(file)
-  }
+
   const getModalUrl = (file) => {
     toast.success('با موفقیت انتخاب شد')
     setUrl(file)
@@ -52,26 +48,7 @@ const AddMusic = (props) => {
   return (
     <div className='bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl'>
       <form>
-        <div className='grid grid-cols-12 xl:gap-6'>
-          {/* M U S I C  - I M A G E */}
-          <div
-            className={` 
-            relative col-span-12  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
-          >
-            <img
-              src={musicImage}
-              className='w-96 rounded-md'
-              onClick={() => {
-                setIsOpenImageModal(true)
-              }}
-            />
-            <label
-              className='p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
-              for='user_avatar'
-            >
-              {`انتخاب عکس `}
-            </label>
-          </div>
+        <div className='grid grid-cols-12 gap-4 xl:gap-6'>
           {/* M U S I C  - N A M E */}
           <div className='relative col-span-3 z-0 w-full mb-6 group'>
             <input
@@ -127,12 +104,6 @@ const AddMusic = (props) => {
 
       {/* Upload Modal*/}
 
-      {isOpenImageModal && (
-        <UploadModal
-          getImage={getModalImage}
-          setIsOpenModal={setIsOpenImageModal}
-        />
-      )}
       {isOpenUrlModal && (
         <UploadModal
           getImage={getModalUrl}

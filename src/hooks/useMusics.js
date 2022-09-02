@@ -8,8 +8,7 @@ const useMusics = (props) => {
     setFiles,
     uploadModal,
     setUploadModal,
-    musicImage,
-    setMusicImage,
+
     url,
     setUrl,
     name,
@@ -22,8 +21,7 @@ const useMusics = (props) => {
     setFiles,
     uploadModal,
     setUploadModal,
-    musicImage,
-    setMusicImage,
+
     url,
     setUrl,
     name,
