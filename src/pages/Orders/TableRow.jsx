@@ -1,11 +1,14 @@
 // Icons
+import { useState } from 'react'
 import { MdAutorenew } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 
 // css
 import style from './TableRow.module.scss'
+import UserModal from './UserModal'
 const TableRow = ({ fullDetail }) => {
-  console.log(fullDetail)
+  const [isOpeModal, setIsOpeModal] = useState(false)
+
   return (
     <tr key={fullDetail.id} className={`${style.walletTableRow} `}>
       <td className='py-2 pr-4'>
@@ -13,7 +16,7 @@ const TableRow = ({ fullDetail }) => {
           <div>
             <div>
               <span className='text-sm  text-black sm:text-base dark:text-white'>
-                {fullDetail.type}
+                {fullDetail.type == 'courses' ? 'دوره' : 'محصول'}
               </span>
             </div>
             <div></div>
@@ -38,7 +41,9 @@ const TableRow = ({ fullDetail }) => {
           <div>
             <div>
               <span className='text-sm  text-black sm:text-base dark:text-white'>
-                {fullDetail.status}
+                {fullDetail.status == 'onPayment'
+                  ? 'درحال پرداخت'
+                  : 'پرداخت شده'}
               </span>
             </div>
             <div></div>
@@ -58,14 +63,21 @@ const TableRow = ({ fullDetail }) => {
         </div>
       </td>
       <div className='float-left'>
-        <td className='px-1 py-3 sm:py-2 sm:px-1'>
+        <td
+          onClick={() => setIsOpeModal(!isOpeModal)}
+          className='px-1 py-3 sm:py-2 sm:px-1 '
+        >
           <div className='flex flex-col justify-end gap-2 sm:flex-row'>
-            <p className='px-2 sm:px-5 py-1 text-sm text-white sm:text-base bg-bitcoin-light dark:bg-blue-dark rounded-lg '>
+            <p className='px-2 sm:px-5 py-1 cursor-pointer text-sm text-white sm:text-base bg-bitcoin-light dark:bg-blue-dark rounded-lg '>
               {`نمایش اطلاعات کاربر`}
             </p>
           </div>
         </td>
       </div>
+      {/* user Modal*/}
+      {isOpeModal && (
+        <UserModal fullDetails={fullDetail.user} close={setIsOpeModal} />
+      )}
     </tr>
   )
 }

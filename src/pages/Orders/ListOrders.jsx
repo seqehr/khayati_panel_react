@@ -62,9 +62,9 @@ const ListOrders = (props) => {
         <thead
           className={`${'text-right'} bg-[#80808033] text-black dark:text-white `}
         >
-          <th className='px-2 py-2 pr-4'>{` نوع سفارش `}</th>
+          <th className='px-2 py-2 pr-4'>{`سفارش `}</th>
 
-          <th className='px-2 py-2 pr-4'>{` زمان سفارش `}</th>
+          <th className='px-2 py-2 pr-4'>{` زمان ثبت سفارش `}</th>
           <th className='px-2 py-2 pr-4'>{` وضعیت  سفارش `}</th>
           <th className='px-2 py-2 pr-4'>{`  شماره مشتری `}</th>
           <th></th>
