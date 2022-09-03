@@ -61,6 +61,7 @@ export function ArticlesContextProvider({ children }) {
       AddArticleService(token, data).then((res) => {
         if (res.status == 200) {
           toast.success('مقاله با موفقیت ساخته شد')
+          navigate('/articles')
         }
       })
     }
@@ -79,8 +80,7 @@ export function ArticlesContextProvider({ children }) {
     if (validator() == true) {
       EditArticleService(token, data, singleId).then((res) => {
         if (res.status == 200) {
-          toast.success('مقاله با موفقیت ساخته شد')
-          navigate('/articles')
+          toast.success('مقاله با موفقیت ویرایش شد')
         }
       })
     }
