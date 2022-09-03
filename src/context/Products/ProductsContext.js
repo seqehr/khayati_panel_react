@@ -50,7 +50,7 @@ export function ProductsContextProvider({ children }) {
       if (checked !== 0) {
         if (description !== '') {
           if (name !== '') {
-            if (price !== '') {
+            if (price !== 0) {
               return true
             } else {
               toast.warn('لطفا قیمت  محصول را وارد کنید')
@@ -78,6 +78,7 @@ export function ProductsContextProvider({ children }) {
         i.replace(`${config.HttpBaseUrl}/storage/`, '')
       )
     })
+
     const data = {
       name,
       cat_id: checked,

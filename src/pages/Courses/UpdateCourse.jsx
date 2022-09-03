@@ -6,6 +6,8 @@ import { useParams } from 'react-router-dom'
 import PreviewDefaultImage from '../../assets/images/video-file-icon-20.png'
 // css
 import style from './TableRow.module.scss'
+//images
+import CourseImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 // hooks
 import useCourse from '../../hooks/useCourses'
 //icons
@@ -108,10 +110,15 @@ const UpdateCourse = () => {
       setDescription(data.description)
       setColor(data.gradient)
       setCourseImage(data.img)
-      setCoursePoster(data.poster)
+      console.log(data.poster)
+      if (data.poster == null) {
+        setCoursePoster(CourseImageDefault)
+      } else {
+        setCoursePoster(data.poster)
+      }
       setPrice(data.price)
       setLessons(data.videos)
-      if (data.ispin == 0) {
+      if (data.ispin == false) {
         setIsPin(false)
       } else {
         setIsPin(true)
@@ -131,13 +138,16 @@ const UpdateCourse = () => {
             } relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
             <img
-              src={courseImage}
-              className='w-96 rounded-md'
               onClick={() => {
                 setIsOpenImageModal(true)
               }}
+              src={courseImage}
+              className='w-96 rounded-md'
             />
             <label
+              onClick={() => {
+                setIsOpenImageModal(true)
+              }}
               className='p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
               for='user_avatar'
             >
@@ -158,6 +168,9 @@ const UpdateCourse = () => {
                 }}
               />
               <label
+                onClick={() => {
+                  setIsOpenPostermodal(true)
+                }}
                 className='p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
                 for='user_avatar'
               >
@@ -292,7 +305,7 @@ const UpdateCourse = () => {
             </label>
           </div>
           {/* C O U R S E  - C O L O R S */}
-          {isFree == 'pricy' && (
+          {isFree == 'pricy' && isPin == true && (
             <div className='grid  col-span-12 sm:col-span-5'>
               <p className='col-span-12'>رنگ خود را انتخاب کنید</p>
               {colors.map((item) => (

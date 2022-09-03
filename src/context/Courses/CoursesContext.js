@@ -138,6 +138,9 @@ export const CourseContextProvider = ({ children }) => {
     CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, '')
 
     CoursePoster = coursePoster.replace(`${config.HttpBaseUrl}/storage/`, '')
+    if (coursePoster.includes('/static/media/UF_Infinity_khayati') == true) {
+      CoursePoster = ''
+    }
     getLesson.map((item) => {
       GetLesson.push({
         id: item.id,
@@ -156,7 +159,7 @@ export const CourseContextProvider = ({ children }) => {
       gradient: color,
       img: CourseImage,
 
-      poster: coursePoster,
+      poster: CoursePoster,
       videos: JSON.stringify(GetLesson),
       name,
       teacher: 'مقدم جو',
@@ -172,7 +175,9 @@ export const CourseContextProvider = ({ children }) => {
   }
   const handleEdit = (singleId) => {
     CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, '')
-
+    if (coursePoster.includes('/static/media/UF_Infinity_khayati') == true) {
+      CoursePoster = ''
+    }
     CoursePoster = coursePoster.replace(`${config.HttpBaseUrl}/storage/`, '')
     getLesson.map((item) => {
       GetLesson.push({
