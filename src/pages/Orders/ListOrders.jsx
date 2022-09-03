@@ -73,39 +73,22 @@ const ListOrders = (props) => {
         <tbody className='bg-background2-light dark:bg-background2-dark '>
           {loading ? (
             <>
-              <tr>
-                <td className='w-3/4 py-2 px-2'>
-                  <Skeleton />
-                </td>
-                <td className=' py-2 px-2'>
-                  <Skeleton />
-                </td>
-                <td className=' py-2 px-2'>
-                  <Skeleton />
-                </td>
-              </tr>
-              <tr>
-                <td className='w-3/4 py-2 px-2'>
-                  <Skeleton />
-                </td>
-                <td className=' py-2 px-2'>
-                  <Skeleton />
-                </td>
-                <td className=' py-2 px-2'>
-                  <Skeleton />
-                </td>
-              </tr>
-              <tr>
-                <td className='w-3/4 py-2 px-2'>
-                  <Skeleton />
-                </td>
-                <td className=' py-2 px-2'>
-                  <Skeleton />
-                </td>
-                <td className=' py-2 px-2'>
-                  <Skeleton />
-                </td>
-              </tr>
+              {[...Array(5)].map((i) => (
+                <tr>
+                  <td className='w-3/4 py-2 px-2'>
+                    <Skeleton />
+                  </td>
+                  <td className='w-3/4 py-2 px-2'>
+                    <Skeleton />
+                  </td>
+                  <td className=' py-2 px-2'>
+                    <Skeleton />
+                  </td>
+                  <td className=' py-2 px-2'>
+                    <Skeleton />
+                  </td>
+                </tr>
+              ))}
             </>
           ) : (
             listOrders

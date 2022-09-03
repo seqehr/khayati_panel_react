@@ -4,6 +4,7 @@ import DashboardBox from '../DashboardBox'
 import { HiShoppingCart } from 'react-icons/hi'
 // hooks
 import useDashboard from '../../../hooks/useDashboard'
+import { Link } from 'react-router-dom'
 const Orders = () => {
   const { data } = useDashboard()
   return (
@@ -28,13 +29,14 @@ const Orders = () => {
         {data.orders > 1 && (
           <p className='mt-3 mr-1 dark:text-white'>
             لطفا سریعتر{' '}
-            <span
+            <Link
+              to={'/orders'}
               className={`${
                 data.orders > 1 && 'animate-pulse'
               } text-bitcoin-light font-bold cursor-pointer drop-shadow-sm`}
             >
               رسیدگی
-            </span>{' '}
+            </Link>{' '}
             کنید
           </p>
         )}
