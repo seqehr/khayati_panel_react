@@ -277,7 +277,7 @@ const AddCourse = (props) => {
               {colors.map((item) => (
                 <div className='relative   z-0 w-20 mb-6 group'>
                   <div
-                    onClick={() => setColor(item.name)}
+                    onClick={() => setColor(item.color)}
                     style={{ background: `${item.color}` }}
                     className={`border-2  rounded-xl py-2 text-white  cursor-pointer shadow-sm text-center mt-1 ${
                       color == item.name && `border-gray-light shadow-lg`
