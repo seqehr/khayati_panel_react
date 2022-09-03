@@ -8,6 +8,8 @@ import {
   CatListService,
   CreateProductCatService,
 } from '../../../services/ProductServices'
+//services
+import config from '../../../services/config.json'
 
 const ProductsCategoriesContext = React.createContext()
 export function ProductsCategoriesContextProvider({ children }) {
@@ -22,12 +24,13 @@ export function ProductsCategoriesContextProvider({ children }) {
     children: [],
   })
   const handleSubmit = () => {
+    const Image = img.replace(`${config.HttpBaseUrl}/storage/`, '')
     const data = {
       name,
       parent_id: checked,
-      img,
+      img: Image,
     }
-    if (name == '' || checked == 0) {
+    if (name == '' || checked == 0 || img == ArticleImageDefault) {
       toast.warn('اطلاعات ناقص است')
     } else {
       // fetch categories list again after create new category

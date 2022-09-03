@@ -39,7 +39,7 @@ export function LoginContextProvider({ children }) {
 
   // ————— T I M E R —————
   const timer = (timeLeft) => {
-    let sec = 60
+    let sec = 300
 
     if (timeLeft !== undefined) {
       sec = timeLeft
