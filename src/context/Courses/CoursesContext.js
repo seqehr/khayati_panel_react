@@ -149,7 +149,7 @@ export const CourseContextProvider = ({ children }) => {
     })
     const data = {
       excerpt,
-      price: isFree && '0',
+      price: isFree == 'free' ? '0' : price,
       description,
       type: isFree,
       ispin: isPin,
@@ -185,7 +185,7 @@ export const CourseContextProvider = ({ children }) => {
     })
     const data = {
       excerpt,
-      price: isFree && '0',
+      price: isFree == 'free' ? '0' : price,
       description,
       type: isFree,
 

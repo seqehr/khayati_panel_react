@@ -26,12 +26,11 @@ export function ProductsContextProvider({ children }) {
 
   const [price, setPrice] = useState('')
   const [productImage, setProductImage] = useState(ArticleImageDefault)
-  const [catId, setCatId] = useState(1)
   const [description, setDescription] = useState('<p></p>')
   const [name, setName] = useState('')
   const [ProductImages, setProductImages] = useState([])
   //categories states
-  const { catlist, setCatlist } = useProductsCategories()
+  const { catlist, setCatlist, checked, setChecked } = useProductsCategories()
   const [refresh, setRefresh] = useState(false)
 
   //galery
@@ -48,7 +47,7 @@ export function ProductsContextProvider({ children }) {
       formatedProductImage.includes('/static/media/UF_Infinity_khayati') !==
       true
     ) {
-      if (catId !== 0) {
+      if (checked !== 0) {
         if (description !== '') {
           if (name !== '') {
             if (price !== '') {
@@ -81,7 +80,7 @@ export function ProductsContextProvider({ children }) {
     })
     const data = {
       name,
-      cat_id: catId,
+      cat_id: checked,
       img: formatedProductImage,
       content: description,
       price,
@@ -109,7 +108,7 @@ export function ProductsContextProvider({ children }) {
     })
     const data = {
       name,
-      cat_id: catId,
+      cat_id: checked,
       img: formatedProductImage,
       content: description,
       price,
@@ -155,8 +154,8 @@ export function ProductsContextProvider({ children }) {
         setPrice,
         productImage,
         setProductImage,
-        catId,
-        setCatId,
+        checked,
+
         description,
         setDescription,
         name,

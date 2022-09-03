@@ -35,12 +35,14 @@ export function MusicContextProvider({ children }) {
 
     const data = {
       name: name,
-      url: url,
+      url: Url,
     }
     if (validator() == true) {
       AddAMusicService(token, data).then((res) => {
         if (res.status == 200) {
           toast.success('موزیک با موفقیت ثبت شد')
+
+          console.log(`${config.HttpBaseUrl}/storage/`)
           navigate('/musics')
         }
       })
@@ -52,7 +54,7 @@ export function MusicContextProvider({ children }) {
 
     const data = {
       name: name,
-      url: url,
+      url: Url,
     }
     if (validator() == true) {
       EditMusicService(token, data, singleId).then((res) => {

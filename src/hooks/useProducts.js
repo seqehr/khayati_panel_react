@@ -15,7 +15,7 @@ const useProducts = (props) => {
     productImage,
     setProductImage,
     catId,
-    setCatId,
+
     description,
     setDescription,
     name,
@@ -42,7 +42,7 @@ const useProducts = (props) => {
     productImage,
     setProductImage,
     catId,
-    setCatId,
+
     description,
     setDescription,
     name,
