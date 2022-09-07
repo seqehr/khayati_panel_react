@@ -70,7 +70,7 @@ export const CourseContextProvider = ({ children }) => {
     let showPosterError = true
 
     // Course Poster validation
-    if (isPin) {
+    if (isPin == 0) {
       if (CoursePoster.includes('/static/media/UF_Infinity_khayati') == true) {
       } else {
         showPosterError = false

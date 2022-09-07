@@ -280,7 +280,7 @@ const AddCourse = (props) => {
                     onClick={() => setColor(item.color)}
                     style={{ background: `${item.color}` }}
                     className={`border-2  rounded-xl py-2 text-white  cursor-pointer shadow-sm text-center mt-1 ${
-                      color == item.name && `border-gray-light shadow-lg`
+                      color == item.color && `border-gray-light shadow-lg`
                     } `}
                   >
                     {`${item.name}`}

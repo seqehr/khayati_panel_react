@@ -35,8 +35,13 @@ const ItemDetails = ({ getImage, details, pageMode, setIsOpenModal }) => {
   }
   return (
     <div className='mt-5'>
-      <p className='my-2  bg-background-light p-2 rounded-lg dark:text-white dark:bg-background-dark'>
-        نام فایل : <span dir='ltr'>{details.name}</span>
+      <p
+        className={`my-2 ${styles.myLink}  overflow-auto bg-background-light p-2 rounded-lg dark:text-white dark:bg-background-dark`}
+      >
+        نام فایل :{' '}
+        <span dir='ltr' className='text-left'>
+          {details.name}
+        </span>
       </p>
       <p className='my-2 bg-background-light p-2 rounded-lg dark:text-white dark:bg-background-dark'>
         نوع فایل :{' '}

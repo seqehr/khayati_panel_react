@@ -53,3 +53,6 @@
   background-color: var(--active-bg);
   background-position: calc(var(--size) / 1.75) 0;
 }
+.nameFile {
+  word-break: break-all !important;
+}
