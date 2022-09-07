@@ -56,20 +56,21 @@ const Sidebar = (props) => {
 
   const listItem = [
     {
-      title: 'کتاب ها',
-      icon: <AiOutlineBook />,
-      state: books,
+      title: 'کاربران',
+      icon: <RiUserSettingsLine />,
+      state: members,
       setState: () => {
-        setBooks(!books)
+        setMembers(!members)
       },
       subMenu: [
         {
-          title: 'لیست کتاب ها',
-          to: '/books',
+          title: 'لیست  کاربران',
+          to: '/members',
         },
+
         {
-          title: 'افزودن کتاب',
-          to: '/book/add',
+          title: ' افزودن حساب کاربری',
+          to: '/member/add',
         },
       ],
     },
@@ -114,57 +115,6 @@ const Sidebar = (props) => {
       ],
     },
     {
-      title: 'موزیک ها',
-      icon: <FiMusic />,
-      state: music,
-      setState: () => {
-        setMusic(!music)
-      },
-      subMenu: [
-        {
-          title: 'لیست موزیک ها',
-          to: '/musics',
-        },
-        {
-          title: 'افزودن موزیک',
-          to: '/music/add',
-        },
-      ],
-    },
-    {
-      title: 'کاربران',
-      icon: <RiUserSettingsLine />,
-      state: members,
-      setState: () => {
-        setMembers(!members)
-      },
-      subMenu: [
-        {
-          title: 'لیست  کاربران',
-          to: '/members',
-        },
-
-        {
-          title: ' افزودن حساب کاربری',
-          to: '/member/add',
-        },
-      ],
-    },
-    {
-      title: 'تراکنش ها',
-      icon: <BiTransfer />,
-      state: transactions,
-      setState: () => {
-        setTransactions(!transactions)
-      },
-      subMenu: [
-        {
-          title: 'لیست  تراکنش ها',
-          to: '/transactions',
-        },
-      ],
-    },
-    {
       title: 'مقالات',
       icon: <MdOutlinePostAdd />,
       state: articles,
@@ -187,6 +137,56 @@ const Sidebar = (props) => {
         {
           title: 'افزودن دسته بندی   ',
           to: '/article/category/add',
+        },
+      ],
+    },
+    {
+      title: 'کتاب ها',
+      icon: <AiOutlineBook />,
+      state: books,
+      setState: () => {
+        setBooks(!books)
+      },
+      subMenu: [
+        {
+          title: 'لیست کتاب ها',
+          to: '/books',
+        },
+        {
+          title: 'افزودن کتاب',
+          to: '/book/add',
+        },
+      ],
+    },
+    {
+      title: 'موزیک ها',
+      icon: <FiMusic />,
+      state: music,
+      setState: () => {
+        setMusic(!music)
+      },
+      subMenu: [
+        {
+          title: 'لیست موزیک ها',
+          to: '/musics',
+        },
+        {
+          title: 'افزودن موزیک',
+          to: '/music/add',
+        },
+      ],
+    },
+    {
+      title: 'تراکنش ها',
+      icon: <BiTransfer />,
+      state: transactions,
+      setState: () => {
+        setTransactions(!transactions)
+      },
+      subMenu: [
+        {
+          title: 'لیست  تراکنش ها',
+          to: '/transactions',
         },
       ],
     },
