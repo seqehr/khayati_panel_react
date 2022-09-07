@@ -43,45 +43,46 @@ const UploadBox = () => {
   const uploadHandler = (file) => {
     if (checked == null) {
       return toast.warn(' ابتدا پوشه را انتخاب کنید')
-    }
-    let resumable = new Resumable({
-      target: `${config.baseUrl}/api/upload/new`,
-      query: { dir_id: checked },
-      fileType: ['mp4', 'jpg', 'png', 'mp3', 'zip', 'rar', 'pdf'],
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
-      },
-      testChunks: false,
-      throttleProgressCallbacks: 1,
-    })
-    resumable.addFile(file)
-    console.log(file)
-    resumable.on('fileAdded', function (file) {
-      resumable.upload() // to actually start uploading.
-    })
-
-    resumable.on('fileProgress', function (file) {
-      // trigger when file progress update
-      updateProgress(Math.floor(file.progress() * 100))
-    })
-
-    resumable.on('fileSuccess', function (file, response) {
-      toast.success('با موفقیت اپلود شد')
-      Directories(token, { dir: 'uploads ' }).then((res) => {
-        const directories = { ...dirlist }
-        directories.children = res.data.data
-        setDirlist(directories)
+    } else {
+      let resumable = new Resumable({
+        target: `${config.baseUrl}/api/upload/new`,
+        query: { dir_id: checked },
+        fileType: ['mp4', 'jpg', 'png', 'mp3', 'zip', 'rar', 'pdf'],
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+        },
+        testChunks: false,
+        throttleProgressCallbacks: 1,
       })
-    })
+      resumable.addFile(file)
+      console.log(file)
+      resumable.on('fileAdded', function (file) {
+        resumable.upload() // to actually start uploading.
+      })
 
-    resumable.on('fileError', function (file, response) {
-      // trigger when there is any error
-      toast.error('مشکلی به وجود امده')
-    })
+      resumable.on('fileProgress', function (file) {
+        // trigger when file progress update
+        updateProgress(Math.floor(file.progress() * 100))
+      })
 
-    function updateProgress(value) {
-      setProgress(value)
+      resumable.on('fileSuccess', function (file, response) {
+        toast.success('با موفقیت اپلود شد')
+        Directories(token, { dir: 'uploads ' }).then((res) => {
+          const directories = { ...dirlist }
+          directories.children = res.data.data
+          setDirlist(directories)
+        })
+      })
+
+      resumable.on('fileError', function (file, response) {
+        // trigger when there is any error
+        toast.error('مشکلی به وجود امده')
+      })
+
+      function updateProgress(value) {
+        setProgress(value)
+      }
     }
   }
   return (
@@ -95,13 +96,24 @@ const UploadBox = () => {
             <FiUploadCloud />
           </span>
           <input
+            disabled={checked == null ? true : false}
             type='file'
-            className='absolute w-full h-full opacity-0 cursor-pointer'
+            className={`${
+              checked !== null && 'z-50'
+            } absolute w-full h-full opacity-0  cursor-pointer`}
             onChange={(e) => {
               setFile(e.target.files[0])
               uploadHandler(e.target.files[0])
             }}
           />
+          <div
+            className='absolute w-full h-full  opacity-0 cursor-pointer'
+            onClick={() => {
+              if (checked == null) {
+                toast.warn(' ابتدا پوشه را انتخاب کنید')
+              }
+            }}
+          ></div>
           فایلتان رااز اینجا انتخاب کنید
         </button>
       </div>
