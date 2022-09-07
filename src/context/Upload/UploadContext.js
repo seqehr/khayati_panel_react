@@ -34,13 +34,6 @@ export const UploadContextProvider = ({ children }) => {
     files: [],
   })
 
-  useEffect(() => {
-    Directories(token, { dir: 'uploads ' }).then((res) => {
-      const directories = { ...dirlist }
-      directories.children = res.data.data
-      setDirlist(directories)
-    })
-  }, [])
   let data = {}
   const serchHandler = (name) => {
     if (serchWord == '') {

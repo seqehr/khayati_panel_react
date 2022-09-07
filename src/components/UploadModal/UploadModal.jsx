@@ -15,12 +15,13 @@ import ItemDetails from './SideBar/ItemDetails'
 import ListItems from './ListItems'
 //services
 import { UploadedFiles } from '../../services/ProductServices'
+import { Directories } from '../../services/UploadServices'
 //hooks
 import useToken from '../../hooks/useToken'
 import useUpload from '../../hooks/useUpload'
 
 const UploadModal = ({ setIsOpenModal, getImage, pageMode }) => {
-  const { setFiles, files } = useUpload()
+  const { setFiles, files, dirlist, setDirlist } = useUpload()
   const { token } = useToken()
   const [loading, setLoading] = useState(true)
   //paginattion
@@ -38,7 +39,13 @@ const UploadModal = ({ setIsOpenModal, getImage, pageMode }) => {
   const [itemId, setItemId] = useState('')
 
   const { filter, setFilter } = useUpload()
+
   useEffect(() => {
+    Directories(token, { dir: 'uploads ' }).then((res) => {
+      const directories = { ...dirlist }
+      directories.children = res.data.data
+      setDirlist(directories)
+    })
     // get uploaded files
     UploadedFiles(token).then((res) => {
       setFiles(res.data.data)

@@ -92,7 +92,7 @@ const AddCourse = (props) => {
     setCoursePoster(CourseImageDefault)
     setPrice('')
     setLessons([])
-    setIsPin(false)
+    setIsPin(0)
     setIsFree('pricy')
     setExcerpt('')
     setPreview(PreviewDefaultImage)
@@ -197,7 +197,7 @@ const AddCourse = (props) => {
               }}
             />
           </div>
-          {/* C O U R S E  - C H E K B I X E S */}
+          {/* C O U R S E  - C H E K B O X E S */}
           <div className='relative col-span-12 sm:col-span-3  z-0 w-full  mb-6 group'>
             <div className='flex '>
               <div>
@@ -206,10 +206,18 @@ const AddCourse = (props) => {
                     autoComplete='off'
                     className='form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white '
                     type='checkbox'
-                    checked={isPin}
+                    checked={isPin == 1}
                     id='ispin'
                     onClick={() => {
-                      setIsPin(!isPin)
+                      if (isFree == 'free') {
+                        toast.warn('دوره رایگان پین نمیشود')
+                      } else {
+                        if (isPin == 0) {
+                          setIsPin(1)
+                        } else {
+                          setIsPin(0)
+                        }
+                      }
                     }}
                   />
                   <label
@@ -229,6 +237,7 @@ const AddCourse = (props) => {
                     onClick={() => {
                       if (isFree == 'pricy') {
                         setIsFree('free')
+                        setIsPin(0)
                       } else {
                         setIsFree('pricy')
                       }

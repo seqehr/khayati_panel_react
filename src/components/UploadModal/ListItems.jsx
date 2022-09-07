@@ -115,15 +115,25 @@ const ListItems = ({
                       })
                     }
                   >
-                    <img
-                      src={
-                        item.name.split('.').pop() == 'jpg' ||
-                        item.name.split('.').pop() == 'png'
-                          ? item.url
-                          : defaulImagMedia
-                      }
-                      className={` p-2 hover:p-1  ease-in-out duration-500 cursor-pointer shadow-lg rounded-lg  `}
-                    />
+                    <div className='flex flex-col p-2 hover:p-1  ease-in-out duration-500 cursor-pointer shadow-lg rounded-lg '>
+                      {' '}
+                      <img
+                        src={
+                          item.name.split('.').pop() == 'jpg' ||
+                          item.name.split('.').pop() == 'png'
+                            ? item.url
+                            : defaulImagMedia
+                        }
+                        className={` `}
+                      />
+                      <p
+                        dir='ltr'
+                        className={`${styles.nameFile} text-center `}
+                      >
+                        {item.name.slice(0, 19)}{' '}
+                        {item.name.length > 19 && '...'}
+                      </p>
+                    </div>
                   </div>
                 </div>
               ))

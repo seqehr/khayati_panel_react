@@ -36,7 +36,7 @@ export const CourseContextProvider = ({ children }) => {
   const [preview, setPreview] = useState(PreviewDefaultImage)
   const [coursePoster, setCoursePoster] = useState(CourseImageDefault)
   const [color, setColor] = useState('')
-  const [isPin, setIsPin] = useState(false)
+  const [isPin, setIsPin] = useState(0)
   const [isFree, setIsFree] = useState('pricy')
   const [description, setDescription] = useState('<p></p>')
   const [price, setPrice] = useState('')
@@ -70,10 +70,15 @@ export const CourseContextProvider = ({ children }) => {
     let showPosterError = true
 
     // Course Poster validation
-    if (isPin == 0) {
-      if (CoursePoster.includes('/static/media/UF_Infinity_khayati') == true) {
+    console.log(CourseImage)
+    console.log(CoursePoster)
+    if (isPin == 1) {
+      if (CoursePoster.includes('/static/media/UF_Infinity_khayati') !== true) {
+        console.log('n')
+        console.log(CoursePoster)
       } else {
         showPosterError = false
+        console.log('d')
       }
     } else {
       showPosterError = false
@@ -107,15 +112,15 @@ export const CourseContextProvider = ({ children }) => {
               if (excerpt !== '') {
                 if (description !== '') {
                   if (showPosterError !== true) {
-                    return true
+                    toast.warn('لطفا توضیحات  را بنویسید')
                   } else {
                     toast.warn('لطفا پوستر دوره را انتخاب کنید')
                   }
                 } else {
-                  toast.success('لطفا توضیحات  را بنویسید')
+                  toast.warn('لطفا توضیحات  را بنویسید')
                 }
               } else {
-                toast.success('لطفا توضیحات کوتاه را بنویسید')
+                toast.warn('لطفا توضیحات کوتاه را بنویسید')
               }
             } else {
               toast.warn('باید حداقل یک درس ایجاد کنید')
@@ -155,7 +160,7 @@ export const CourseContextProvider = ({ children }) => {
       price: isFree == 'free' ? '0' : price,
       description,
       type: isFree,
-      ispin: isPin,
+      ispin: isPin == 0 ? false : true,
       gradient: color,
       img: CourseImage,
 
