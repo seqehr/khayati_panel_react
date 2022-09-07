@@ -105,7 +105,7 @@ const AddCourse = (props) => {
           {/* C O U R S E - I M A G E */}
           <div
             className={` ${
-              isPin ? 'col-span-6' : 'col-span-12'
+              isPin == 1 ? 'col-span-6' : 'col-span-12'
             } relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
             <img
@@ -280,7 +280,7 @@ const AddCourse = (props) => {
           </div>
 
           {/* C O U R S E  - C O L O R S */}
-          {isFree == 'pricy' && isPin == true && (
+          {isFree == 'pricy' && isPin == 1 && (
             <div className='grid  col-span-12 sm:col-span-5 '>
               <p className='col-span-12'>رنگ خود را انتخاب کنید</p>
               {colors.map((item) => (

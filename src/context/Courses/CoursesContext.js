@@ -70,15 +70,11 @@ export const CourseContextProvider = ({ children }) => {
     let showPosterError = true
 
     // Course Poster validation
-    console.log(CourseImage)
-    console.log(CoursePoster)
+
     if (isPin == 1) {
       if (CoursePoster.includes('/static/media/UF_Infinity_khayati') !== true) {
-        console.log('n')
-        console.log(CoursePoster)
-      } else {
         showPosterError = false
-        console.log('d')
+      } else {
       }
     } else {
       showPosterError = false
@@ -112,7 +108,7 @@ export const CourseContextProvider = ({ children }) => {
               if (excerpt !== '') {
                 if (description !== '') {
                   if (showPosterError !== true) {
-                    toast.warn('لطفا توضیحات  را بنویسید')
+                    return true
                   } else {
                     toast.warn('لطفا پوستر دوره را انتخاب کنید')
                   }
@@ -143,9 +139,7 @@ export const CourseContextProvider = ({ children }) => {
     CourseImage = courseImage.replace(`${config.HttpBaseUrl}/storage/`, '')
 
     CoursePoster = coursePoster.replace(`${config.HttpBaseUrl}/storage/`, '')
-    if (coursePoster.includes('/static/media/UF_Infinity_khayati') == true) {
-      CoursePoster = ''
-    }
+
     getLesson.map((item) => {
       GetLesson.push({
         id: item.id,

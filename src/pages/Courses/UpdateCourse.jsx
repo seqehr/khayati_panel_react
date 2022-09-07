@@ -99,8 +99,8 @@ const UpdateCourse = () => {
     setCoursePoster('')
     setPrice(0)
     setLessons([])
-    setIsPin(false)
-    setIsFree(false)
+    setIsPin(0)
+    setIsFree('free')
     setExcerpt('')
     setPreview(PreviewDefaultImage)
 
@@ -134,20 +134,17 @@ const UpdateCourse = () => {
           {/* C O U R S E - I M A G E */}
           <div
             className={` ${
-              isPin ? 'col-span-6' : 'col-span-12'
+              isPin == 1 ? 'col-span-6' : 'col-span-12'
             } relative  flex justify-center flex-col items-center z-0 w-full mb-6 group`}
           >
             <img
-              onClick={() => {
-                setIsOpenImageModal(true)
-              }}
               src={courseImage}
               className='w-96 rounded-md'
-            />
-            <label
               onClick={() => {
                 setIsOpenImageModal(true)
               }}
+            />
+            <label
               className='p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
               for='user_avatar'
             >
@@ -168,9 +165,6 @@ const UpdateCourse = () => {
                 }}
               />
               <label
-                onClick={() => {
-                  setIsOpenPostermodal(true)
-                }}
                 className='p-5 text-black cursor-pointer dark:text-white block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'
                 for='user_avatar'
               >
@@ -182,12 +176,12 @@ const UpdateCourse = () => {
           <div className='relative col-span-3 z-0 w-full mb-6 group'>
             <input
               autoComplete='off'
+              value={name}
               type='text'
               name='courseName'
               className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
               placeholder=' '
               required=''
-              value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <label
@@ -201,9 +195,9 @@ const UpdateCourse = () => {
           <div className='relative col-span-9 z-0 w-full mb-6 group'>
             <input
               autoComplete='off'
+              value={excerpt}
               type='text'
               name='excrept'
-              value={excerpt}
               onChange={(e) => setExcerpt(e.target.value)}
               id='excrept'
               className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
@@ -224,26 +218,35 @@ const UpdateCourse = () => {
               editor={ClassicEditor}
               className={`text-right right-0`}
               data={description}
+              // this will we change  =>  {data} has html
+
               onChange={(event, editor) => {
                 const data = editor.getData()
                 setDescription(data)
               }}
             />
           </div>
-
-          {/* C O U R S E  - C H E K B I X E S */}
-          <div className='relative col-span-12 sm:col-span-3 z-0 w-full mb-6 group'>
-            <div className='flex'>
+          {/* C O U R S E  - C H E K B O X E S */}
+          <div className='relative col-span-12 sm:col-span-3  z-0 w-full  mb-6 group'>
+            <div className='flex '>
               <div>
                 <div>
                   <input
                     autoComplete='off'
                     className='form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white '
                     type='checkbox'
+                    checked={isPin == 1}
                     id='ispin'
-                    checked={isPin}
                     onClick={() => {
-                      setIsPin(!isPin)
+                      if (isFree == 'free') {
+                        toast.warn('دوره رایگان پین نمیشود')
+                      } else {
+                        if (isPin == 0) {
+                          setIsPin(1)
+                        } else {
+                          setIsPin(0)
+                        }
+                      }
                     }}
                   />
                   <label
@@ -258,12 +261,12 @@ const UpdateCourse = () => {
                     autoComplete='off'
                     className='form-check-input  h-4 w-4 border border-gray-300 rounded-sm bg-white '
                     type='checkbox'
-                    value={isFree}
+                    checked={isFree == 'free'}
                     id='isfre'
-                    checked={isFree == 'free' && true}
                     onClick={() => {
                       if (isFree == 'pricy') {
                         setIsFree('free')
+                        setIsPin(0)
                       } else {
                         setIsFree('pricy')
                       }
@@ -304,9 +307,10 @@ const UpdateCourse = () => {
               {`قیمت ثبت نام در دوره`}
             </label>
           </div>
+
           {/* C O U R S E  - C O L O R S */}
-          {isFree == 'pricy' && isPin == true && (
-            <div className='grid  col-span-12 sm:col-span-5'>
+          {isFree == 'pricy' && isPin == 1 && (
+            <div className='grid  col-span-12 sm:col-span-5 '>
               <p className='col-span-12'>رنگ خود را انتخاب کنید</p>
               {colors.map((item) => (
                 <div className='relative   z-0 w-20 mb-6 group'>
