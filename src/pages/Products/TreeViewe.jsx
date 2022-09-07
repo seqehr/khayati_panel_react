@@ -59,7 +59,7 @@ const TreeView = ({ explorer, showRoot }) => {
       <div className={` pb-1 `}>
         {explorer.root !== true ? (
           <>
-            {showRoot == true && (
+            {showRoot == true ? (
               <button
                 onClick={() => deleteHandler(explorer.id)}
                 className='ml-2 shadow-md cursor-pointer text-red-light dark:text-red-dark '
@@ -67,15 +67,16 @@ const TreeView = ({ explorer, showRoot }) => {
               >
                 <RiDeleteBin6Line />
               </button>
+            ) : (
+              <input
+                checked={checked == explorer.id}
+                onClick={() => {
+                  setChecked(explorer.id == checked ? 0 : explorer.id)
+                }}
+                className='ml-2 shadow-md cursor-pointer '
+                type={'checkbox'}
+              />
             )}
-            <input
-              checked={checked == explorer.id}
-              onClick={() => {
-                setChecked(explorer.id == checked ? 0 : explorer.id)
-              }}
-              className='ml-2 shadow-md cursor-pointer '
-              type={'checkbox'}
-            />
           </>
         ) : (
           showRoot == true && (
@@ -123,17 +124,19 @@ const TreeView = ({ explorer, showRoot }) => {
           )}
         </span>
         {explorer.children.length !== 0 ? (
-          expand ? (
+          explorer.root == true &&
+          (expand ? (
             <BsChevronDown className='inline mr-1 text-xs  text-black dark:text-white' />
           ) : (
             <BsChevronLeft className='inline mr-1 text-xs  text-black dark:text-white' />
-          )
+          ))
         ) : (
           <></>
         )}
 
         <br />
-        <div style={{ display: expand ? 'block' : 'none', paddingRight: 15 }}>
+        {/* TreeView Are Not Active */}
+        {/*<div style={{ display: expand ? 'block' : 'none', paddingRight: 15 }}>
           {explorer.children.map((explore) => (
             <TreeView
               showRoot={showRoot}
@@ -141,6 +144,18 @@ const TreeView = ({ explorer, showRoot }) => {
               explorer={explore}
             />
           ))}
+        </div>*/}
+        <div style={{ display: expand ? 'block' : 'none', paddingRight: 15 }}>
+          {explorer.children.map(
+            (explore) =>
+              explorer.root == true && (
+                <TreeView
+                  showRoot={showRoot}
+                  key={explore.name}
+                  explorer={explore}
+                />
+              )
+          )}
         </div>
       </div>
     </div>
