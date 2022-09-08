@@ -115,7 +115,6 @@ const ListMembers = (props) => {
             </>
           ) : (
             [...listMembers]
-              .slice(page * perpage, page * perpage + perpage)
               .sort((x, y) => {
                 if (sort == 'ASC') {
                   return (
@@ -124,6 +123,8 @@ const ListMembers = (props) => {
                   )
                 }
               })
+              .slice(page * perpage, page * perpage + perpage)
+
               .map((item, i) => (
                 <TableRow
                   key={i}
