@@ -10,6 +10,7 @@ import {
   AiOutlineCopyrightCircle,
   AiOutlineLeftCircle,
   AiOutlineRightCircle,
+  AiOutlineSortDescending,
 } from 'react-icons/ai'
 //hooks
 import useToken from '../../hooks/useToken'
@@ -17,6 +18,7 @@ import useToken from '../../hooks/useToken'
 //images
 import noResultImage from '../../assets/images/no-result.gif'
 import { data } from 'jquery'
+import { BiSortDown } from 'react-icons/bi'
 
 const ListMembers = (props) => {
   const { token } = useToken()
@@ -25,6 +27,8 @@ const ListMembers = (props) => {
   const [perpage, setPerpage] = useState(10)
   const [page, setPage] = useState(0)
   const [totalPages, settotalPages] = useState(0)
+
+  const [sort, setSort] = useState('ASC')
 
   const [loading, setLoading] = useState(true)
 
@@ -50,7 +54,26 @@ const ListMembers = (props) => {
         >
           <th className='px-2 py-2 pr-4'>{`نام کامل`}</th>
           <th>{`شماره تلفن`}</th>
-
+          <th
+            onClick={() => {
+              if (sort == 'ASC') {
+                setSort('DES')
+              } else {
+                setSort('ASC')
+              }
+            }}
+            className='flex  cursor-pointer py-2 items-center'
+          >
+            {`تاریخ عضویت`}{' '}
+            <span>
+              {' '}
+              <BiSortDown
+                className={`${
+                  sort == 'ASC' && 'rotate-180'
+                }  duration-300 ease-in-out text-2xl `}
+              />
+            </span>
+          </th>
           <th></th>
         </thead>
         <tbody className='bg-background2-light dark:bg-background2-dark '>
@@ -91,8 +114,16 @@ const ListMembers = (props) => {
               </tr>
             </>
           ) : (
-            listMembers
+            [...listMembers]
               .slice(page * perpage, page * perpage + perpage)
+              .sort((x, y) => {
+                if (sort == 'ASC') {
+                  return (
+                    Math.floor(new Date(y.created_at).getTime() / 1000) -
+                    Math.floor(new Date(x.created_at).getTime() / 1000)
+                  )
+                }
+              })
               .map((item, i) => (
                 <TableRow
                   key={i}

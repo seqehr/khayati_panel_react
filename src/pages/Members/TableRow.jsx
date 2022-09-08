@@ -1,4 +1,3 @@
-// Icons
 import React, { useEffect, useState } from 'react'
 import { AiFillEye } from 'react-icons/ai'
 import { SiSpringsecurity } from 'react-icons/si'
@@ -6,11 +5,12 @@ import { MdAutorenew } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import useToken from '../../hooks/useToken'
 import { userJustify } from '../../services/MemberServices'
-
+import * as shamsi from 'shamsi-date-converter'
 // css
 import style from './TableRow.module.scss'
 import UserModal from './UserModal'
 import { ListCoursesService } from '../../services/CourseServices'
+// Icons
 import { BsEye } from 'react-icons/bs'
 import { BiEdit } from 'react-icons/bi'
 const TableRow = ({ name, phone, id, key, fullDetails }) => {
@@ -35,6 +35,18 @@ const TableRow = ({ name, phone, id, key, fullDetails }) => {
         <div>
           <div className='flex gap-2 text-sm text-black sm:text-base dark:text-white'>
             <span>{phone}</span>
+          </div>
+        </div>
+      </td>
+      <td className='py-2'>
+        <div>
+          <div className='flex gap-2 text-sm text-black sm:text-base dark:text-white'>
+            <span>
+              {shamsi
+                .gregorianToJalali(fullDetails.created_at)
+                .map((i) => i)
+                .join('/')}
+            </span>
           </div>
         </div>
       </td>
