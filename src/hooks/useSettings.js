@@ -28,6 +28,10 @@ const useSettings = (props) => {
     submitChangesHandler,
     handleCreateImage,
     settings,
+    aboute,
+    setAboute,
+    contact,
+    setContact,
   } = useContext(SettingContext)
   return {
     imagesSlider,
@@ -53,6 +57,10 @@ const useSettings = (props) => {
     deleteImageHandler,
     submitChangesHandler,
     handleCreateImage,
+    aboute,
+    setAboute,
+    contact,
+    setContact,
   }
 }
 

@@ -36,6 +36,8 @@ export function SettingContextProvider({ children }) {
   const [siteTitle, setSiteTitle] = useState('')
   const [siteDes, setSiteDes] = useState('')
   const [siteKeywords, setSiteKeywords] = useState('')
+  const [aboute, setAboute] = useState('')
+  const [contact, setContact] = useState('')
 
   useEffect(() => {
     //get settings data
@@ -43,6 +45,8 @@ export function SettingContextProvider({ children }) {
       setSiteTitle(res.data.data.title)
       setSiteDes(res.data.data.description)
       setSiteKeywords(res.data.data.keywords)
+      setAboute(res.data.data.about)
+      setContact(res.data.data.contact)
     })
 
     //get slider images
@@ -82,6 +86,8 @@ export function SettingContextProvider({ children }) {
       title: siteTitle,
       description: siteDes,
       keywords: siteKeywords,
+      contact,
+      about: aboute,
     }
     if (siteTitle !== '' && siteDes !== '' && siteKeywords !== '') {
       ChangesSettingService(token, data).then((res) => {
@@ -141,6 +147,10 @@ export function SettingContextProvider({ children }) {
         submitChangesHandler,
         handleCreateImage,
         settings,
+        aboute,
+        setAboute,
+        contact,
+        setContact,
       }}
     >
       {children}

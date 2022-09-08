@@ -13,6 +13,8 @@ import style from './Settings.module.scss'
 //icons
 import { BsPlusCircleDotted } from 'react-icons/bs'
 import { BsDashCircleDotted } from 'react-icons/bs'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
 //components
 import Skeleton from 'react-loading-skeleton'
 import TableRow from './TableRow'
@@ -44,6 +46,10 @@ const Settings = () => {
     submitChangesHandler,
     handleCreateImage,
     settings,
+    aboute,
+    setAboute,
+    contact,
+    setContact,
   } = useSettings()
 
   // modal states
@@ -118,6 +124,37 @@ const Settings = () => {
                 {`  کلمات کلیدی (کلمات با کاما ,  از هم جدا شود)`}
               </label>
             </div>
+            {/*  aboute */}
+
+            <div className='relative col-span-12 lg:col-span-6  w-full mb-6 group'>
+              <p className='mb-3'>متن درباره ی ما :</p>
+              <CKEditor
+                editor={ClassicEditor}
+                className={`text-right right-0`}
+                data={aboute}
+                // this will we change  =>  {data} has html
+
+                onChange={(event, editor) => {
+                  const data = editor.getData()
+                  setAboute(data)
+                }}
+              />
+            </div>
+            {/*  contact */}
+            <div className='relative col-span-12 lg:col-span-6 z-0 w-full mb-6 group'>
+              <p className='mb-3'>متن ارتباط با ما :</p>
+              <CKEditor
+                editor={ClassicEditor}
+                className={`text-right right-0`}
+                data={contact}
+                // this will we change  =>  {data} has html
+
+                onChange={(event, editor) => {
+                  const data = editor.getData()
+                  setContact(data)
+                }}
+              />
+            </div>
             {/* submit btn */}
             <button
               onClick={(e) => {
@@ -136,61 +173,6 @@ const Settings = () => {
       <div className='bg-white dark:bg-background2-dark p-10 shadow-md rounded-xl container'>
         <form>
           <div className='grid grid-cols-12 xl:gap-6 gap-4'>
-            {/* Slider setting*/}
-            <div className='relative col-span-12 lg:mx-52 z-0  mb-6 group'>
-              <Slider {...settings}>
-                {loading ? (
-                  <>
-                    <div className='h-52'>
-                      <Skeleton className='h-full' />
-                    </div>
-                    <div className='h-10 mt-3'>
-                      <Skeleton className='h-full' />
-                    </div>
-                  </>
-                ) : imagesSlider.length !== 0 ? (
-                  imagesSlider.map((item) => (
-                    <div className=' flex flex-row'>
-                      <img
-                        src={item.img}
-                        alt={item.name}
-                        className='  rounded-t-md w-full'
-                      />
-
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault()
-                        }}
-                        className='text-white items-center -mt-10 drop-shadow-md  mb-5  z-[9999] m-auto  text-sm flex justify-center  text-center '
-                      >
-                        <span
-                          onClick={() => deleteImageHandler(item.id)}
-                          className='flex  bg-bitcoin-light ring-2 ring-bitcoin-light hover:bg-background-light hover:text-black ease-in-out duration-200  focus:outline-none  font-medium rounded-lg   px-5 py-1 '
-                        >
-                          <span className='text-xl ml-2'>
-                            {' '}
-                            <BsDashCircleDotted className='mr-3' />{' '}
-                          </span>
-                          حذف این عکس از اسلایدر
-                        </span>
-                      </button>
-                    </div>
-                  ))
-                ) : (
-                  <div className=' flex flex-row justify-center items-center text-center'>
-                    <img
-                      src={defaultImage}
-                      alt={'default'}
-                      className='  rounded-t-md w-96 mx-auto'
-                    />
-                    <p className='-mt-10 text-bitcoin-dark animate-pulse'>
-                      عکس های اسلایدر خالی است
-                    </p>
-                  </div>
-                )}
-              </Slider>
-            </div>
-
             <div className=' grid grid-cols-12 col-span-12 h-10 gap-4'>
               <input
                 autoComplete='off'
@@ -239,6 +221,26 @@ const Settings = () => {
                   افزودن تصویر
                 </span>
               </button>
+            </div>
+            {/* Slider setting*/}
+            <div
+              dir='rtl'
+              className='relative col-span-12 z-0  mb-6 group grid gap-7 grid-cols-12'
+            >
+              {imagesSlider.map((i) => (
+                <div className='col-span-4 flex flex-col'>
+                  <img src={i.img} title={i.name} className='rounded-t-3xl' />
+                  <span className='text-right block w-full p-2 bg-background-light break-all'>
+                    ادرس عکس : {i.url}
+                  </span>
+                  <p
+                    onClick={() => deleteImageHandler(i.id)}
+                    className='rounded-b-3xl w-full p-2 shadow-lg drop-shadow-lg cursor-pointer bg-bitcoin-light text-center text-white'
+                  >
+                    حذف عکس
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </form>
