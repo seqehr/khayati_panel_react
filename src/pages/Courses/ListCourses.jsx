@@ -29,6 +29,7 @@ const ListCourses = (props) => {
   const [perpage, setPerpage] = useState(10)
   const [page, setPage] = useState(0)
   const [totalPages, settotalPages] = useState(0)
+  const [showPaginationDots, setShowPaginationDots] = useState(true)
 
   useEffect(() => {
     // get courses
@@ -144,11 +145,12 @@ const ListCourses = (props) => {
 
       {/*________ Pagination buttons __________*/}
       {totalPages !== 0 && (
-        <div className='p-4 justify-center flex w-full'>
+        <div className='p-4 justify-center flex w-full col-span-12'>
           <button
             disabled={page == 0 || totalPages == 0}
             onClick={() => {
               setPage(page - 1)
+              page <= totalPages - 2 && setShowPaginationDots(true)
             }}
           >
             <AiOutlineRightCircle
@@ -158,11 +160,12 @@ const ListCourses = (props) => {
                   : 'text-bitcoin-light'
               } text-2xl drop-shadow-md mx-1`}
             />
-          </button>{' '}
+          </button>
           {[...Array(totalPages)].map(
             (item, i) =>
               i <= page &&
-              i > page - 3 && (
+              i > page - 3 &&
+              i <= totalPages - 3 && (
                 <p
                   className={`${
                     i !== page ? 'text-gray-light' : 'text-bitcoin-light'
@@ -172,7 +175,8 @@ const ListCourses = (props) => {
                 </p>
               )
           )}
-          {'  '} . . . {'  '}
+
+          {showPaginationDots && <> . . . </>}
           {[...Array(totalPages)].map(
             (item, i) =>
               i >= totalPages - 2 && (
@@ -189,6 +193,7 @@ const ListCourses = (props) => {
             disabled={page == totalPages - 1 || totalPages == 0}
             onClick={() => {
               setPage(page + 1)
+              page >= totalPages - 3 && setShowPaginationDots(false)
             }}
           >
             <AiOutlineLeftCircle

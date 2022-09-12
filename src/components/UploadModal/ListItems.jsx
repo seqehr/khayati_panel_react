@@ -9,7 +9,8 @@ import {
 //images
 import noResultImage from '../../assets/images/no-result.gif'
 import defaulImag from '../../assets/images/no-image-icon-23485.png'
-import defaulImagMedia from '../../assets/images/video-file-icon-20.png'
+import defaulImagMp4 from '../../assets/images/mp4Icon.png'
+import defaulImagVideo from '../../assets/images/videoIcon.png'
 // css
 import styles from './UploadModal.module.scss'
 // components
@@ -38,6 +39,9 @@ const ListItems = ({
     totalPagesD,
     setPageD,
   } = useUpload()
+
+  const [showPaginationDots, setShowPaginationDots] = useState(true)
+  const [showPaginationDotsD, setShowPaginationDotsD] = useState(true)
 
   if (serchWord) {
     setPage(0)
@@ -84,7 +88,9 @@ const ListItems = ({
                         item.name.split('.').pop() == 'jpg' ||
                         item.name.split('.').pop() == 'png'
                           ? item.url
-                          : defaulImagMedia
+                          : item.name.split('.').pop() == 'mp4'
+                          ? defaulImagMp4
+                          : defaulImagVideo
                       }
                       className={` p-2 hover:p-1  ease-in-out duration-500 cursor-pointer shadow-lg rounded-lg  `}
                     />
@@ -126,7 +132,9 @@ const ListItems = ({
                           item.name.split('.').pop() == 'jpg' ||
                           item.name.split('.').pop() == 'png'
                             ? item.url
-                            : defaulImagMedia
+                            : item.name.split('.').pop() == 'mp4'
+                            ? defaulImagMp4
+                            : defaulImagVideo
                         }
                         className={` `}
                       />
@@ -181,7 +189,9 @@ const ListItems = ({
                         item.name.split('.').pop() == 'jpg' ||
                         item.name.split('.').pop() == 'png'
                           ? item.url
-                          : defaulImagMedia
+                          : item.name.split('.').pop() == 'mp4'
+                          ? defaulImagMp4
+                          : defaulImagVideo
                       }
                       className={` `}
                     />
@@ -263,6 +273,7 @@ const ListItems = ({
             disabled={pageD == 0 || totalPagesD == 0}
             onClick={() => {
               setPageD(pageD - 1)
+              pageD <= totalPagesD - 2 && setShowPaginationDotsD(true)
             }}
           >
             <AiOutlineRightCircle
@@ -276,7 +287,8 @@ const ListItems = ({
           {[...Array(totalPagesD)].map(
             (item, i) =>
               i <= pageD &&
-              i > pageD - 3 && (
+              i > pageD - 3 &&
+              i <= totalPagesD - 3 && (
                 <p
                   className={`${
                     i !== pageD ? 'text-gray-light' : 'text-bitcoin-light'
@@ -286,7 +298,7 @@ const ListItems = ({
                 </p>
               )
           )}
-          {'  '} . . . {'  '}
+          {showPaginationDotsD && <> . . . </>}
           {[...Array(totalPagesD)].map(
             (item, i) =>
               i >= totalPagesD - 2 && (
@@ -303,6 +315,7 @@ const ListItems = ({
             disabled={pageD == totalPagesD - 1 || totalPagesD == 0}
             onClick={() => {
               setPageD(pageD + 1)
+              pageD >= totalPagesD - 3 && setShowPaginationDotsD(false)
             }}
           >
             <AiOutlineLeftCircle
@@ -322,6 +335,7 @@ const ListItems = ({
               disabled={page == 0 || totalPages == 0}
               onClick={() => {
                 setPage(page - 1)
+                page <= totalPages - 2 && setShowPaginationDots(true)
               }}
             >
               <AiOutlineRightCircle
@@ -335,7 +349,8 @@ const ListItems = ({
             {[...Array(totalPages)].map(
               (item, i) =>
                 i <= page &&
-                i > page - 3 && (
+                i > page - 3 &&
+                i <= totalPages - 3 && (
                   <p
                     className={`${
                       i !== page ? 'text-gray-light' : 'text-bitcoin-light'
@@ -345,7 +360,8 @@ const ListItems = ({
                   </p>
                 )
             )}
-            {'  '} . . . {'  '}
+
+            {showPaginationDots && <> . . . </>}
             {[...Array(totalPages)].map(
               (item, i) =>
                 i >= totalPages - 2 && (
@@ -362,6 +378,7 @@ const ListItems = ({
               disabled={page == totalPages - 1 || totalPages == 0}
               onClick={() => {
                 setPage(page + 1)
+                page >= totalPages - 3 && setShowPaginationDots(false)
               }}
             >
               <AiOutlineLeftCircle

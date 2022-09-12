@@ -27,6 +27,7 @@ const ListMembers = (props) => {
   const [perpage, setPerpage] = useState(10)
   const [page, setPage] = useState(0)
   const [totalPages, settotalPages] = useState(0)
+  const [showPaginationDots, setShowPaginationDots] = useState(true)
 
   const [sort, setSort] = useState('ASC')
 
@@ -147,11 +148,12 @@ const ListMembers = (props) => {
 
       {/*________ Pagination buttons __________*/}
       {totalPages !== 0 && (
-        <div className='p-4 justify-center flex w-full'>
+        <div className='p-4 justify-center flex w-full col-span-12'>
           <button
             disabled={page == 0 || totalPages == 0}
             onClick={() => {
               setPage(page - 1)
+              page <= totalPages - 2 && setShowPaginationDots(true)
             }}
           >
             <AiOutlineRightCircle
@@ -165,7 +167,8 @@ const ListMembers = (props) => {
           {[...Array(totalPages)].map(
             (item, i) =>
               i <= page &&
-              i > page - 3 && (
+              i > page - 3 &&
+              i <= totalPages - 3 && (
                 <p
                   className={`${
                     i !== page ? 'text-gray-light' : 'text-bitcoin-light'
@@ -175,7 +178,8 @@ const ListMembers = (props) => {
                 </p>
               )
           )}
-          {'  '} . . . {'  '}
+
+          {showPaginationDots && <> . . . </>}
           {[...Array(totalPages)].map(
             (item, i) =>
               i >= totalPages - 2 && (
@@ -192,6 +196,7 @@ const ListMembers = (props) => {
             disabled={page == totalPages - 1 || totalPages == 0}
             onClick={() => {
               setPage(page + 1)
+              page >= totalPages - 3 && setShowPaginationDots(false)
             }}
           >
             <AiOutlineLeftCircle
