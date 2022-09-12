@@ -33,6 +33,10 @@ const ListItems = ({
     showDirFiles,
     serchResult,
     serchWord,
+    perpageD,
+    pageD,
+    totalPagesD,
+    setPageD,
   } = useUpload()
 
   if (serchWord) {
@@ -57,7 +61,7 @@ const ListItems = ({
                   return x.id - y.id
                 }
               })
-              .slice(page * perpage, page * perpage + perpage)
+              .slice(pageD * perpageD, pageD * perpageD + perpageD)
               .map((item) => (
                 <div
                   key={item.id}
@@ -253,29 +257,29 @@ const ListItems = ({
         </div>
       )}
       {/*________ Pagination buttons __________*/}
-      {serchWord == '' && totalPages !== 0 && (
+      {showDirFiles ? (
         <div className='p-4 justify-center flex w-full col-span-12'>
           <button
-            disabled={page == 0 || totalPages == 0}
+            disabled={pageD == 0 || totalPagesD == 0}
             onClick={() => {
-              setPage(page - 1)
+              setPageD(pageD - 1)
             }}
           >
             <AiOutlineRightCircle
               className={` ${
-                page == 0 || totalPages == 0
+                pageD == 0 || totalPagesD == 0
                   ? 'text-gray-light'
                   : 'text-bitcoin-light'
               } text-2xl drop-shadow-md mx-1`}
             />
           </button>
-          {[...Array(totalPages)].map(
+          {[...Array(totalPagesD)].map(
             (item, i) =>
-              i <= page &&
-              i > page - 3 && (
+              i <= pageD &&
+              i > pageD - 3 && (
                 <p
                   className={`${
-                    i !== page ? 'text-gray-light' : 'text-bitcoin-light'
+                    i !== pageD ? 'text-gray-light' : 'text-bitcoin-light'
                   } text-md drop-shadow-md mx-1 `}
                 >
                   {i + 1}
@@ -283,12 +287,12 @@ const ListItems = ({
               )
           )}
           {'  '} . . . {'  '}
-          {[...Array(totalPages)].map(
+          {[...Array(totalPagesD)].map(
             (item, i) =>
-              i >= totalPages - 2 && (
+              i >= totalPagesD - 2 && (
                 <p
                   className={`${
-                    i !== page ? 'text-gray-light' : 'text-bitcoin-light'
+                    i !== pageD ? 'text-gray-light' : 'text-bitcoin-light'
                   } text-md drop-shadow-md mx-1 `}
                 >
                   {i + 1}
@@ -296,20 +300,80 @@ const ListItems = ({
               )
           )}
           <button
-            disabled={page == totalPages - 1 || totalPages == 0}
+            disabled={pageD == totalPagesD - 1 || totalPagesD == 0}
             onClick={() => {
-              setPage(page + 1)
+              setPageD(pageD + 1)
             }}
           >
             <AiOutlineLeftCircle
               className={`${
-                page == totalPages - 1 || totalPages == 0
+                pageD == totalPagesD - 1 || totalPagesD == 0
                   ? 'text-gray-light'
                   : 'text-bitcoin-light'
               } text-2xl drop-shadow-md mx-1 `}
             />
           </button>
         </div>
+      ) : (
+        serchWord == '' &&
+        totalPages !== 0 && (
+          <div className='p-4 justify-center flex w-full col-span-12'>
+            <button
+              disabled={page == 0 || totalPages == 0}
+              onClick={() => {
+                setPage(page - 1)
+              }}
+            >
+              <AiOutlineRightCircle
+                className={` ${
+                  page == 0 || totalPages == 0
+                    ? 'text-gray-light'
+                    : 'text-bitcoin-light'
+                } text-2xl drop-shadow-md mx-1`}
+              />
+            </button>
+            {[...Array(totalPages)].map(
+              (item, i) =>
+                i <= page &&
+                i > page - 3 && (
+                  <p
+                    className={`${
+                      i !== page ? 'text-gray-light' : 'text-bitcoin-light'
+                    } text-md drop-shadow-md mx-1 `}
+                  >
+                    {i + 1}
+                  </p>
+                )
+            )}
+            {'  '} . . . {'  '}
+            {[...Array(totalPages)].map(
+              (item, i) =>
+                i >= totalPages - 2 && (
+                  <p
+                    className={`${
+                      i !== page ? 'text-gray-light' : 'text-bitcoin-light'
+                    } text-md drop-shadow-md mx-1 `}
+                  >
+                    {i + 1}
+                  </p>
+                )
+            )}
+            <button
+              disabled={page == totalPages - 1 || totalPages == 0}
+              onClick={() => {
+                setPage(page + 1)
+              }}
+            >
+              <AiOutlineLeftCircle
+                className={`${
+                  page == totalPages - 1 || totalPages == 0
+                    ? 'text-gray-light'
+                    : 'text-bitcoin-light'
+                } text-2xl drop-shadow-md mx-1 `}
+              />
+            </button>
+          </div>
+        )
       )}
     </div>
   )
