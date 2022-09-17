@@ -283,11 +283,11 @@ export const CourseContextProvider = ({ children }) => {
   }
 
   const setLessons = (lessonsList) => {
-    if (lessonsList == false) {
+    if (lessonsList.length < 1) {
       setLesson([])
     } else {
       const lessons = []
-      lessonsList.map((item) => {
+      lessonsList.map((item, index) => {
         const lesson = {
           id: item.id,
           name: item.name,
@@ -297,8 +297,9 @@ export const CourseContextProvider = ({ children }) => {
         }
 
         lessons.push(lesson)
-
-        setLesson(lessons)
+        if (index + 1 == lessonsList.length) {
+          setLesson(lessons)
+        }
       })
     }
   }

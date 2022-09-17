@@ -119,7 +119,7 @@ const Lessons = ({
         </div>
         {/* show lessons */}
         {getLesson.map((lesson) => (
-          <div key={lesson.key} className='mt-8  grid grid-cols-12'>
+          <div key={lesson.id} className='mt-8  grid grid-cols-12'>
             {' '}
             <input
               autoComplete='off'

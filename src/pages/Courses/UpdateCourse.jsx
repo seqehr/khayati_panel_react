@@ -110,7 +110,7 @@ const UpdateCourse = () => {
       setDescription(data.description)
       setColor(data.gradient)
       setCourseImage(data.img)
-      console.log(data.poster)
+
       if (data.poster == null) {
         setCoursePoster(CourseImageDefault)
       } else {
