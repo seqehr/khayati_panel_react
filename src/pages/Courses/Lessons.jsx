@@ -8,6 +8,7 @@ import useCourses from '../../hooks/useCourses'
 //icons
 import { BsPlusCircleDotted } from 'react-icons/bs'
 import { BsDashCircleDotted } from 'react-icons/bs'
+import { HashLink as Link } from 'react-router-hash-link'
 const Lessons = ({
   setIsOpenUrlLessonModal,
   isFree,
@@ -24,6 +25,11 @@ const Lessons = ({
     setContentLesson,
     getContentLesson,
     preview,
+    editLesson,
+    editing,
+    setEditing,
+    handleEditLesson,
+    resetInputs,
   } = useCourses()
   return (
     <>
@@ -49,14 +55,32 @@ const Lessons = ({
             type='text'
             name='lessonLink'
             id='lessonLink'
-            className='block py-2.5 px-2  mr-2 col-span-6 text-sm dark:bg-background2-dark dark:placeholder:text-white border-2 rounded-md border-gray-light placeholder:text-black appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+            className={`block py-2.5 px-2  mr-2 ${
+              editing ? 'col-span-4' : 'col-span-6'
+            } text-sm dark:bg-background2-dark dark:placeholder:text-white border-2 rounded-md border-gray-light placeholder:text-black appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
             placeholder=' لینک درس جدید را وارد کنید'
             required=''
           />
+          {editing == true && (
+            <button
+              onClick={(e) => {
+                e.preventDefault()
+                setEditing(false)
+                resetInputs()
+              }}
+              className='text-white items-center mt-2 md:mt-0 md:mr-2 col-span-12 md:col-span-2 text-sm flex justify-center   bg-red-light ring-2 ring-red-dark hover:bg-background-light hover:text-black dark:text-black dark:bg-red-dark hover:ring-2 dark:ring-bg-red-light dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg   px-5 py-1 text-center '
+            >
+              <span className='flex '>انصراف</span>
+            </button>
+          )}
           <button
             onClick={(e) => {
               e.preventDefault()
-              handleCreate()
+              if (editing) {
+                handleEditLesson()
+              } else {
+                handleCreate()
+              }
             }}
             className='text-white items-center flex justify-center col-span-12 mt-2 md:mt-0 md:col-span-2  text-xs md:text-sm md:mr-3 bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg   px-5 py-1 text-center '
           >
@@ -64,7 +88,7 @@ const Lessons = ({
               <span className='text-xl ml-2'>
                 <BsPlusCircleDotted />
               </span>
-              افزودن درس
+              {`${editing ? 'ثبت تغییرات' : ' افزودن درس'} `}
             </span>
           </button>
           <div
@@ -117,10 +141,10 @@ const Lessons = ({
             </div>
           )}
         </div>
+
         {/* show lessons */}
         {getLesson.map((lesson) => (
           <div key={lesson.id} className='mt-8  grid grid-cols-12'>
-            {' '}
             <input
               autoComplete='off'
               type='text'
@@ -135,10 +159,20 @@ const Lessons = ({
               type='text'
               name='lessonLink'
               id='lessonLink'
-              className='block py-2.5 px-2  mr-2 col-span-6 text-sm dark:bg-background2-dark dark:placeholder:text-white border-2 rounded-md border-gray-light placeholder:text-black appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              className='block py-2.5 px-2  mr-2 col-span-4 text-sm dark:bg-background2-dark dark:placeholder:text-white border-2 rounded-md border-gray-light placeholder:text-black appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
               placeholder={lesson.url}
               disabled
             />
+            <Link
+              onClick={() => {
+                editLesson(lesson.id)
+                setEditing(true)
+              }}
+              className='text-white items-center mt-2 md:mt-0 md:mr-2 col-span-12 md:col-span-2 text-sm flex justify-center   bg-blue-light ring-2 ring-blue-dark hover:bg-background-light hover:text-black dark:text-black dark:bg-blue-dark hover:ring-2 dark:ring-bg-blue-light dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg   px-5 py-1 text-center '
+              to={'#createLesson'}
+            >
+              <span className='flex '>ویرایش درس</span>
+            </Link>
             <button
               onClick={(e) => {
                 e.preventDefault()
@@ -153,6 +187,7 @@ const Lessons = ({
                 حذف درس
               </span>
             </button>
+
             <div
               className={`${
                 lesson.demo == lesson.url ? 'col-span-12' : 'col-span-8'

@@ -16,6 +16,7 @@ import config from '../../services/config.json'
 //hooks
 import useToken from '../../hooks/useToken'
 import { useNavigate } from 'react-router-dom'
+import Lessons from '../../pages/Courses/Lessons'
 
 const CourseContext = React.createContext()
 export const CourseContextProvider = ({ children }) => {
@@ -26,6 +27,8 @@ export const CourseContextProvider = ({ children }) => {
   const [getLinkLesson, setLinkLesson] = useState('')
   const [getTitleLesson, setTitleLesson] = useState('')
   const [getContentLesson, setContentLesson] = useState('')
+  const [editing, setEditing] = useState(false)
+  const [editinglessonId, setEditinglessonId] = useState('')
 
   //files
   const [files, setFiles] = useState([])
@@ -142,7 +145,7 @@ export const CourseContextProvider = ({ children }) => {
 
     getLesson.map((item) => {
       GetLesson.push({
-        id: item.id,
+        id: item.isNew ? 'new' : item.id,
         name: item.name,
         url: item.url.replace(`${config.HttpBaseUrl}/storage/`, ''),
         content: item.content,
@@ -181,13 +184,14 @@ export const CourseContextProvider = ({ children }) => {
 
     getLesson.map((item) => {
       GetLesson.push({
-        id: item.id,
+        id: item.isNew ? 'new' : item.id,
         name: item.name,
         url: item.url.replace(`${config.HttpBaseUrl}/storage/`, ''),
         content: item.content,
         demo: item.demo,
       })
     })
+
     const data = {
       excerpt,
       price: isFree == 'free' ? '0' : price,
@@ -202,6 +206,7 @@ export const CourseContextProvider = ({ children }) => {
       name,
       teacher: 'مقدم جو',
     }
+
     if (validator() == true) {
       EditCourseService(token, data, singleId).then((res) => {
         if (res.status == 200) {
@@ -212,6 +217,15 @@ export const CourseContextProvider = ({ children }) => {
   }
 
   //lessons handlers
+
+  //reset inputs
+  const resetInputs = () => {
+    setTitleLesson('')
+    setLinkLesson('')
+    setPreview(PreviewDefaultImage)
+    setContentLesson('')
+  }
+
   const selectLessenFile = () => {
     // this method is useless i will delete this later
   }
@@ -231,6 +245,7 @@ export const CourseContextProvider = ({ children }) => {
     const lessons = [...getLesson]
     const lesson = {
       id: uuidv4(),
+      isNew: true,
       name: getTitleLesson,
       url: getLinkLesson,
       content: getContentLesson,
@@ -244,10 +259,7 @@ export const CourseContextProvider = ({ children }) => {
       if (showPreviewError !== true) {
         lessons.push(lesson)
         setLesson(lessons)
-        setTitleLesson('')
-        setLinkLesson('')
-        setPreview(PreviewDefaultImage)
-        setContentLesson('')
+        resetInputs()
         toast.success(`کلاس با موفقیت اضافه شد`, {
           position: 'top-right',
           autoClose: 5000,
@@ -280,6 +292,67 @@ export const CourseContextProvider = ({ children }) => {
       draggable: true,
       progress: undefined,
     })
+  }
+
+  // set values of inputs
+
+  const editLesson = (id) => {
+    const thisLesson = getLesson.find((i) => i.id == id)
+    setEditinglessonId(id)
+    setTitleLesson(thisLesson.name)
+    setContentLesson(thisLesson.content)
+    setLinkLesson(thisLesson.url)
+    setPreview(thisLesson.demo)
+  }
+  // set lesson
+  const handleEditLesson = () => {
+    let showPreviewError = true
+    // Course Preview validation
+    if (isFree == 'pricy') {
+      if (preview.includes('/static/media/video-file-icon-20') == true) {
+      } else {
+        showPreviewError = false
+      }
+    } else {
+      showPreviewError = false
+    }
+    CoursePreview = preview.replace(`${config.HttpBaseUrl}/storage/`, '')
+
+    const lessons = [...getLesson]
+    let thisLesson = lessons.find((i) => i.id == editinglessonId)
+    const newLessons = lessons.filter((i) => i.id !== editinglessonId)
+    thisLesson = {
+      id: editinglessonId,
+      isNew: thisLesson.isNew == true ? true : false,
+      name: getTitleLesson,
+      url: getLinkLesson,
+      content: getContentLesson,
+      demo: isFree == 'pricy' ? CoursePreview : getLinkLesson,
+    }
+    newLessons.push(thisLesson)
+    console.log(newLessons)
+
+    if (
+      getTitleLesson !== '' &&
+      getTitleLesson !== ' ' &&
+      getTitleLesson !== null
+    ) {
+      if (showPreviewError !== true) {
+        setLesson(newLessons)
+
+        setTitleLesson('')
+        setLinkLesson('')
+        setPreview(PreviewDefaultImage)
+        setContentLesson('')
+        setEditing(false)
+
+        toast.success(`کلاس با موفقیت ویرایش شد`, {})
+      } else {
+        toast.warn('لطفا ویدیوی دمو را انتخاب کنید')
+      }
+    } else {
+      toast.warn(`لطفا نام درس را وارد کنید`)
+    }
   }
 
   const setLessons = (lessonsList) => {
@@ -345,6 +418,11 @@ export const CourseContextProvider = ({ children }) => {
         handleEdit,
         preview,
         setPreview,
+        editLesson,
+        editing,
+        setEditing,
+        handleEditLesson,
+        resetInputs,
       }}
     >
       {children}

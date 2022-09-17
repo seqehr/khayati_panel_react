@@ -42,6 +42,11 @@ const useCourses = (props) => {
     handleEdit,
     preview,
     setPreview,
+    editLesson,
+    editing,
+    setEditing,
+    handleEditLesson,
+    resetInputs,
   } = useContext(CoursesContext)
 
   return {
@@ -83,6 +88,11 @@ const useCourses = (props) => {
     handleEdit,
     preview,
     setPreview,
+    editLesson,
+    editing,
+    setEditing,
+    handleEditLesson,
+    resetInputs,
   }
 }
 
