@@ -91,7 +91,6 @@ const UpdateArticle = (props) => {
     SingleArticleService(token, singleId).then((res) => {
       const data = res.data.data
 
-      console.log(data)
       setArticleImage(data.img)
       setName(data.name)
       setChecked(data.cat_id)

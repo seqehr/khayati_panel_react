@@ -198,7 +198,10 @@ const AddCourse = (props) => {
             />
           </div>
           {/* C O U R S E  - C H E K B O X E S */}
-          <div className='relative col-span-12 sm:col-span-3  z-0 w-full  mb-6 group'>
+          <div
+            id='createLesson'
+            className='relative col-span-12 sm:col-span-3  z-0 w-full  mb-6 group'
+          >
             <div className='flex '>
               <div>
                 <div>
