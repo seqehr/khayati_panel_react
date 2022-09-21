@@ -40,7 +40,7 @@ const UploadBox = () => {
     }, 2000)
   }
 
-  const uploadHandler = (file) => {
+  const uploadHandler = (files, step) => {
     if (checked == null) {
       return toast.warn(' ابتدا پوشه را انتخاب کنید')
     } else {
@@ -55,8 +55,8 @@ const UploadBox = () => {
         testChunks: false,
         throttleProgressCallbacks: 1,
       })
-      resumable.addFile(file)
-      console.log(file)
+      resumable.addFile(files[step])
+      console.log(files[step])
       resumable.on('fileAdded', function (file) {
         resumable.upload() // to actually start uploading.
       })
@@ -72,6 +72,7 @@ const UploadBox = () => {
           const directories = { ...dirlist }
           directories.children = res.data.data
           setDirlist(directories)
+          uploadHandler(files, step + 1)
         })
       })
 
@@ -98,12 +99,13 @@ const UploadBox = () => {
           <input
             disabled={checked == null ? true : false}
             type='file'
+            multiple
             className={`${
               checked !== null && 'z-50'
             } absolute w-full h-full opacity-0  cursor-pointer`}
             onChange={(e) => {
-              setFile(e.target.files[0])
-              uploadHandler(e.target.files[0])
+              setFile(e.target.files)
+              uploadHandler(e.target.files, 0)
             }}
           />
           <div
