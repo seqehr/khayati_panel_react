@@ -28,6 +28,8 @@ const UploadBox = () => {
     name,
     setName,
     checked,
+    dirFiles,
+    setDirFiles,
   } = useUpload()
   const [file, setFile] = useState({})
 
@@ -36,6 +38,15 @@ const UploadBox = () => {
       UploadedFiles(token).then((res) => {
         setFiles(res.data.data)
         setProgress('')
+      })
+      Directories(token, { dir: 'uploads ' }).then((res) => {
+        const directories = { ...dirlist }
+        directories.children = res.data.data
+        setDirlist(directories)
+        //checked
+        const DirFiles = directories.children.filter((i) => i.id == checked)
+        console.log(DirFiles)
+        setDirFiles(DirFiles[0].files)
       })
     }, 2000)
   }
@@ -56,7 +67,7 @@ const UploadBox = () => {
         throttleProgressCallbacks: 1,
       })
       resumable.addFile(files[step])
-      console.log(files[step])
+
       resumable.on('fileAdded', function (file) {
         resumable.upload() // to actually start uploading.
       })
