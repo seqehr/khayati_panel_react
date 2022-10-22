@@ -15,8 +15,22 @@ import UploadModal from '../../../components/UploadModal/UploadModal'
 const AddProductCategory = () => {
   const { token } = useToken()
 
-  const { name, setName, handleSubmit, catlist, setCatlist, img, setImg } =
-    useProductsCategories()
+  const {
+    name,
+    setName,
+    handleSubmit,
+    catlist,
+    setCatlist,
+    img,
+    setImg,
+    catEditable,
+    setCatEditable,
+    tmpName,
+    setTmpName,
+    tmpImg,
+    setTmpImg,
+    handleEdit,
+  } = useProductsCategories()
 
   // modal states
   const [isOpenImageModal, setIsOpenImageModal] = useState(false)
@@ -24,7 +38,11 @@ const AddProductCategory = () => {
   // get modal files
   const getModalImage = (file) => {
     toast.success('با موفقیت انتخاب شد')
-    setImg(file)
+    if (catEditable == '') {
+      setImg(file)
+    } else {
+      setTmpImg(file)
+    }
   }
   // get cat list
   useEffect(() => {
@@ -47,8 +65,14 @@ const AddProductCategory = () => {
             className='block py-2.5 px-3 w-full text-sm text-gray-900 bg-transparent border-2 rounded-xl shadow-md  border-gray-light appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
             placeholder=' '
             required=''
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={catEditable == '' ? name : tmpName}
+            onChange={(e) => {
+              if (catEditable == '') {
+                setName(e.target.value)
+              } else {
+                setTmpName(e.target.value)
+              }
+            }}
           />
           <label
             for='Name'
@@ -57,28 +81,65 @@ const AddProductCategory = () => {
             {`نام دسته بندی جدید `}
           </label>
         </div>
+        {catEditable !== '' && (
+          <div className='relative  z-0 w-full mb-6 group'>
+            <p
+              onClick={() => {
+                setCatEditable('')
+              }}
+              className='text-xs p-3 cursor-pointer hover:shadow-md ease-in-out duration-500 hover:scale-105 text-white rounded-xl bg-bitcoin-light w-max'
+            >
+              {' '}
+              انصراف از ویرایش دسته بندی : {catEditable.name}
+            </p>
+          </div>
+        )}
       </div>
       {/* Sidebar */}
       <div className='md:col-span-3 flex flex-col-reverse md:flex-col col-span-12  text-right float-right bg-background2-light dark:bg-background2-dark md:mr-2 mt-4 md:mt-0   rounded-xl p-5'>
         {/* Submit Button */}
         <div className='w-full mb-10'>
-          <button
-            type='submit'
-            onClick={(e) => {
-              e.preventDefault()
-              handleSubmit()
-            }}
-            className='text-white bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center '
-          >
-            {`ثبت دسته بندی `}
-          </button>
+          {catEditable == '' ? (
+            <button
+              type='submit'
+              onClick={(e) => {
+                e.preventDefault()
+                handleSubmit()
+              }}
+              className='text-white bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center '
+            >
+              {`ایجاد دسته بندی `}
+            </button>
+          ) : (
+            <button
+              type='submit'
+              onClick={(e) => {
+                e.preventDefault()
+                handleEdit()
+              }}
+              className='text-white bg-blue-dark ring-2 ring-blue-light hover:bg-background-light hover:text-black dark:text-black dark:bg-white hover:ring-2 dark:ring-white dark:hover:bg-background-dark dark:hover:text-white ease-in-out duration-200  focus:outline-none  font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center '
+            >
+              {`ثبت و ویرایش`}
+            </button>
+          )}
+
           {/* image */}
           <div
             onClick={() => setIsOpenImageModal(true)}
             className={`${styles.hoverParent} mt-5 w-full relative flex justify-center items-center overflow-hidden`}
           >
             <img
-              src={img == ArticleImageDefault ? ArticleImageDefault : img}
+              src={
+                catEditable
+                  ? tmpImg
+                  : img == ArticleImageDefault
+                  ? ArticleImageDefault
+                  : img
+              }
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null // prevents looping
+                currentTarget.src = ArticleImageDefault
+              }}
               alt=''
               className={`${styles.hoverChildBlure} ease-in-out duration-500 rounded-xl `}
             />

@@ -11,13 +11,26 @@ import {
   DeleteProductCatService,
 } from '../../services/ProductServices'
 import useToken from '../../hooks/useToken'
+import { FiEdit } from 'react-icons/fi'
 
 const TreeView = ({ explorer, showRoot }) => {
   const [expand, setExpand] = useState(false)
   const navigate = useNavigate()
-  const { checked, setChecked, setCatlist, catlist } = useProductsCategories()
+  const {
+    checked,
+    setChecked,
+    setCatlist,
+    catlist,
+    catEditable,
+    setCatEditable,
+    setTmpImg,
+    tmpName,
+    setTmpName,
+    tmpImg,
+  } = useProductsCategories()
   const { token } = useToken()
   const [loaded, setLoaded] = useState(false)
+
   useEffect(() => {
     if (explorer.root == true) {
       setExpand(true)
@@ -60,14 +73,27 @@ const TreeView = ({ explorer, showRoot }) => {
         {explorer.root !== true ? (
           <>
             {showRoot == true && explorer.id !== 1 ? (
-              <button
-                onClick={() => deleteHandler(explorer.id)}
-                className='ml-2 shadow-md cursor-pointer text-red-light dark:text-red-dark '
-                type={'checkbox'}
-              >
-                <RiDeleteBin6Line />
-              </button>
-            ) : (
+              <>
+                <button
+                  onClick={() => deleteHandler(explorer.id)}
+                  className='ml-2 shadow-md cursor-pointer text-red-light dark:text-red-dark '
+                  type={'checkbox'}
+                >
+                  <RiDeleteBin6Line />
+                </button>{' '}
+                <button
+                  onClick={() => {
+                    setCatEditable(explorer)
+                    setTmpName(explorer.name)
+                    setTmpImg(explorer.img)
+                  }}
+                  className='ml-2 shadow-md cursor-pointer text-green-dark dark:text-red-dark '
+                  type={'checkbox'}
+                >
+                  <FiEdit />
+                </button>
+              </>
+            ) : showRoot == false ? (
               <input
                 checked={checked == explorer.id}
                 onClick={() => {
@@ -76,6 +102,8 @@ const TreeView = ({ explorer, showRoot }) => {
                 className='ml-2 shadow-md cursor-pointer '
                 type={'checkbox'}
               />
+            ) : (
+              <></>
             )}
           </>
         ) : (
