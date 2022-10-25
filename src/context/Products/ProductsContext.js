@@ -125,6 +125,24 @@ export function ProductsContextProvider({ children }) {
     }
   }
 
+  const handleGalleryImageDelete = (index) => {
+    const productImages = [...ProductImages]
+    const img = productImages[index]
+    const filteredProductImages = productImages.filter(
+      (t, Index) => Index !== index
+    )
+    setProductImages(filteredProductImages)
+
+    toast.success(` با موفقیت حذف شد`, {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    })
+  }
   useEffect(() => {
     // get uploaded files
     UploadedFiles(token).then((res) => {
@@ -170,6 +188,7 @@ export function ProductsContextProvider({ children }) {
         setProductImages,
         setProductsImagesHandler,
         handleEdit,
+        handleGalleryImageDelete,
       }}
     >
       {children}

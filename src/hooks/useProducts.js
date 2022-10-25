@@ -15,7 +15,7 @@ const useProducts = (props) => {
     productImage,
     setProductImage,
     catId,
-
+    handleGalleryImageDelete,
     description,
     setDescription,
     name,
@@ -42,7 +42,7 @@ const useProducts = (props) => {
     productImage,
     setProductImage,
     catId,
-
+    handleGalleryImageDelete,
     description,
     setDescription,
     name,

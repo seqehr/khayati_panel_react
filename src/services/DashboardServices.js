@@ -8,3 +8,10 @@ export const DataDashboardService = (token) => {
     },
   })
 }
+export const UsageCpuDashboardService = (token) => {
+  return http.get(`${config.baseUrl}/api/usage`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

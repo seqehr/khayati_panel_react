@@ -52,6 +52,7 @@ const AddProduct = (props) => {
     ProductImages,
     setProductImages,
     setProductsImagesHandler,
+    handleGalleryImageDelete,
   } = useProducts()
 
   const { catlist, setCatlist } = useProductsCategories()
@@ -183,9 +184,16 @@ const AddProduct = (props) => {
                 {`افزودن عکس به گالری`}
               </label>
             </div>
-            {ProductImages.map((i) => (
+            {ProductImages.map((i, index) => (
               <div className='lg:col-span-3 sm:col-span-6 col-span-12 flex justify-center flex-col items-center'>
                 <img src={i} className='w-full rounded-md dark:h-64' />
+                <label
+                  onClick={() => handleGalleryImageDelete(index)}
+                  className='p-5 opacity-10 hover:opacity-80 text-black cursor-pointer dark:text-white block  text-sm font-medium text-gray-900 bg-background-light dark:bg-background-dark rounded-2xl dark:text-gray-300 absolute hover:-translate-y-1 ease-in-out duration-300 hover:shadow-xl'
+                  for='user_avatar '
+                >
+                  {`حذف عکس`}
+                </label>
               </div>
             ))}
           </div>
