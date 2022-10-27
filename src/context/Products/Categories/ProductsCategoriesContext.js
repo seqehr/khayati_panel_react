@@ -75,6 +75,9 @@ export function ProductsCategoriesContextProvider({ children }) {
             const categories = { ...catlist }
             categories.children = res.data.data
             setCatlist(categories)
+            setCatEditable('')
+            setTmpImg(ArticleImageDefault)
+            setTmpName('')
           })
           toast.success('دسته بندی با موفقیت ویرایش شد')
           // reset inputs
