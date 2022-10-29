@@ -24,6 +24,10 @@ const useArticles = (props) => {
     description,
     setDescription,
     handleEdit,
+    ProductImages,
+    setProductImages,
+    setProductsImagesHandler,
+    handleGalleryImageDelete,
   } = useContext(ArticlesContext)
   return {
     handleSubmit,
@@ -46,6 +50,10 @@ const useArticles = (props) => {
     description,
     setDescription,
     handleEdit,
+    ProductImages,
+    setProductImages,
+    setProductsImagesHandler,
+    handleGalleryImageDelete,
   }
 }
 

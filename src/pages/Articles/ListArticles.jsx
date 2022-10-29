@@ -22,7 +22,7 @@ const ListArticles = (props) => {
   const [loading, setLoading] = useState(true)
 
   //paginattion
-  const [perpage, setPerpage] = useState(5)
+  const [perpage, setPerpage] = useState(12)
   const [page, setPage] = useState(0)
   const [totalPages, settotalPages] = useState(0)
 

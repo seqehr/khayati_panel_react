@@ -45,16 +45,25 @@ const AddArticle = (props) => {
     setHashtag,
     description,
     setDescription,
+    ProductImages,
+    setProductImages,
+    setProductsImagesHandler,
+    handleGalleryImageDelete,
   } = useArticles()
-  const { catlist, setCatlist } = useArticlesCategories()
+  const { catlist, setCatlist, checked, setChecked } = useArticlesCategories()
   const [refresh, setRefresh] = useState(false)
 
   // modal states
   const [isOpenImageModal, setIsOpenImageModal] = useState(false)
+  const [isOpenImagesModal, setIsOpenImagesModal] = useState(false)
   // get modal files
   const getModalImage = (file) => {
     toast.success('با موفقیت انتخاب شد')
     setArticleImage(file)
+  }
+  const getModalImages = (file) => {
+    toast.success('با موفقیت انتخاب شد')
+    setProductsImagesHandler(file)
   }
 
   useEffect(() => {
@@ -80,6 +89,8 @@ const AddArticle = (props) => {
     setArticleImage(ArticleImageDefault)
     setName('')
     setDescription('')
+    setProductImages([])
+    setChecked(0)
   }, [])
 
   return (
@@ -191,6 +202,42 @@ const AddArticle = (props) => {
               <TreeView showRoot={false} explorer={catlist} />
             </div>
           </div>
+
+          {/*  I M A G E S */}
+          <div
+            className={` p-5 ${'col-span-12'} grid grid-cols-12 relative items-center z-0 w-full mb-6  border-2 border-background-light shadow-md dark:border-background-dark rounded-2xl gap-4 group`}
+          >
+            <p className='col-span-12 p-2 text-xl dark:text-white'>
+              گالری عکس ها :
+            </p>
+            <div
+              onClick={() => setIsOpenImagesModal(true)}
+              className='lg:col-span-3 sm:col-span-6 col-span-12 flex justify-center flex-col items-center'
+            >
+              <img
+                src={ArticleImageDefault}
+                className='w-full rounded-md blur-sm'
+              />
+              <label
+                className='p-5 text-black cursor-pointer dark:text-white block  text-sm font-medium text-gray-900 bg-background-light dark:bg-background-dark opacity-80 rounded-2xl dark:text-gray-300 absolute hover:-translate-y-1 ease-in-out duration-300 hover:shadow-xl'
+                for='user_avatar '
+              >
+                {`افزودن عکس به گالری`}
+              </label>
+            </div>
+            {ProductImages.map((i, index) => (
+              <div className='lg:col-span-3 sm:col-span-6 col-span-12 flex justify-center flex-col items-center'>
+                <img src={i} className='w-full rounded-md dark:h-64' />
+                <label
+                  onClick={() => handleGalleryImageDelete(index)}
+                  className='p-5 opacity-10 hover:opacity-80 text-black cursor-pointer dark:text-white block  text-sm font-medium text-gray-900 bg-background-light dark:bg-background-dark rounded-2xl dark:text-gray-300 absolute hover:-translate-y-1 ease-in-out duration-300 hover:shadow-xl'
+                  for='user_avatar '
+                >
+                  {`حذف عکس`}
+                </label>
+              </div>
+            ))}
+          </div>
         </div>
         <button
           type='submit'
@@ -210,6 +257,12 @@ const AddArticle = (props) => {
         <UploadModal
           getImage={getModalImage}
           setIsOpenModal={setIsOpenImageModal}
+        />
+      )}
+      {isOpenImagesModal && (
+        <UploadModal
+          getImage={getModalImages}
+          setIsOpenModal={setIsOpenImagesModal}
         />
       )}
     </div>

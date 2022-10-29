@@ -29,8 +29,17 @@ export function ArticlesContextProvider({ children }) {
   const [hashtags, setHashtags] = useState([])
   const [hashtag, setHashtag] = useState('')
 
-  let ArticleImage = ''
+  //gallery
+  const [ProductImages, setProductImages] = useState([])
 
+  const setProductsImagesHandler = (url) => {
+    const images = [...ProductImages]
+    images.push(url)
+    setProductImages(images)
+  }
+
+  let ArticleImage = ''
+  let FormatedArticleImages = []
   const validator = () => {
     if (ArticleImage.includes('/static/media/UF_Infinity_khayati') !== true) {
       if (hashtags.length !== 0) {
@@ -48,13 +57,18 @@ export function ArticlesContextProvider({ children }) {
   }
   const handleSubmit = () => {
     ArticleImage = articleImage.replace(`${config.HttpBaseUrl}/storage/`, '')
-
+    ProductImages.map((i) => {
+      FormatedArticleImages.push(
+        i.replace(`${config.HttpBaseUrl}/storage/`, '')
+      )
+    })
     const data = {
       name,
       cat_id: checked,
       img: ArticleImage,
       content: description,
       tags: JSON.stringify(hashtags),
+      gallery: JSON.stringify(FormatedArticleImages),
     }
 
     if (validator() == true) {
@@ -68,13 +82,18 @@ export function ArticlesContextProvider({ children }) {
   }
   const handleEdit = (singleId) => {
     ArticleImage = articleImage.replace(`${config.HttpBaseUrl}/storage/`, '')
-
+    ProductImages.map((i) => {
+      FormatedArticleImages.push(
+        i.replace(`${config.HttpBaseUrl}/storage/`, '')
+      )
+    })
     const data = {
       name,
       cat_id: checked,
       img: ArticleImage,
       content: description,
       tags: JSON.stringify(hashtags),
+      gallery: JSON.stringify(FormatedArticleImages),
     }
 
     if (validator() == true) {
@@ -104,6 +123,26 @@ export function ArticlesContextProvider({ children }) {
 
     setHashtags(filteredArr)
   }
+
+  // gallery
+  const handleGalleryImageDelete = (index) => {
+    const productImages = [...ProductImages]
+    const img = productImages[index]
+    const filteredProductImages = productImages.filter(
+      (t, Index) => Index !== index
+    )
+    setProductImages(filteredProductImages)
+
+    toast.success(` با موفقیت حذف شد`, {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    })
+  }
   return (
     <ArticlesContext.Provider
       value={{
@@ -128,6 +167,11 @@ export function ArticlesContextProvider({ children }) {
         description,
         setDescription,
         handleEdit,
+
+        ProductImages,
+        setProductImages,
+        setProductsImagesHandler,
+        handleGalleryImageDelete,
       }}
     >
       {children}
