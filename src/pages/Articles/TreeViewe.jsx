@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import { Navigate, useNavigate } from 'react-router-dom'
 
 // hooks
-import useCategories from '../../hooks/useCategories'
+import useArticlesCategories from '../../hooks/useArticlesCategories'
 import useToken from '../../hooks/useToken'
 // icons
 import { BsChevronDown, BsChevronLeft } from 'react-icons/bs'
@@ -13,11 +13,22 @@ import {
   CatListService,
   DeleteArticleCatService,
 } from '../../services/ArticleServices'
+import { FiEdit } from 'react-icons/fi'
 
 const TreeView = ({ explorer, showRoot }) => {
   const [expand, setExpand] = useState()
   const navigate = useNavigate()
-  const { checked, setChecked, catlist, setCatlist } = useCategories()
+  const {
+    checked,
+    setChecked,
+    catlist,
+    setCatlist,
+    setCatEditable,
+    setTmpImg,
+    tmpName,
+    setTmpName,
+    tmpImg,
+  } = useArticlesCategories()
   const { token } = useToken()
   const [loaded, setLoaded] = useState(false)
   useEffect(() => {
@@ -57,20 +68,32 @@ const TreeView = ({ explorer, showRoot }) => {
       })
     }
   }
-  console.log(showRoot)
   return (
     <div>
       <div className={` pb-1 `}>
         {explorer.root !== true ? (
           <>
             {showRoot == true && explorer.name !== 'news' ? (
-              <button
-                onClick={() => deleteHandler(explorer.id)}
-                className='ml-2 shadow-md cursor-pointer text-red-light dark:text-red-dark '
-                type={'checkbox'}
-              >
-                <RiDeleteBin6Line />
-              </button>
+              <>
+                <button
+                  onClick={() => deleteHandler(explorer.id)}
+                  className='ml-2 shadow-md cursor-pointer text-red-light dark:text-red-dark '
+                  type={'checkbox'}
+                >
+                  <RiDeleteBin6Line />
+                </button>
+                <button
+                  onClick={() => {
+                    setCatEditable(explorer)
+                    setTmpName(explorer.name)
+                    setTmpImg(explorer.img)
+                  }}
+                  className='ml-2 shadow-md cursor-pointer text-green-dark dark:text-red-dark '
+                  type={'checkbox'}
+                >
+                  <FiEdit />
+                </button>
+              </>
             ) : (
               <input
                 checked={checked == explorer.id}

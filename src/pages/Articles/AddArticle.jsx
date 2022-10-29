@@ -19,7 +19,7 @@ import TableRow from './ModalTableRow'
 import TreeView from './TreeViewe'
 // hooks
 import useToken from '../../hooks/useToken'
-import useCategories from '../../hooks/useCategories'
+import useArticlesCategories from '../../hooks/useArticlesCategories'
 import UploadModal from '../../components/UploadModal/UploadModal'
 import { toast } from 'react-toastify'
 
@@ -46,7 +46,7 @@ const AddArticle = (props) => {
     description,
     setDescription,
   } = useArticles()
-  const { catlist, setCatlist } = useCategories()
+  const { catlist, setCatlist } = useArticlesCategories()
   const [refresh, setRefresh] = useState(false)
 
   // modal states

@@ -63,8 +63,9 @@ export function ProductsCategoriesContextProvider({ children }) {
     const data = {
       name: tmpName,
       parent_id: null,
-      img: tmpImg,
+      img: Image,
     }
+
     if (tmpName == '' || tmpImg == ArticleImageDefault) {
       toast.warn('اطلاعات ناقص است')
     } else {

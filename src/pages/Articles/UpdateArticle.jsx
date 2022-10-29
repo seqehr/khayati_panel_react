@@ -9,7 +9,7 @@ import style from './TableRow.module.scss'
 // hooks
 import useArticles from '../../hooks/useArticles'
 import useToken from '../../hooks/useToken'
-import useCategories from '../../hooks/useCategories'
+import useArticlesCategories from '../../hooks/useArticlesCategories'
 // services
 import {
   SingleArticleService,
@@ -29,7 +29,7 @@ import UploadModal from '../../components/UploadModal/UploadModal'
 import { toast } from 'react-toastify'
 
 const UpdateArticle = (props) => {
-  const { catlist, setCatlist, checked, setChecked } = useCategories()
+  const { catlist, setCatlist, checked, setChecked } = useArticlesCategories()
   const [refresh, setRefresh] = useState(false)
   const { token } = useToken()
   const { id: singleId } = useParams()

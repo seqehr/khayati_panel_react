@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 //components
 import TreeView from '../TreeViewe'
 //images
-import ArticleImageDefault from '../../../assets/images/UF_Infinity_khayati.gif'
+import ImageDefault from '../../../assets/images/UF_Infinity_khayati.gif'
 //hooks
 import useToken from '../../../hooks/useToken'
 import useProductsCategories from '../../../hooks/useProductsCategories'
@@ -78,7 +78,7 @@ const AddProductCategory = () => {
             for='Name'
             className={` text-gray-light font-medium mr-1 bg-background2-light dark:bg-background2-dark dark:peer-placeholder-shown:text-white peer-focus:font-medium absolute text-sm    duration-300 transform -translate-y-6 top-3  origin-[0] peer-focus:text-gray-light  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 peer-focus:z-[999] px-2 rounded-lg peer-placeholder-shown:-z-10 z-30 peer-placeholder-shown:text-black`}
           >
-            {`نام دسته بندی جدید `}
+            {catEditable == '' ? `نام دسته بندی جدید ` : `نام دسته بندی  `}
           </label>
         </div>
         {catEditable !== '' && (
@@ -130,15 +130,11 @@ const AddProductCategory = () => {
           >
             <img
               src={
-                catEditable
-                  ? tmpImg
-                  : img == ArticleImageDefault
-                  ? ArticleImageDefault
-                  : img
+                catEditable ? tmpImg : img == ImageDefault ? ImageDefault : img
               }
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null // prevents looping
-                currentTarget.src = ArticleImageDefault
+                currentTarget.src = ImageDefault
               }}
               alt=''
               className={`${styles.hoverChildBlure} ease-in-out duration-500 rounded-xl `}

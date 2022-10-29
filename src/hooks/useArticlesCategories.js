@@ -11,6 +11,12 @@ const useCategories = (props) => {
     setName,
     catlist,
     setCatlist,
+    catEditable,
+    setCatEditable,
+    tmpName,
+    setTmpName,
+
+    handleEdit,
   } = useContext(CategoriesContext)
   return {
     checked,
@@ -20,6 +26,12 @@ const useCategories = (props) => {
     setName,
     catlist,
     setCatlist,
+    catEditable,
+    setCatEditable,
+    tmpName,
+    setTmpName,
+
+    handleEdit,
   }
 }
 

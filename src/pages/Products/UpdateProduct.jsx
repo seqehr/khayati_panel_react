@@ -10,9 +10,7 @@ import { toast } from 'react-toastify'
 //images
 import ArticleImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 // hooks
-import useCourse from '../../hooks/useCourses'
 import useToken from '../../hooks/useToken'
-import useCategories from '../../hooks/useCategories'
 //services
 import {
   SingleProductService,

@@ -98,3 +98,10 @@ export const EditArticleService = (token, data, id) => {
     },
   })
 }
+export const EditArticleCatService = (token, data, id) => {
+  return httpService.post(`${config.baseUrl}/api/posts/cats/edit/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

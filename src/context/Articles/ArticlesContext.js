@@ -10,7 +10,7 @@ import {
 import ArticleImageDefault from '../../assets/images/UF_Infinity_khayati.gif'
 // hooks
 import useToken from '../../hooks/useToken'
-import useCategories from '../../hooks/useCategories'
+import useProductsCategories from '../../hooks/useArticlesCategories'
 import { useNavigate } from 'react-router-dom'
 
 const ArticlesContext = React.createContext()
@@ -23,7 +23,7 @@ export function ArticlesContextProvider({ children }) {
 
   const [articleImage, setArticleImage] = useState(ArticleImageDefault)
 
-  const { checked, setChecked } = useCategories()
+  const { checked, setChecked } = useProductsCategories()
   const [description, setDescription] = useState('<p></p>')
   const [name, setName] = useState('')
   const [hashtags, setHashtags] = useState([])
