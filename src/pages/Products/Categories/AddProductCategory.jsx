@@ -122,7 +122,6 @@ const AddProductCategory = () => {
               {`ثبت و ویرایش`}
             </button>
           )}
-
           {/* image */}
           <div
             onClick={() => setIsOpenImageModal(true)}

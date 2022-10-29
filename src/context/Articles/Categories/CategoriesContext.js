@@ -105,7 +105,6 @@ export function CategoriesContextProvider({ children }) {
         setCatEditable,
         tmpName,
         setTmpName,
-
         handleEdit,
       }}
     >

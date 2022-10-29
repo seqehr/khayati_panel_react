@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 //images
-import ArticleImageDefault from '../../../assets/images/UF_Infinity_khayati.gif'
+import ImageDefault from '../../../assets/images/UF_Infinity_khayati.gif'
 // hooks
 import useToken from '../../../hooks/useToken'
 import {
@@ -17,12 +17,12 @@ export function ProductsCategoriesContextProvider({ children }) {
   const { token } = useToken()
   const [checked, setChecked] = useState(null)
   const [name, setName] = useState('')
-  const [img, setImg] = useState(ArticleImageDefault)
+  const [img, setImg] = useState(ImageDefault)
 
   //edit cats states
   const [catEditable, setCatEditable] = useState('')
   const [tmpName, setTmpName] = useState('')
-  const [tmpImg, setTmpImg] = useState(ArticleImageDefault)
+  const [tmpImg, setTmpImg] = useState(ImageDefault)
 
   const [catlist, setCatlist] = useState({
     name: 'دسته بندی ها',
@@ -36,7 +36,7 @@ export function ProductsCategoriesContextProvider({ children }) {
       parent_id: null,
       img: Image,
     }
-    if (name == '' || img == ArticleImageDefault) {
+    if (name == '' || img == ImageDefault) {
       toast.warn('اطلاعات ناقص است')
     } else {
       // fetch categories list again after create new category
@@ -51,7 +51,7 @@ export function ProductsCategoriesContextProvider({ children }) {
           // reset inputs
           setChecked(0)
           setName('')
-          setImg(ArticleImageDefault)
+          setImg(ImageDefault)
         })
         .catch((ex) => {
           console.log(ex)
@@ -66,7 +66,7 @@ export function ProductsCategoriesContextProvider({ children }) {
       img: Image,
     }
 
-    if (tmpName == '' || tmpImg == ArticleImageDefault) {
+    if (tmpName == '' || tmpImg == ImageDefault) {
       toast.warn('اطلاعات ناقص است')
     } else {
       // fetch categories list again after create new category
@@ -77,14 +77,14 @@ export function ProductsCategoriesContextProvider({ children }) {
             categories.children = res.data.data
             setCatlist(categories)
             setCatEditable('')
-            setTmpImg(ArticleImageDefault)
+            setTmpImg(ImageDefault)
             setTmpName('')
           })
           toast.success('دسته بندی با موفقیت ویرایش شد')
           // reset inputs
           setChecked(0)
           setTmpName('')
-          setTmpImg(ArticleImageDefault)
+          setTmpImg(ImageDefault)
         })
         .catch((ex) => {
           console.log(ex)

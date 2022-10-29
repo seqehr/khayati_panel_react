@@ -28,6 +28,7 @@ export function ProductsContextProvider({ children }) {
   const [productImage, setProductImage] = useState(ArticleImageDefault)
   const [description, setDescription] = useState('<p></p>')
   const [name, setName] = useState('')
+  //gallery
   const [ProductImages, setProductImages] = useState([])
   //categories states
   const { catlist, setCatlist, checked, setChecked } = useProductsCategories()
