@@ -104,7 +104,16 @@ const UpdateArticle = (props) => {
       setArticleImage(data.img)
       setName(data.name)
       setChecked(data.cat_id)
-      setProductImages(data.gallery)
+
+      let images = []
+      data.gallery.map((x, i) => {
+        images.push(x.img)
+        console.log(i)
+        console.log(x.l)
+        if (data.gallery.length == i + 1) {
+          setProductImages(images)
+        }
+      })
       setDescription(data.content)
 
       let tags = []
