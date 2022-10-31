@@ -76,7 +76,7 @@ const UpdateBook = (props) => {
               src={bookImage}
               className='w-96 rounded-md'
               onClick={() => {
-                setUploadModal(2)
+                setIsOpenImageModal(true)
               }}
             />
             <label
@@ -110,7 +110,9 @@ const UpdateBook = (props) => {
             <input
               autoComplete='off'
               type='text'
-              onClick={() => setUploadModal(1)}
+              onClick={() => {
+                setIsOpenUrlModal(true)
+              }}
               value={url}
               name='excrept'
               id='excrept'
