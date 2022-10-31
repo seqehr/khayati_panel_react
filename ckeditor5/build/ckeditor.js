@@ -46469,17 +46469,31 @@
                   '</iframe>' +
                   '</div>' +
                   '</div>' */
+                if (
+                  url.split('.').pop() == 'mp4' ||
+                  url.split('.').pop() == 'mp3'
+                ) {
+                  return (
+                    // If you need, set maxwidth and other styles for 'iframely-embed' class - it's yours to customize
+                    url.split('.').pop() == 'mp4'
+                      ? '<div>' +
+                          '<video class="mx-auto" width="500px" height="500px" controls>' +
+                          '<source class="mx-auto" src=' +
+                          url +
+                          ' type="video/mp4">' +
+                          '</video>' +
+                          '</div>'
+                      : '<div>' +
+                          '<audio  class="mx-auto" width="500px" height="500px" controls>' +
+                          '<source class="mx-auto" src=' +
+                          url +
+                          ' type="audio/mp3">' +
+                          '</audio>' +
+                          '</div>'
+                  )
+                }
 
-                return (
-                  // If you need, set maxwidth and other styles for 'iframely-embed' class - it's yours to customize
-                  '<div>' +
-                  '<video class="mx-auto" width="500px" height="500px" controls>' +
-                  '<source class="mx-auto" src=' +
-                  url +
-                  ' type="video/mp4">' +
-                  '</video>' +
-                  '</div>'
-                )
+                return '<p>فرمت نامشخص</p>'
               },
             },
           ],
