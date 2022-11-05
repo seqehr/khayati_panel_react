@@ -58,7 +58,7 @@ const UploadBox = () => {
       let resumable = new Resumable({
         target: `${config.baseUrl}/api/upload/new`,
         query: { dir_id: checked },
-        fileType: ['mp4', 'jpg', 'png', 'mp3', 'mkv', 'zip', 'rar', 'pdf'],
+        fileType: ['mp4', 'jpg', 'png', 'mp3', 'zip', 'rar', 'pdf'],
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json',
