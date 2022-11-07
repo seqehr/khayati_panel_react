@@ -202,7 +202,11 @@ export const CourseContextProvider = ({ children }) => {
       gradient: color,
       img: CourseImage,
       poster: CoursePoster,
-      videos: JSON.stringify(GetLesson),
+      videos: JSON.stringify(
+        GetLesson.sort((a, b) => {
+          return a.id - b.id
+        })
+      ),
       name,
       teacher: 'مقدم جو',
     }
