@@ -13,12 +13,16 @@ import {
 // css
 import 'react-loading-skeleton/dist/skeleton.css'
 // icons
-import { AiFillCheckCircle } from 'react-icons/ai'
+import { AiFillCheckCircle, AiFillPlusCircle } from 'react-icons/ai'
 import { useParams } from 'react-router-dom'
 //hooks
 import useToken from '../../hooks/useToken'
 //services
-import { MemberListCoursesService } from '../../services/MemberServices'
+import {
+  MemberListCoursesService,
+  setUserBuyManual,
+} from '../../services/MemberServices'
+import CoursesModal from './CoursesModal'
 
 const MemberListCourses = (props) => {
   const { token } = useToken()
@@ -26,6 +30,9 @@ const MemberListCourses = (props) => {
   const [memberListCourses, setMemberListCourses] = useState([])
   const [loading, setLoading] = useState(true)
   const [skeletonItems, setSkeletonItems] = useState([])
+
+  const [isOpenModal, setIsOpenModal] = useState(false)
+
   useEffect(() => {
     MemberListCoursesService(token, memberId).then((res) => {
       setLoading(false)
@@ -40,6 +47,17 @@ const MemberListCourses = (props) => {
       }
     }
   }, [])
+
+  const setBuyManualHandler = (courseId) => {
+    setUserBuyManual(token, courseId, memberId).then((res) => {
+      toast.success('مجوز با موفقیت  تغییر کرد')
+      // get list agai
+      MemberListCoursesService(token, memberId).then((res) => {
+        setLoading(false)
+        setMemberListCourses(res.data.data.courses)
+      })
+    })
+  }
 
   return (
     <div className='grid grid-cols-12 container'>
@@ -69,6 +87,23 @@ const MemberListCourses = (props) => {
         </div>
       ) : (
         <>
+          <Card
+            className='m-5 p-2 md:col-span-4 col-span-6 cursor-pointer '
+            onClick={() => setIsOpenModal(true)}
+          >
+            <CardFooter
+              divider
+              className='flex items-center justify-between py-3'
+            >
+              <Typography variant='small '>
+                <p className='flex'>
+                  <AiFillPlusCircle className='text-2xl opacity-80 ml-2 text-blue-dark' />
+                  <span className='text-green-light text-xl pl-1'></span>
+                  فعال کردن دوره به صورت دستی
+                </p>
+              </Typography>
+            </CardFooter>
+          </Card>
           {memberListCourses.map((item) => (
             <Card className='m-5 p-2 md:col-span-4 col-span-6'>
               <CardHeader color='blue' className='relative h-56'>
@@ -98,6 +133,12 @@ const MemberListCourses = (props) => {
             </Card>
           ))}
         </>
+      )}
+      {isOpenModal && (
+        <CoursesModal
+          setBuyManualHandler={setBuyManualHandler}
+          setIsOpenModal={setIsOpenModal}
+        />
       )}
     </div>
   )

@@ -27,10 +27,12 @@ import noResultImage from '../../assets/images/no-result.gif'
 import useToken from '../../hooks/useToken'
 //services
 import {
+  setUserBuyManual,
   setUserJustify,
   UserJustifyListCourses,
 } from '../../services/MemberServices'
 import { toast } from 'react-toastify'
+import CoursesModal from './CoursesModal'
 
 const JustifyMember = (props) => {
   const { token } = useToken()
@@ -83,6 +85,7 @@ const JustifyMember = (props) => {
       })
     })
   }
+
   return (
     <>
       <div className='grid grid-cols-12 container'>
@@ -120,7 +123,7 @@ const JustifyMember = (props) => {
                   className='m-5 p-2 md:col-span-4 col-span-6'
                 >
                   <CardHeader color='blue' className='relative h-56'>
-                    <img src={item.img} className='h-full w-full' />
+                    <img src={item.img} className='h-max w-full' />
                   </CardHeader>
                   <CardBody className='text-center'>
                     <Typography variant='h5' className='my-4 mx-2'>

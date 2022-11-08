@@ -34,6 +34,16 @@ export const setUserJustify = (token, userId, courseId) => {
     }
   )
 }
+export const setUserBuyManual = (token, userId, courseId) => {
+  return http.get(
+    `${config.baseUrl}/api/courses/buy/manual/${courseId}/${userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+}
 export const UserJustifyListCourses = (token, userId) => {
   return http.get(
     `${config.baseUrl}/api/admin/courses/isJustified/${userId}`,
