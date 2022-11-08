@@ -88,7 +88,7 @@ const MemberListCourses = (props) => {
       ) : (
         <>
           <Card
-            className='m-5 p-2 md:col-span-4 col-span-6 cursor-pointer '
+            className='m-5 p-2 md:col-span-4 sm:col-span-6 col-span-12 cursor-pointer '
             onClick={() => setIsOpenModal(true)}
           >
             <CardFooter
@@ -105,7 +105,7 @@ const MemberListCourses = (props) => {
             </CardFooter>
           </Card>
           {memberListCourses.map((item) => (
-            <Card className='m-5 p-2 md:col-span-4 col-span-6'>
+            <Card className='m-5 p-2 md:col-span-4 sm:col-span-6 col-span-12'>
               <CardHeader color='blue' className='relative h-56'>
                 <img src={item.img} className='h-full w-full' />
               </CardHeader>

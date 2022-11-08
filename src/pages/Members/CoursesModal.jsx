@@ -41,10 +41,18 @@ const CoursesModal = ({ setBuyManualHandler, setIsOpenModal }) => {
           <div
             className={`grid grid-cols-12 container  overflow-y-auto h-screen ${style.myLink}`}
           >
+            <div className='col-span-12'>
+              <p
+                onClick={() => setIsOpenModal(false)}
+                className='p-5 bg-red-light text-white text-xl w-max rounded-3xl mr-5 mt-5 cursor-pointer'
+              >
+                خروج
+              </p>
+            </div>
             {loading ? (
               <div className='col-span-12 grid grid-cols-12   overflow-y-auto'>
                 {skeletonItems.map((element) => (
-                  <tr className='col-span-6  md:col-span-4 flex flex-col mb-8'>
+                  <tr className='sm:col-span-6 col-span-12  md:col-span-4 flex flex-col mb-8'>
                     <td className='w-full px-4 h-44 py-2'>
                       <Skeleton className='h-full' />
                     </td>
@@ -70,7 +78,7 @@ const CoursesModal = ({ setBuyManualHandler, setIsOpenModal }) => {
                 {listCourses.map((item) => (
                   <Card
                     key={item.id}
-                    className='m-5 p-2 md:col-span-4 col-span-6'
+                    className='m-5 p-2 md:col-span-4 sm:col-span-6 col-span-12'
                   >
                     <CardHeader color='blue' className='relative h-56'>
                       <img src={item.img} className='h-max w-full' />
