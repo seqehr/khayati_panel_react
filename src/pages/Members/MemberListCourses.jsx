@@ -33,7 +33,7 @@ const MemberListCourses = (props) => {
 
   const [isOpenModal, setIsOpenModal] = useState(false)
 
-  useEffect(() => {
+  const getCoursesHandller = () => {
     MemberListCoursesService(token, memberId).then((res) => {
       setLoading(false)
       setMemberListCourses(res.data.data.courses)
@@ -46,6 +46,9 @@ const MemberListCourses = (props) => {
         setSkeletonItems(SkeletonItems)
       }
     }
+  }
+  useEffect(() => {
+    getCoursesHandller()
   }, [])
 
   const setBuyManualHandler = (courseId) => {
@@ -138,6 +141,7 @@ const MemberListCourses = (props) => {
         <CoursesModal
           setBuyManualHandler={setBuyManualHandler}
           setIsOpenModal={setIsOpenModal}
+          getCoursesHandller={getCoursesHandller}
         />
       )}
     </div>

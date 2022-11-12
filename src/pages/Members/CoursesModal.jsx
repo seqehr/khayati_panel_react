@@ -12,7 +12,11 @@ import {
 import { AiFillPlusCircle } from 'react-icons/ai'
 import style from './TableRow.module.scss'
 
-const CoursesModal = ({ setBuyManualHandler, setIsOpenModal }) => {
+const CoursesModal = ({
+  setBuyManualHandler,
+  setIsOpenModal,
+  getCoursesHandller,
+}) => {
   const { token } = useToken()
   const [listCourses, setListCourses] = useState([])
   const [skeletonItems, setSkeletonItems] = useState([])
@@ -99,6 +103,7 @@ const CoursesModal = ({ setBuyManualHandler, setIsOpenModal }) => {
                         <p
                           onClick={() => {
                             setBuyManualHandler(item.id)
+                            getCoursesHandller()
                             setIsOpenModal(false)
                           }}
                           className='flex bg-blue-light text-white px-5 py-3 dark:bg-blue-dark p-2 rounded-xl cursor-pointer hover:-translate-y-1 duration-200 ease-in-out'
