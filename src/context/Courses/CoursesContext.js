@@ -181,14 +181,14 @@ export const CourseContextProvider = ({ children }) => {
     if (coursePoster.includes('/static/media/UF_Infinity_khayati') == true) {
       CoursePoster = ''
     }
-
+    GetLesson = []
     getLesson.map((item) => {
       GetLesson.push({
         id: item.isNew ? 'new' : item.id,
         name: item.name,
         url: item.url.replace(`${config.HttpBaseUrl}/storage/`, ''),
         content: item.content,
-        demo: item.demo,
+        demo: item.demo.replace(`${config.HttpBaseUrl}/storage/`, ''),
       })
     })
 
@@ -210,7 +210,7 @@ export const CourseContextProvider = ({ children }) => {
       name,
       teacher: 'مقدم جو',
     }
-
+    console.log(GetLesson)
     if (validator() == true) {
       EditCourseService(token, data, singleId).then((res) => {
         if (res.status == 200) {
