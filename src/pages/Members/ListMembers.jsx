@@ -54,6 +54,7 @@ const ListMembers = (props) => {
           className={`${'text-right'} bg-[#80808033] text-black dark:text-white `}
         >
           <th className='px-2 py-2 pr-4'>{`نام کامل`}</th>
+          <th>{`شماره دانشجویی`}</th>
           <th>{`شماره تلفن`}</th>
           <th
             onClick={() => {
@@ -84,15 +85,10 @@ const ListMembers = (props) => {
                 <td className='py-2 px-2'>
                   <Skeleton />
                 </td>
-                <td className=' py-2 px-2'>
+                <td className='py-2 px-2'>
                   <Skeleton />
                 </td>
-                <td className=' py-2 px-2'>
-                  <Skeleton />
-                </td>
-              </tr>
-              <tr>
-                <td className=' py-2 px-2'>
+                <td className='py-2 px-2'>
                   <Skeleton />
                 </td>
                 <td className=' py-2 px-2'>
@@ -103,7 +99,30 @@ const ListMembers = (props) => {
                 </td>
               </tr>
               <tr>
+                <td className='py-2 px-2'>
+                  <Skeleton />
+                </td>
+                <td className='py-2 px-2'>
+                  <Skeleton />
+                </td>
+                <td className='py-2 px-2'>
+                  <Skeleton />
+                </td>
                 <td className=' py-2 px-2'>
+                  <Skeleton />
+                </td>
+                <td className=' py-2 px-2'>
+                  <Skeleton />
+                </td>
+              </tr>
+              <tr>
+                <td className='py-2 px-2'>
+                  <Skeleton />
+                </td>
+                <td className='py-2 px-2'>
+                  <Skeleton />
+                </td>
+                <td className='py-2 px-2'>
                   <Skeleton />
                 </td>
                 <td className=' py-2 px-2'>

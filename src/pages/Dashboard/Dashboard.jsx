@@ -3,7 +3,9 @@ import React from 'react'
 import Whatchlist from './Watchlist/Watchlist'
 import Statistics from './Statistics/Statistics'
 import Members from './Members/Portfolio'
-
+import RamUsage from './RamUsage/RamUsage'
+import CpuUsage from './CpuUsage/CpuUsage'
+import TotalBalance from './TotalBalance/TotalBalance'
 // CSS
 import style from './Dashboard.module.scss'
 import ContentStatistics from './ContentStatistics/ContentStatistics'
@@ -17,12 +19,15 @@ const Dashboard = (props) => {
         <ContentStatistics />
 
         <Statistics />
+        <TotalBalance />
       </div>
 
       {/* Other Side */}
-      <div>
+      <div className='flex  flex-col gap-5 '>
         <Orders />
         <Members />
+        <RamUsage />
+        <CpuUsage />
       </div>
     </div>
   )

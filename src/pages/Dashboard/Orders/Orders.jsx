@@ -9,7 +9,7 @@ const Orders = () => {
   const { data } = useDashboard()
   return (
     <div>
-      <DashboardBox extraClasses='mb-10'>
+      <DashboardBox extraClasses=''>
         <div className={` flex items-center dark:text-white`}>
           <HiShoppingCart
             className={`${data.orders > 1 && 'animate-bounce'}

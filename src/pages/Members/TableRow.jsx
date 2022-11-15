@@ -33,11 +33,18 @@ const TableRow = ({ name, phone, id, key, fullDetails }) => {
       </td>
       <td className='py-2'>
         <div>
+          <div className='flex gap-2 items-center text-sm text-center text-black sm:text-base dark:text-white'>
+            <span>{fullDetails.id}</span>
+          </div>
+        </div>
+      </td>
+      <td className='py-2'>
+        <div>
           <div className='flex gap-2 text-sm text-black sm:text-base dark:text-white'>
             <span>{phone}</span>
           </div>
         </div>
-      </td>
+      </td>{' '}
       <td className='py-2'>
         <div>
           <div className='flex gap-2 text-sm text-black sm:text-base dark:text-white'>
@@ -50,7 +57,6 @@ const TableRow = ({ name, phone, id, key, fullDetails }) => {
           </div>
         </div>
       </td>
-
       <div className='float-left'>
         <td className='px-1 py-3 sm:py-2 sm:px-1'>
           <div className='flex flex-col justify-end gap-2 sm:flex-row'>

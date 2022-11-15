@@ -27,7 +27,7 @@ const Portfolio = (props) => {
     })
   }, [])
   return (
-    <DashboardBox extraClasses='mb-10'>
+    <DashboardBox extraClasses=''>
       <div className='flex mb-5 justify-between'>
         {' '}
         <DashboardBoxHead text={`کاربران جدید `} />
