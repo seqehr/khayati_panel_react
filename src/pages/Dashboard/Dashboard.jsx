@@ -26,8 +26,10 @@ const Dashboard = (props) => {
       <div className='flex  flex-col gap-5 '>
         <Orders />
         <Members />
+        {/*
         <RamUsage />
         <CpuUsage />
+    */}
       </div>
     </div>
   )
