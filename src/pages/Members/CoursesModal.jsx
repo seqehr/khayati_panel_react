@@ -97,7 +97,7 @@ const CoursesModal = ({
                     </CardBody>
                     <CardFooter
                       divider
-                      className='flex items-center justify-between py-3'
+                      className='flex items-center  justify-between py-3'
                     >
                       <Typography variant='small '>
                         <p

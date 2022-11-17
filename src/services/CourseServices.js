@@ -51,3 +51,10 @@ export const EditCourseService = (token, data, id) => {
     },
   })
 }
+export const SerchCourseService = (token, text) => {
+  return httpService.get(`${config.baseUrl}/api/courses/search/${text}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

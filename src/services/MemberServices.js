@@ -69,3 +69,10 @@ export const ProfileDetail = (token, userId) => {
     },
   })
 }
+export const SerchUserService = (token, text) => {
+  return http.get(`${config.baseUrl}/api/users/search/${text}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

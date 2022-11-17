@@ -52,7 +52,7 @@ const MemberListCourses = (props) => {
   }, [])
 
   const setBuyManualHandler = (courseId) => {
-    setUserBuyManual(token, courseId, memberId).then((res) => {
+    setUserBuyManual(token, memberId, courseId).then((res) => {
       toast.success('مجوز با موفقیت  تغییر کرد')
       // get list agai
       MemberListCoursesService(token, memberId).then((res) => {
@@ -91,7 +91,7 @@ const MemberListCourses = (props) => {
       ) : (
         <>
           <Card
-            className='m-5 p-2 md:col-span-4 sm:col-span-6 col-span-12 cursor-pointer '
+            className='m-5 h-max p-2 md:col-span-4 sm:col-span-6 col-span-12 cursor-pointer '
             onClick={() => setIsOpenModal(true)}
           >
             <CardFooter
@@ -100,7 +100,7 @@ const MemberListCourses = (props) => {
             >
               <Typography variant='small '>
                 <p className='flex'>
-                  <AiFillPlusCircle className='text-2xl opacity-80 ml-2 text-blue-dark' />
+                  <AiFillPlusCircle className='text-2xl  opacity-80 ml-2 text-blue-dark' />
                   <span className='text-green-light text-xl pl-1'></span>
                   فعال کردن دوره به صورت دستی
                 </p>
@@ -110,7 +110,7 @@ const MemberListCourses = (props) => {
           {memberListCourses.map((item) => (
             <Card className='m-5 p-2 md:col-span-4 sm:col-span-6 col-span-12'>
               <CardHeader color='blue' className='relative h-56'>
-                <img src={item.img} className='h-full w-full' />
+                <img src={item.img} className='h-max w-full' />
               </CardHeader>
               <CardBody className='text-center'>
                 <Typography variant='h5' className='my-4 mx-2'>
