@@ -125,11 +125,14 @@ const MemberListCourses = (props) => {
                 className='flex items-center justify-between py-3'
               >
                 <Typography variant='small '>
-                  <p className='flex'>
-                    <span className='text-green-light text-xl pl-1'>
-                      <AiFillCheckCircle />
-                    </span>
-                    {item.price} ریال پرداخته شده
+                  <p
+                    onClick={() => {
+                      setBuyManualHandler(item.id)
+                      getCoursesHandller()
+                    }}
+                    className='flex bg-red-light text-white p-3 rounded-2xl cursor-pointer hover:shadow-md'
+                  >
+                    حذف کلاس از این کاربر
                   </p>
                 </Typography>
               </CardFooter>
