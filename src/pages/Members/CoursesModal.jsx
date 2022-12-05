@@ -79,44 +79,47 @@ const CoursesModal = ({
               </div>
             ) : (
               <>
-                {listCourses.map((item) => (
-                  <Card
-                    key={item.id}
-                    className='m-5 p-2 md:col-span-4 sm:col-span-6 col-span-12'
-                  >
-                    <CardHeader color='blue' className='relative h-56'>
-                      <img src={item.img} className='h-max w-full' />
-                    </CardHeader>
-                    <CardBody className='text-center'>
-                      <Typography variant='h5' className='my-4 mx-2'>
-                        {item.name}
-                      </Typography>
-                      <Typography className='my-2 mx-2 text-right'>
-                        {item.excerpt}
-                      </Typography>
-                    </CardBody>
-                    <CardFooter
-                      divider
-                      className='flex items-center  justify-between py-3'
-                    >
-                      <Typography variant='small '>
-                        <p
-                          onClick={() => {
-                            setBuyManualHandler(item.id)
-                            getCoursesHandller()
-                            setIsOpenModal(false)
-                          }}
-                          className='flex bg-blue-light text-white px-5 py-3 dark:bg-blue-dark p-2 rounded-xl cursor-pointer hover:-translate-y-1 duration-200 ease-in-out'
+                {listCourses.map(
+                  (item) =>
+                    item.price !== 0 && (
+                      <Card
+                        key={item.id}
+                        className='m-5 p-2 md:col-span-4 sm:col-span-6 col-span-12'
+                      >
+                        <CardHeader color='blue' className='relative h-56'>
+                          <img src={item.img} className='h-max w-full' />
+                        </CardHeader>
+                        <CardBody className='text-center'>
+                          <Typography variant='h5' className='my-4 mx-2'>
+                            {item.name}
+                          </Typography>
+                          <Typography className='my-2 mx-2 text-right'>
+                            {item.excerpt}
+                          </Typography>
+                        </CardBody>
+                        <CardFooter
+                          divider
+                          className='flex items-center  justify-between py-3'
                         >
-                          <span className=' text-xl pl-1'>
-                            <AiFillPlusCircle />
-                          </span>
-                          افزودن این دوره به کاربر
-                        </p>
-                      </Typography>
-                    </CardFooter>
-                  </Card>
-                ))}
+                          <Typography variant='small '>
+                            <p
+                              onClick={() => {
+                                setBuyManualHandler(item.id)
+                                getCoursesHandller()
+                                setIsOpenModal(false)
+                              }}
+                              className='flex bg-blue-light text-white px-5 py-3 dark:bg-blue-dark p-2 rounded-xl cursor-pointer hover:-translate-y-1 duration-200 ease-in-out'
+                            >
+                              <span className=' text-xl pl-1'>
+                                <AiFillPlusCircle />
+                              </span>
+                              افزودن این دوره به کاربر
+                            </p>
+                          </Typography>
+                        </CardFooter>
+                      </Card>
+                    )
+                )}
               </>
             )}
           </div>
