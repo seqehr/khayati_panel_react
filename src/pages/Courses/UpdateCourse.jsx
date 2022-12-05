@@ -24,6 +24,7 @@ import {
 import useToken from '../../hooks/useToken'
 import UploadModal from '../../components/UploadModal/UploadModal'
 import { toast } from 'react-toastify'
+import { AiFillPlusSquare } from 'react-icons/ai'
 
 const UpdateCourse = () => {
   const { token } = useToken()
@@ -59,6 +60,12 @@ const UpdateCourse = () => {
     handleEdit,
     preview,
     setPreview,
+    handleCreateSeason,
+    setSeason,
+    season,
+    seasons,
+
+    handleDeleteSeason,
   } = useCourse()
 
   // modal states
@@ -117,7 +124,39 @@ const UpdateCourse = () => {
         setCoursePoster(data.poster)
       }
       setPrice(data.price)
-      setLessons(data.videos)
+
+      if (data.sections.length == 0) {
+        setLessons(data.videos)
+      } else {
+        let Data = data.sections
+        let lesss = []
+        Data.map((s, index) => {
+          handleCreateSeason(true, s.name)
+          let Videos = s.videos
+          Videos.map((v) => {
+            let data = {
+              id: v.id,
+              course_id: v.course_id,
+              content: v.content,
+              created_at: v.created_at,
+              demo: v.demo,
+              name: v.name,
+              url: v.url,
+              season: {
+                label: s.name,
+                value: s.id,
+              },
+            }
+            lesss.push(data)
+          })
+
+          if (Data.length == index + 1) {
+            setLessons(lesss)
+            console.log(lesss)
+          }
+        })
+      }
+
       if (data.ispin == false) {
         setIsPin(false)
       } else {
@@ -330,7 +369,57 @@ const UpdateCourse = () => {
               ))}
             </div>
           )}
+          {/* C O U R S E  - S E A S O N */}
+          <div className='relative flex col-span-6 z-0 px-1 w-full mb-6 group'>
+            <input
+              autoComplete='off'
+              type='text'
+              name='courseName'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              required=''
+              onChange={(e) => setSeason(e.target.value)}
+              value={season}
+            />
+            <label
+              for='courseName'
+              className={`  ${'right-0'}peer-focus:font-medium absolute text-sm text-black dark:text-white  duration-300 transform -translate-y-6 top-3 -z-10 origin-[0] peer-focus:text-gray-light peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0  peer-focus:-translate-y-6 `}
+            >
+              {`فصل ها `}
+            </label>
+            <p
+              type='text'
+              className='text-3xl absolute bottom-0 left-0  cursor-pointer text-blue-light dark:text-blue-dark'
+              onClick={() => {
+                handleCreateSeason()
+              }}
+            >
+              <AiFillPlusSquare />
+            </p>
+          </div>
+
+          <div
+            className={`${style.myLink} relative items-end overflow-x-scroll flex col-span-12 z-0 px-1 w-full mb-6 group`}
+          >
+            {seasons.map((item, index) => (
+              <p className='shadow-md mx-2 p-1 flex'>
+                {' '}
+                <span
+                  onClick={() => {
+                    handleDeleteSeason(item.value)
+                  }}
+                  className='text-red-light cursor-pointer px-1'
+                >
+                  {' '}
+                  X{' '}
+                </span>{' '}
+                {item.label}{' '}
+              </p>
+            ))}
+          </div>
+
           {/* L E S S O N S */}
+
           <div className='grid  col-span-12'>
             <Lessons
               isFree={isFree}

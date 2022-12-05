@@ -47,6 +47,13 @@ const useCourses = (props) => {
     setEditing,
     handleEditLesson,
     resetInputs,
+    handleCreateSeason,
+    setSeason,
+    season,
+    seasons,
+    handleDeleteSeason,
+    setSeasonLesson,
+    getSeasonLesson,
   } = useContext(CoursesContext)
 
   return {
@@ -93,6 +100,13 @@ const useCourses = (props) => {
     setEditing,
     handleEditLesson,
     resetInputs,
+    handleCreateSeason,
+    setSeason,
+    season,
+    seasons,
+    handleDeleteSeason,
+    setSeasonLesson,
+    getSeasonLesson,
   }
 }
 

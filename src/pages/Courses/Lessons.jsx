@@ -1,4 +1,6 @@
 import React from 'react'
+import Select from 'react-select'
+
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from 'persian-build-ckeditor5-nowinflow/build/ckeditor'
 //images
@@ -30,13 +32,35 @@ const Lessons = ({
     setEditing,
     handleEditLesson,
     resetInputs,
+    seasons,
+    setSeasonLesson,
+    getSeasonLesson,
   } = useCourses()
+  const options = [{ value: '#', label: ' ' }]
+  console.log(getLesson)
   return (
     <>
       <div className='bg-background-light dark:bg-background-dark p-5 mb-5 rounded-lg shadow-md'>
         {/* create a lesson */}
         <div className=' grid grid-cols-12 '>
           {' '}
+          <div className='col-span-12 mb-5'>
+            {seasons.length == 0 ? (
+              <Select
+                placeholder={'برای انتخاب فصل ابتدا فصلی ایجاد کنید'}
+                className='w-max'
+                options={options}
+              />
+            ) : (
+              <Select
+                className='w-max'
+                placeholder='فصلتان را انتخاب کنید'
+                value={getSeasonLesson}
+                onChange={setSeasonLesson}
+                options={seasons}
+              />
+            )}
+          </div>
           <input
             autoComplete='off'
             onChange={(e) => setTitleLesson(e.target.value)}
@@ -149,6 +173,17 @@ const Lessons = ({
           })
           .map((lesson) => (
             <div key={lesson.id} className='mt-8  grid grid-cols-12'>
+              <div className='col-span-12 mb-5'>
+                {lesson.season == undefined ? (
+                  <div className='border-2 p-3 w-max rounded-lg border-gray-light'>
+                    فصلی برای این درس انتخاب نشده
+                  </div>
+                ) : (
+                  <div className='border-2 p-3 w-max rounded-lg border-gray-light'>
+                    نام فصل :{lesson.season.label}
+                  </div>
+                )}
+              </div>
               <input
                 autoComplete='off'
                 type='text'

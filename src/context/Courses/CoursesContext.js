@@ -27,8 +27,11 @@ export const CourseContextProvider = ({ children }) => {
   const [getLinkLesson, setLinkLesson] = useState('')
   const [getTitleLesson, setTitleLesson] = useState('')
   const [getContentLesson, setContentLesson] = useState('')
+  const [getSeasonLesson, setSeasonLesson] = useState('')
   const [editing, setEditing] = useState(false)
   const [editinglessonId, setEditinglessonId] = useState('')
+  const [seasons, setSeasons] = useState([])
+  const [season, setSeason] = useState('')
 
   //files
   const [files, setFiles] = useState([])
@@ -143,15 +146,27 @@ export const CourseContextProvider = ({ children }) => {
 
     CoursePoster = coursePoster.replace(`${config.HttpBaseUrl}/storage/`, '')
 
-    getLesson.map((item) => {
-      GetLesson.push({
-        id: item.isNew ? 'new' : item.id,
-        name: item.name,
-        url: item.url.replace(`${config.HttpBaseUrl}/storage/`, ''),
-        content: item.content,
-        demo: item.demo,
+    seasons.map((s) => {
+      let tmp = {
+        name: s.label,
+        videos: [],
+      }
+      getLesson.map((l) => {
+        if (l.season.label == s.label) {
+          tmp.videos.push({
+            id: l.isNew ? 'new' : l.id,
+            name: l.name,
+            url: l.url.replace(`${config.HttpBaseUrl}/storage/`, ''),
+            content: l.content,
+            demo: l.demo.replace(`${config.HttpBaseUrl}/storage/`, ''),
+          })
+        }
       })
+      if (tmp.videos.length !== 0) {
+        GetLesson.push(tmp)
+      }
     })
+
     const data = {
       excerpt,
       price: isFree == 'free' ? '0' : price,
@@ -162,17 +177,19 @@ export const CourseContextProvider = ({ children }) => {
       img: CourseImage,
 
       poster: CoursePoster,
-      videos: JSON.stringify(GetLesson),
+      sections: JSON.stringify(GetLesson),
       name,
       teacher: 'مقدم جو',
     }
     if (validator()) {
-      AddCourseService(token, data).then((res) => {
-        if (res.status == 200) {
-          toast.success('دوره با موفقیت ساخته شد')
-          navigate('/courses')
-        }
-      })
+      {
+        AddCourseService(token, data).then((res) => {
+          if (res.status == 200) {
+            toast.success('دوره با موفقیت ساخته شد')
+            navigate('/courses')
+          }
+        })
+      }
     }
   }
   const handleEdit = (singleId) => {
@@ -182,14 +199,26 @@ export const CourseContextProvider = ({ children }) => {
       CoursePoster = ''
     }
     GetLesson = []
-    getLesson.map((item) => {
-      GetLesson.push({
-        id: item.isNew ? 'new' : item.id,
-        name: item.name,
-        url: item.url.replace(`${config.HttpBaseUrl}/storage/`, ''),
-        content: item.content,
-        demo: item.demo.replace(`${config.HttpBaseUrl}/storage/`, ''),
+    seasons.map((s) => {
+      let tmp = {
+        name: s.label,
+        videos: [],
+      }
+      getLesson.map((l) => {
+        try {
+          if (l.season.label == s.label) {
+            tmp.videos.push({
+              name: l.name,
+              url: l.url.replace(`${config.HttpBaseUrl}/storage/`, ''),
+              content: l.content,
+              demo: l.demo.replace(`${config.HttpBaseUrl}/storage/`, ''),
+            })
+          }
+        } catch (error) {}
       })
+      if (tmp.videos.length !== 0) {
+        GetLesson.push(tmp)
+      }
     })
 
     const data = {
@@ -197,20 +226,15 @@ export const CourseContextProvider = ({ children }) => {
       price: isFree == 'free' ? '0' : price,
       description,
       type: isFree,
-
-      ispin: isPin,
+      ispin: isPin == 0 ? false : true,
       gradient: color,
       img: CourseImage,
+
       poster: CoursePoster,
-      videos: JSON.stringify(
-        GetLesson.sort((a, b) => {
-          return a.id - b.id
-        })
-      ),
+      sections: JSON.stringify(GetLesson),
       name,
       teacher: 'مقدم جو',
     }
-    console.log(GetLesson)
     if (validator() == true) {
       EditCourseService(token, data, singleId).then((res) => {
         if (res.status == 200) {
@@ -254,11 +278,13 @@ export const CourseContextProvider = ({ children }) => {
       url: getLinkLesson,
       content: getContentLesson,
       demo: isFree == 'pricy' ? CoursePreview : getLinkLesson,
+      season: getSeasonLesson,
     }
     if (
       getTitleLesson !== '' &&
       getTitleLesson !== ' ' &&
-      getTitleLesson !== null
+      getTitleLesson !== null &&
+      getSeasonLesson !== ''
     ) {
       if (showPreviewError !== true) {
         lessons.push(lesson)
@@ -277,8 +303,53 @@ export const CourseContextProvider = ({ children }) => {
         toast.warn('لطفا ویدیوی دمو را انتخاب کنید')
       }
     } else {
-      toast.warn(`لطفا نام درس را وارد کنید`)
+      toast.warn(` اطلاعات درس را به درستی وارد کنید`)
     }
+  }
+  const handleCreateSeason = (editMode, title) => {
+    console.log(title)
+    const Seasons = [...seasons]
+    const Season = {
+      value: uuidv4(),
+      label: editMode == true ? title : season,
+    }
+    if (season !== '') {
+      Seasons.push(Season)
+      setSeasons(Seasons)
+      setSeason('')
+      if (editMode == false) {
+        toast.success(`فصل با موفقیت اضافه شد`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      }
+    } else {
+      if (editMode == true) {
+        Seasons.push(Season)
+        setSeasons(Seasons)
+        setSeason('')
+      }
+    }
+  }
+  const handleDeleteSeason = (id) => {
+    const Seasons = [...seasons]
+    const filteredS = Seasons.filter((t) => t.value !== id)
+    setSeasons(filteredS)
+
+    toast.success(` با موفقیت حذف شد`, {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    })
   }
   const handleDelete = (id) => {
     const lessons = [...getLesson]
@@ -307,6 +378,7 @@ export const CourseContextProvider = ({ children }) => {
     setContentLesson(thisLesson.content)
     setLinkLesson(thisLesson.url)
     setPreview(thisLesson.demo)
+    setSeasonLesson(thisLesson.season)
   }
   // set lesson
   const handleEditLesson = () => {
@@ -332,6 +404,7 @@ export const CourseContextProvider = ({ children }) => {
       url: getLinkLesson,
       content: getContentLesson,
       demo: isFree == 'pricy' ? CoursePreview : getLinkLesson,
+      season: getSeasonLesson,
     }
     newLessons.push(thisLesson)
     console.log(newLessons)
@@ -360,7 +433,7 @@ export const CourseContextProvider = ({ children }) => {
   }
 
   const setLessons = (lessonsList) => {
-    if (lessonsList.length < 1) {
+    if (lessonsList.length == 0) {
       setLesson([])
     } else {
       const lessons = []
@@ -371,6 +444,7 @@ export const CourseContextProvider = ({ children }) => {
           url: item.url,
           content: item.content,
           demo: item.demo,
+          season: item.season,
         }
 
         lessons.push(lesson)
@@ -427,6 +501,13 @@ export const CourseContextProvider = ({ children }) => {
         setEditing,
         handleEditLesson,
         resetInputs,
+        handleCreateSeason,
+        setSeason,
+        season,
+        seasons,
+        handleDeleteSeason,
+        setSeasonLesson,
+        getSeasonLesson,
       }}
     >
       {children}
