@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-
+import { v4 as uuidv4 } from 'uuid'
 import TableRow from './ModalTableRow'
 import './CKEditor.css'
 import { useParams } from 'react-router-dom'
@@ -64,10 +64,9 @@ const UpdateCourse = () => {
     setSeason,
     season,
     seasons,
-
+    setSeasons,
     handleDeleteSeason,
   } = useCourse()
-
   // modal states
   const [isOpenImageModal, setIsOpenImageModal] = useState(false)
   const [isOpenPostermodal, setIsOpenPostermodal] = useState(false)
@@ -130,9 +129,17 @@ const UpdateCourse = () => {
       } else {
         let Data = data.sections
         let lesss = []
+        let OldSeasons = [...seasons]
+
         Data.map((s, index) => {
-          handleCreateSeason(true, s.name)
           let Videos = s.videos
+          OldSeasons.push({
+            value: uuidv4(),
+            label: s.name,
+          })
+          if (Data.length == index + 1) {
+            setSeasons(OldSeasons)
+          }
           Videos.map((v) => {
             let data = {
               id: v.id,

@@ -54,10 +54,12 @@ const useCourses = (props) => {
     handleDeleteSeason,
     setSeasonLesson,
     getSeasonLesson,
+    setSeasons,
   } = useContext(CoursesContext)
 
   return {
     handleCreate,
+    setSeasons,
     handleDelete,
     getLesson,
     getLinkLesson,

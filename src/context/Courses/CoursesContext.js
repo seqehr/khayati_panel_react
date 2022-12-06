@@ -307,15 +307,16 @@ export const CourseContextProvider = ({ children }) => {
     }
   }
   const handleCreateSeason = (editMode, title) => {
-    console.log(title)
-    const Seasons = [...seasons]
+    const TSeasons = [...seasons]
+
     const Season = {
       value: uuidv4(),
       label: editMode == true ? title : season,
     }
+
+    TSeasons.push(Season)
     if (season !== '') {
-      Seasons.push(Season)
-      setSeasons(Seasons)
+      setSeasons(TSeasons)
       setSeason('')
       if (editMode == false) {
         toast.success(`فصل با موفقیت اضافه شد`, {
@@ -330,8 +331,7 @@ export const CourseContextProvider = ({ children }) => {
       }
     } else {
       if (editMode == true) {
-        Seasons.push(Season)
-        setSeasons(Seasons)
+        setSeasons(TSeasons)
         setSeason('')
       }
     }
@@ -508,6 +508,7 @@ export const CourseContextProvider = ({ children }) => {
         handleDeleteSeason,
         setSeasonLesson,
         getSeasonLesson,
+        setSeasons,
       }}
     >
       {children}
